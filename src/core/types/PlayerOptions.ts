@@ -1,5 +1,5 @@
 import { PanelContainer } from "@/plugin";
-import { VideoInfo, PluginConstructor, PlayerExternals, IPlugin, PlayerInvokes } from "@/types";
+import { VideoInfo, PluginConstructor, PlayerExternals, PluginItem, PlayerInvokes } from "@/types";
 import Player from "../../../player/core-player";
 
 /** 播放器初始化选项 */
@@ -23,7 +23,7 @@ export interface PlayerOptions {
   /** 循环播放 */
   loop?: boolean;
   /** 功能插件 */
-  plugins?: (PluginConstructor | IPlugin)[];
+  plugins?: (PluginConstructor | PluginItem)[];
   /** 外部扩展 */
   externals?: PlayerExternals;
   /** 控件设置 */

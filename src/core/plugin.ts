@@ -1,7 +1,7 @@
-import { PlayerOptions, IPlugin } from "@/types";
+import { PlayerOptions, PluginItem } from "@/types";
 import Player from "@/player";
 
-export abstract class BasePlugin implements IPlugin {
+export abstract class BasePlugin implements PluginItem {
   static pluginName: string;
   protected readonly player: Player;
   /** 播放器插件 @deprecated */
@@ -25,12 +25,14 @@ export abstract class BasePlugin implements IPlugin {
   destroy?(): void;
 }
 
-export interface IControls extends IPlugin {
+/** 控制组件 */
+export interface ControlsItem extends PluginItem {
   $el: HTMLElement;
   ignored?: boolean;
 }
 
-export interface IPanel extends IPlugin {
+/** 面板组件 */
+export interface PanelItem extends PluginItem {
   $el: HTMLElement;
   title?: string;
   mount(
@@ -41,7 +43,8 @@ export interface IPanel extends IPlugin {
   toggle(flag?: boolean): void;
 }
 
-export interface IMenu extends IPlugin {
+/** 菜单项组件 */
+export interface MenuItem extends PluginItem {
   icon?: HTMLElement | ((player: Player) => HTMLElement);
   content: string | HTMLElement | ((player: Player) => string | HTMLElement);
   onClick?: (player: Player) => void;
@@ -59,17 +62,8 @@ export abstract class UIPlugin extends BasePlugin {
   }
 }
 
-/** 菜单插件 */
-export abstract class MenuPlugin extends BasePlugin implements IMenu {
-  abstract name: string;
-  abstract content: string | HTMLElement | ((player: Player) => string | HTMLElement);
-  apply(player: Player) {
-    player.menu.register(this.name, this);
-  }
-}
-
 /** 控制组件插件 */
-export abstract class ControlsPlugin extends UIPlugin implements IControls {
+export abstract class ControlsPlugin extends UIPlugin implements ControlsItem {
   abstract name: string;
   apply(player: Player, options: PlayerOptions) {
     player.controls.register(this.name, this);
@@ -83,7 +77,7 @@ export abstract class ControlsPlugin extends UIPlugin implements IControls {
 }
 
 /** 面板插件 */
-export abstract class PanelPlugin extends UIPlugin implements IPanel {
+export abstract class PanelPlugin extends UIPlugin implements PanelItem {
   abstract name: string;
   abstract title?: string;
   container?: HTMLElement;
@@ -117,7 +111,17 @@ export abstract class PanelPlugin extends UIPlugin implements IPanel {
   }
 }
 
+/** 菜单项插件 */
+export abstract class MenuPlugin extends BasePlugin implements MenuItem {
+  abstract name: string;
+  abstract content: string | HTMLElement | ((player: Player) => string | HTMLElement);
+  apply(player: Player) {
+    player.menu.register(this.name, this);
+  }
+}
+
 export interface PanelContainer {
   mount: (panel: PanelPlugin) => void;
 }
+
 export type UIOptionsItem<T> = (new (player: Player) => T) | T | string;

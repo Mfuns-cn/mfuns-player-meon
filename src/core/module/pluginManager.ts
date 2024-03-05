@@ -1,18 +1,18 @@
 import Player from "@/player";
-import { PlayerOptions, IPlugin, PluginConstructor } from "@/types";
+import { PlayerOptions, PluginItem, PluginConstructor } from "@/types";
 
 export default class PluginManager {
   player: Player;
   get plugin() {
-    return this.player.plugin as unknown as Record<string, IPlugin>;
+    return this.player.plugin as unknown as Record<string, PluginItem>;
   }
   private initialized = false;
   constructor(player: Player) {
     this.player = player;
   }
   /** 注册插件 */
-  register(pluginItem: PluginConstructor | IPlugin, options: PlayerOptions) {
-    const plugin: IPlugin =
+  register(pluginItem: PluginConstructor | PluginItem, options: PlayerOptions) {
+    const plugin: PluginItem =
       typeof pluginItem == "function" ? new pluginItem(this.player) : pluginItem;
     plugin.init?.(this.player);
     if (pluginItem.pluginName) (this.player.plugin as any)[pluginItem.pluginName] = plugin;

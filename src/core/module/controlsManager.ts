@@ -1,16 +1,16 @@
 import Player from "@/player";
-import { ControlsPlugin, IControls, UIOptionsItem } from "../plugin";
+import { ControlsPlugin, ControlsItem, UIOptionsItem } from "../plugin";
 import { PlayerHookMap } from "../types";
 
 export default class ControlsManager {
-  protected list = new Map<string, IControls>();
+  protected list = new Map<string, ControlsItem>();
   player: Player;
 
   constructor(player: Player) {
     this.player = player;
   }
   /** 注册控制组件 */
-  register(name: string, controls: IControls | (new (player: Player) => IControls)) {
+  register(name: string, controls: ControlsItem | (new (player: Player) => ControlsItem)) {
     this.list.set(name, typeof controls == "function" ? this.build(controls) : controls);
   }
 
@@ -20,8 +20,8 @@ export default class ControlsManager {
   }
 
   /** 获取控制组件 */
-  get(item: UIOptionsItem<IControls>): IControls | undefined {
-    let controls: IControls | undefined;
+  get(item: UIOptionsItem<ControlsItem>): ControlsItem | undefined {
+    let controls: ControlsItem | undefined;
     switch (typeof item) {
       case "object":
         controls = item;
@@ -37,7 +37,7 @@ export default class ControlsManager {
   }
 
   /** 创建控制组件 */
-  build(func: new (player: Player) => IControls) {
+  build(func: new (player: Player) => ControlsItem) {
     const controls = new func(this.player);
     controls.init?.(this.player);
     controls.ready?.(this.player);

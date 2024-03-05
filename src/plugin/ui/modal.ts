@@ -3,7 +3,7 @@ import { classPrefix } from "@/config";
 import Player from "@/player";
 import { PlayerOptions } from "@/types";
 import { createElement } from "@/utils";
-import { BasePlugin, IPanel, PanelPlugin, UIOptionsItem } from "@/plugin";
+import { BasePlugin, PanelItem, PanelPlugin, UIOptionsItem } from "@/plugin";
 
 const template = () => html`
   <div class="${classPrefix}-modal-mask"></div>
@@ -37,8 +37,8 @@ export default class Modal extends BasePlugin {
   $content: HTMLElement;
   $title: HTMLElement;
   $close: HTMLElement;
-  current: IPanel | null = null;
-  #initPanels: UIOptionsItem<IPanel>[] = [];
+  current: PanelItem | null = null;
+  #initPanels: UIOptionsItem<PanelItem>[] = [];
   get isShow(): boolean {
     return this.container.classList.contains("is-show");
   }
@@ -79,7 +79,7 @@ export default class Modal extends BasePlugin {
     this.current?.toggle(false);
   }
   /** 挂载一个面板 */
-  mount(panel: IPanel) {
+  mount(panel: PanelItem) {
     panel.mount(this.$content, {
       onToggle: (flag) => {
         if (flag) {

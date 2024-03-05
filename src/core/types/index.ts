@@ -15,11 +15,11 @@ export interface PluginConstructor {
   /** 插件名称 */
   readonly pluginName: string;
   /** 插件构造函数 */
-  new (player: Player): IPlugin;
+  new (player: Player): PluginItem;
 }
 
 /** 播放器插件 */
-export interface IPlugin {
+export interface PluginItem {
   /** 插件名称 */
   pluginName?: string;
   /** 插件创建后 */

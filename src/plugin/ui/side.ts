@@ -2,7 +2,7 @@ import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import Player from "@/player";
 import { PlayerOptions } from "@/types";
-import { BasePlugin, IPanel, UIOptionsItem } from "@/plugin";
+import { BasePlugin, PanelItem, UIOptionsItem } from "@/plugin";
 import { createElement } from "@/utils";
 
 const template = () => html`
@@ -24,7 +24,7 @@ declare module "@core" {
   }
   interface PlayerOptions {
     side?: {
-      panels?: UIOptionsItem<IPanel>[];
+      panels?: UIOptionsItem<PanelItem>[];
     };
   }
 }
@@ -37,8 +37,8 @@ export default class Side extends BasePlugin {
   $content: HTMLElement;
   $title: HTMLElement;
   $close: HTMLElement;
-  current: IPanel | null = null;
-  #initPanels: UIOptionsItem<IPanel>[] = [];
+  current: PanelItem | null = null;
+  #initPanels: UIOptionsItem<PanelItem>[] = [];
   get isShow(): boolean {
     return this.container.classList.contains("is-show");
   }
@@ -79,7 +79,7 @@ export default class Side extends BasePlugin {
     this.current?.toggle(false);
   }
 
-  mount(panel: IPanel) {
+  mount(panel: PanelItem) {
     panel.mount(this.$content, {
       onToggle: (flag) => {
         if (flag) {

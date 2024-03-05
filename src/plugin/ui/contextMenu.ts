@@ -1,6 +1,6 @@
 import { classPrefix } from "@/config";
 import Player from "@/player";
-import { BasePlugin, IMenu, UIOptionsItem } from "@/plugin";
+import { BasePlugin, MenuItem, UIOptionsItem } from "@/plugin";
 import { html, render } from "lit-html";
 import { createElement } from "@/utils";
 import { PlayerOptions } from "@core";
@@ -15,7 +15,7 @@ declare module "@core" {
   }
   interface PlayerOptions {
     contextMenu?: {
-      list: UIOptionsItem<IMenu>[];
+      list: UIOptionsItem<MenuItem>[];
     };
   }
 }
@@ -34,7 +34,7 @@ export default class ContextMenu extends BasePlugin {
   container: HTMLElement;
   $el: HTMLElement;
   $list: HTMLElement;
-  list: UIOptionsItem<IMenu>[] = [];
+  list: UIOptionsItem<MenuItem>[] = [];
   private isShow = false;
   constructor(player: Player) {
     super(player);
@@ -50,7 +50,7 @@ export default class ContextMenu extends BasePlugin {
   apply(player: Player, options: PlayerOptions): void {
     this.list = options.contextMenu?.list || [];
   }
-  setMenu(list: IMenu[]) {
+  setMenu(list: MenuItem[]) {
     this.$list.innerHTML = "";
     const fragment = new DocumentFragment();
     list.forEach((item) => {

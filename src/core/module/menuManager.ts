@@ -1,16 +1,16 @@
 import Player from "@/player";
-import { IMenu, UIOptionsItem } from "@/plugin";
+import { MenuItem, UIOptionsItem } from "@/plugin";
 import { PlayerHookMap } from "@/types";
 
 export default class MenuManager {
-  protected list = new Map<string, IMenu>();
+  protected list = new Map<string, MenuItem>();
   player: Player;
 
   constructor(player: Player) {
     this.player = player;
   }
   /** 注册菜单项 */
-  register(name: string, item: IMenu | (new (player: Player) => IMenu)) {
+  register(name: string, item: MenuItem | (new (player: Player) => MenuItem)) {
     this.list.set(name, typeof item == "function" ? this.build(item) : item);
   }
 
@@ -20,7 +20,7 @@ export default class MenuManager {
   }
 
   /** 获取菜单项 */
-  get(item: UIOptionsItem<IMenu>): IMenu | undefined {
+  get(item: UIOptionsItem<MenuItem>): MenuItem | undefined {
     switch (typeof item) {
       case "object":
         return item;
@@ -32,7 +32,7 @@ export default class MenuManager {
   }
 
   /** 创建菜单项 */
-  build(func: new (player: Player) => IMenu) {
+  build(func: new (player: Player) => MenuItem) {
     const item = new func(this.player);
     item.init?.(this.player);
     item.ready?.(this.player);

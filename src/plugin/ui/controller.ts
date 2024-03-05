@@ -3,7 +3,7 @@ import { classPrefix } from "@/config";
 import Player from "@/player";
 import { PlayerOptions } from "@/types";
 
-import { BasePlugin, IControls, UIOptionsItem } from "@/plugin";
+import { BasePlugin, ControlsItem, UIOptionsItem } from "@/plugin";
 
 const template = () => html`
   <div class="${classPrefix}-controller-mask"></div>
@@ -27,10 +27,10 @@ declare module "@core" {
 }
 
 export interface ControllerControls {
-  left?: UIOptionsItem<IControls>[];
-  center?: UIOptionsItem<IControls>[];
-  right?: UIOptionsItem<IControls>[];
-  top?: UIOptionsItem<IControls>[];
+  left?: UIOptionsItem<ControlsItem>[];
+  center?: UIOptionsItem<ControlsItem>[];
+  right?: UIOptionsItem<ControlsItem>[];
+  top?: UIOptionsItem<ControlsItem>[];
 }
 
 /** 控制栏 */
@@ -51,10 +51,10 @@ export default class Controller extends BasePlugin {
   protected mouseEnterHandler: () => void;
   protected mouseLeaveHandler: () => void;
   protected controls: {
-    left?: UIOptionsItem<IControls>[];
-    center?: UIOptionsItem<IControls>[];
-    right?: UIOptionsItem<IControls>[];
-    top?: UIOptionsItem<IControls>[];
+    left?: UIOptionsItem<ControlsItem>[];
+    center?: UIOptionsItem<ControlsItem>[];
+    right?: UIOptionsItem<ControlsItem>[];
+    top?: UIOptionsItem<ControlsItem>[];
   } = {};
 
   constructor(player: Player) {
@@ -101,7 +101,7 @@ export default class Controller extends BasePlugin {
     this.build(this.$right, right);
     this.build(this.$top, top);
   }
-  protected build(container: HTMLElement, list?: UIOptionsItem<IControls>[]) {
+  protected build(container: HTMLElement, list?: UIOptionsItem<ControlsItem>[]) {
     container.innerHTML = "";
     const fragment = new DocumentFragment();
     list?.forEach((item) => {

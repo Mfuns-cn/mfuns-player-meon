@@ -5,7 +5,7 @@ import Player from "@/player";
 import { classPrefix } from "@/config";
 import { html, render } from "lit-html";
 import Controller from "../ui/controller";
-import { ControlsPlugin, IControls, UIOptionsItem } from "@/plugin";
+import { ControlsPlugin, ControlsItem, UIOptionsItem } from "@/plugin";
 import Danmaku from "./danmaku";
 
 const template = html`
@@ -31,8 +31,8 @@ declare module "@core" {
     /** 弹幕栏设置 */
     danmakuBar?: {
       controls: {
-        left: UIOptionsItem<IControls>[];
-        right: UIOptionsItem<IControls>[];
+        left: UIOptionsItem<ControlsItem>[];
+        right: UIOptionsItem<ControlsItem>[];
       };
       /** 占位文本 */
       placeholder?: string;

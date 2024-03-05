@@ -25,6 +25,7 @@ import StateActive from "../state/stateActive";
 import StateFocus from "../state/stateFocus";
 import StateResize from "../state/stateResize";
 import StateIntersecting from "../state/stateIntersecting";
+import Toast from "@plugin/ui/toast";
 
 /** 核心插件 */
 export const corePlugins = [
@@ -37,7 +38,7 @@ export const corePlugins = [
 ];
 
 /** 基础插件 */
-export const basicPlugins = [Modal, Side, Controller, Settings, Hotkey, ContextMenu, User];
+export const basicPlugins = [Modal, Side, Controller, Toast, Settings, Hotkey, ContextMenu, User];
 
 /** 基础控件 */
 export const basicControls = [
