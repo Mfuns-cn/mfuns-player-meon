@@ -1,4 +1,4 @@
-# mfuns-player 弹幕播放器
+# Mfuns Player Meon
 
 可插件化配置的播放器。
 
@@ -8,43 +8,52 @@
 待补充
 
 
-### 配置选项
-⚠️ 注意：播放器实例化过程会操作部分 DOM，请务必在页面加载完成后（window.onload(原生 JS)，mounted(Vue)，componentDidMount(React)）进行实例化操作，否则部分功能会出现问题
+### 基础配置选项
+⚠️ 注意：播放器实例化过程会操作部分 DOM，建议在页面加载完成后(window.onload(Vallina JS)/mounted(Vue)/componentDidMount(React))进行实例化操作，避免部分功能出现问题
 
-
-
-```js
-import mfunsPlayer from "@mfuns/pc-player"
+```ts
+import {Player} from "@mfuns-player-meon"
 const container = document.querySelector(".content");
 //初始化播放器
 window.onload = function(){
- new mfunsPlayer({
+ new Player({
   container, // 容器
-  theme: {  // 主题色
-    primaryColor: "#666"
-  }, 
-  autoPlay: false, //自动播放
-  autoSkip:true,  //断点续播
-  autoPart: true, //自动切P
-  blackBorder: false, // 播放器黑边
-  volume: 0.7, // 视频初始音量
   video: {
-    /** 分P视频配置 */
-    list: [
-    {
-      url: "", //视频链接地址
-      type: "mp4", //视频类型
-      title: "", //视频标题
-      danmakuId: 100, //弹幕id
-      danmakuAddition: [  // 附加弹幕文件
-        {
-          url: "",
-          type: ""   // 弹幕数据格式 
-        }
-      ],
-    },
-  ]},
+    url: "...", //视频链接地址
+    type: "mp4", //视频类型
+  },
+  volume: 0.7, // 视频初始音量
 });
 }
 ```
+
+播放器基础配置接口参数
+```ts
+interface PlayerOptions {
+  /** 播放器容器 */
+  container: HTMLElement;
+  /** 视频信息 */
+  video: VideoInfo;
+  
+  /** 音量 */
+  volume?: number;
+  /** 播放速率 */
+  playbackRate?: number;
+  /** 自动播放 */
+  autoPlay?: boolean;
+  /** 播放时间 */
+  time?: number;
+  /** 循环播放 */
+  loop?: boolean;
+
+  /** 插件 */
+  plugins?: (PluginConstructor | PluginItem)[];
+  /** 外部扩展库(插件用) */
+  externals?: PlayerExternals;
+  /** 播放器调用的外部函数(插件用) */
+  invoke?: PlayerInvokes;
+}
+```
+
+
 更多配置详见各插件的PlayerOptions接口。

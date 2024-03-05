@@ -1,6 +1,4 @@
-import { PanelContainer } from "@/plugin";
 import { VideoInfo, PluginConstructor, PlayerExternals, PluginItem, PlayerInvokes } from "@/types";
-import Player from "../../../player/core-player";
 
 /** 播放器初始化选项 */
 export interface PlayerOptions {
@@ -18,25 +16,12 @@ export interface PlayerOptions {
   autoPlay?: boolean;
   /** 播放时间 */
   time?: number;
-  /** 分P连播 */
-  autoPart?: boolean;
   /** 循环播放 */
   loop?: boolean;
   /** 功能插件 */
   plugins?: (PluginConstructor | PluginItem)[];
   /** 外部扩展 */
   externals?: PlayerExternals;
-  /** 控件设置 */
-  controls?: Record<string, { container?: (player: Player) => HTMLElement; order?: number }>;
-  /** 面板设置 */
-  panels?: Record<
-    string,
-    {
-      container?: (player: Player) => HTMLElement;
-      onToggle?: (flag: boolean) => void;
-      onUnmount?: () => void;
-      mount?: (player: Player) => PanelContainer;
-    }
-  >;
+  /** 调用外部函数 */
   invoke?: PlayerInvokes;
 }
