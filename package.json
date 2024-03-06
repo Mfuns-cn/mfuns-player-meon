@@ -16,10 +16,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --project tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && babel lib -d lib",
+    "build": "npm run clear && tsc --project tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && babel lib -d lib",
     "build:player": "node ./vite.build-player.js",
     "preview": "vite preview",
-    "lint": ""
+    "lint": "",
+    "clear": "rimraf ./lib/",
+    "prepack": "npm run build"
   },
   "files": [
     "lib"
@@ -62,6 +64,7 @@
     "glob": "^10.3.10",
     "hls.js": "^1.4.13",
     "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
     "sass": "^1.58.3",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
