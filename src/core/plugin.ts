@@ -1,6 +1,7 @@
 import { PlayerOptions, PluginItem } from "@/types";
-import Player from "@/player";
+import { Player } from "@/player";
 
+/** 基础插件 */
 export abstract class BasePlugin implements PluginItem {
   static pluginName: string;
   protected readonly player: Player;

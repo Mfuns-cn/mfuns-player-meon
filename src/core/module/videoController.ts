@@ -1,5 +1,5 @@
 import { LoadInfo, MediaController, PlayerOptions, VideoInfo } from "@/types";
-import Player from "@/player";
+import { Player } from "@/player";
 import { PlayerEventMap } from "@/types/PlayerEventMap";
 import { createElement } from "@/utils";
 import { classPrefix } from "@/config";

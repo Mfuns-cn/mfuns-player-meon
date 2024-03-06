@@ -1,12 +1,12 @@
 import { debounce, secondToTime } from "@/utils";
 import { dateFormat } from "@/utils/index";
-import { DanmakuItem } from "@plugin/danmaku/types";
-import Player from "@/player";
+import { DanmakuItem } from "@plugins/danmaku/types";
+import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { html, render } from "lit-html";
 import { VirtualList } from "./VirtualList";
 import "./style.scss";
-import Danmaku from "@plugin/danmaku/danmaku";
+import Danmaku from "@plugins/danmaku/danmaku";
 import { PanelPlugin } from "@/plugin";
 import { PlayerOptions } from "@/types";
 
@@ -92,15 +92,16 @@ const getDanmakuListItem = (
       ${operation.length
         ? html`<div class="list-operate" title="">
             ${operation(danmaku).map(
-              ([label, onClick]) => html`<div
-                class="list-operate-btn"
-                @click=${(e: MouseEvent) => {
-                  e.stopPropagation();
-                  onClick(danmaku);
-                }}
-              >
-                ${label}
-              </div>`
+              ([label, onClick]) =>
+                html`<div
+                  class="list-operate-btn"
+                  @click=${(e: MouseEvent) => {
+                    e.stopPropagation();
+                    onClick(danmaku);
+                  }}
+                >
+                  ${label}
+                </div>`
             )}
           </div>`
         : ""}
@@ -271,7 +272,7 @@ export default class DanmakuList extends PanelPlugin {
           title: (dm) =>
             `${dm.content}\n${
               danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yyyy-MM-dd HH:mm:ss") : "-"
-            } @ ${secondToTime(danmaku.time, false)}`,
+            } @ ${secondToTime(danmaku.time, 0x0010)}`,
         }),
       overflow: 5,
     });

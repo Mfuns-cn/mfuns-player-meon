@@ -1,4 +1,4 @@
-import Player from "@/player";
+import { Player } from "@/player";
 import { PlayerOptions, PluginItem, PluginConstructor } from "@/types";
 
 export default class PluginManager {

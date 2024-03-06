@@ -1,29 +1,28 @@
-import Player from "./core-player";
+import { Player as CorePlayer } from "./core-player";
 import { PlayerOptions } from "@/types";
 import DanmakuList from "../mfuns-plugin/danmakuList";
-import { ButtonWebscreen } from "@plugin/controls";
-import Hotkeys from "@plugin/panels/hotkeyInfo";
-import About from "@plugin/panels/about";
-import { presetBasic } from "@plugin/presets/basic";
-import AutoPart from "@plugin/enhance/playback/autoPart";
-import AutoPlay from "@plugin/enhance/playback/autoPlay";
-import Theme from "@plugin/theme";
-import Part from "@plugin/videoOptions/part";
-import Seamless from "@plugin/patch/seamless";
-import PartList from "@plugin/panels/partList";
-import ButtonDanmakulist from "@plugin/controls/button/ButtonDanmakulist";
-import ButtonQuality from "@plugin/controls/button/ButtonQuality";
-import Quality from "@plugin/quality";
-import VideoStatus from "@plugin/enhance/ui/videoStatus";
-import LoadingMask from "@plugin/enhance/ui/loadingMask";
-import VideoTitle from "@plugin/controls/videoTitle";
-import Header from "@plugin/ui/header";
-import { presetDanmaku } from "@plugin/presets/danmaku";
-import VideoQuality from "@plugin/videoOptions/qualities";
-import FlvLoader from "@plugin/videoLoader/flvLoader";
-import HlsLoader from "@plugin/videoLoader/hlsLoader";
-import DashLoader from "@plugin/videoLoader/dashLoader";
-import AspectRatio from "@plugin/enhance/video/aspectRatio";
+import Hotkeys from "@plugins/panels/hotkeyInfo";
+import About from "@plugins/panels/about";
+import { presetBasic } from "@plugins/presets/basic";
+import AutoPart from "@plugins/enhance/playback/autoPart";
+import AutoPlay from "@plugins/enhance/playback/autoPlay";
+import Theme from "@plugins/theme";
+import Part from "@plugins/videoOptions/part";
+import Seamless from "@plugins/patch/seamless";
+import PartList from "@plugins/panels/partList";
+import ButtonDanmakulist from "@plugins/controls/button/ButtonDanmakulist";
+import ButtonQuality from "@plugins/controls/button/ButtonQuality";
+import Quality from "@plugins/quality";
+import VideoStatus from "@plugins/enhance/ui/videoStatus";
+import LoadingMask from "@plugins/enhance/ui/loadingMask";
+import VideoTitle from "@plugins/controls/videoTitle";
+import Header from "@plugins/ui/header";
+import { presetDanmaku } from "@plugins/presets/danmaku";
+import VideoQuality from "@plugins/videoOptions/qualities";
+import FlvLoader from "@plugins/videoLoader/flvLoader";
+import HlsLoader from "@plugins/videoLoader/hlsLoader";
+import DashLoader from "@plugins/videoLoader/dashLoader";
+import AspectRatio from "@plugins/enhance/video/aspectRatio";
 
 /** 预设插件 */
 const plugins = [
@@ -48,7 +47,7 @@ const loaders = [FlvLoader, HlsLoader, DashLoader];
  *
  * 插件功能：快捷键、右键菜单、弹幕栏、弹幕列表
  */
-export default class MfunsPlayer extends Player {
+export class Player extends CorePlayer {
   constructor(options: PlayerOptions) {
     super({
       autoPart: true,
@@ -75,3 +74,8 @@ export default class MfunsPlayer extends Player {
     });
   }
 }
+
+export * from "@/plugin";
+export * from "@/config";
+export * as Utils from "@/utils";
+export * as Components from "@/components";

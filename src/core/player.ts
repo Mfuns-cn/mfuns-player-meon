@@ -8,7 +8,7 @@ import {
 import { PlayerOptions } from "@/types";
 import { PlayerEventMap } from "./types/PlayerEventMap";
 import { clamp, createElement } from "./utils";
-import { classPrefix } from "./config";
+import { classPrefix, gitHash, version } from "./config";
 import VideoController from "./module/videoController";
 import PluginManager from "./module/pluginManager";
 import HookManager from "./module/hookManager";
@@ -17,15 +17,13 @@ import PanelManager from "./module/panelManager";
 import MenuManager from "./module/menuManager";
 import LoaderManager from "./module/loaderManager";
 import EventEmitter from "./module/eventEmitter";
-import * as Util from "@/utils";
-import * as Component from "@/components";
 
 /**
  * @event
  */
 export class Player {
-  static readonly version = __MFUNSPLAYER_VERSION__;
-  static readonly gitHash = __GIT_HASH__;
+  static readonly version = version;
+  static readonly gitHash = gitHash;
   /** 容器 */
   readonly container: HTMLElement;
   /** 播放器元素 */

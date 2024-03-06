@@ -1,4 +1,4 @@
-import Player from "@/player";
+import { Player } from "@/player";
 import { PanelItem, UIOptionsItem } from "@/plugin";
 import { PlayerHookMap } from "@/types";
 

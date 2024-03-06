@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   semi: true, // 使用分号
   singleQuote: false, // 使用双引号
   tabWidth: 2, // tab宽度为2

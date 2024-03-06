@@ -1,13 +1,13 @@
 import { html, render } from "lit-html";
-import { createArray } from "@/utils";
 
-const template = ({ divider }: { divider: number }) => html` <div
-  class="mpui-slider mpui-slider-horizontal"
-  style="position: relative; width: 100%; height: 100%"
->
-  <div
-    class="mpui-slider-track"
-    style="
+const template = ({ divider }: { divider: number }) =>
+  html` <div
+    class="mpui-slider mpui-slider-horizontal"
+    style="position: relative; width: 100%; height: 100%"
+  >
+    <div
+      class="mpui-slider-track"
+      style="
       position: absolute;
       width: 100%;
       top: 50%;
@@ -16,23 +16,23 @@ const template = ({ divider }: { divider: number }) => html` <div
       justify-content: center;
       align-items: center;
     "
-  >
-    <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
-    <div class="mpui-slider-thumb-track" style="height: 0px">
-      <div
-        class="mpui-slider-thumb"
-        style="position: absolute; transform: translate(-50%, -50%)"
-      ></div>
-      ${divider
-        ? html`
-            <div class="mpui-slider-divider">
-              ${createArray(divider, html`<div class="mpui-slider-divider-dot"></div>`)}
-            </div>
-          `
-        : ""}
+    >
+      <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
+      <div class="mpui-slider-thumb-track" style="height: 0px">
+        <div
+          class="mpui-slider-thumb"
+          style="position: absolute; transform: translate(-50%, -50%)"
+        ></div>
+        ${divider
+          ? html`
+              <div class="mpui-slider-divider">
+                ${new Array(divider).fill(html`<div class="mpui-slider-divider-dot"></div>`)}
+              </div>
+            `
+          : ""}
+      </div>
     </div>
-  </div>
-</div>`;
+  </div>`;
 
 interface SliderOptions {
   /** 挂载容器 */

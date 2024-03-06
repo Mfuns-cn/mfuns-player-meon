@@ -1,4 +1,4 @@
-import Player from "@/player";
+import { Player } from "@/player";
 import { LoadInfo, MediaController, MediaLoader, PlayerHookMap } from "@/types";
 
 export default class LoaderManager {

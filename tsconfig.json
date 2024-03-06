@@ -2,21 +2,25 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es2020",
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {
       "@core": ["./src/core"],
       "@/*": ["./src/core/*"],
       "@css/*": ["./src/css/*"],
-      "@plugin/*": ["./src/plugin/*"]
+      "@plugins/*": ["./src/plugins/*"]
     },
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "noEmit": true,
     "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
-    "outDir": "./lib"
+    "skipLibCheck": true
   },
-  "include": ["src", "mfuns-plugin", "player"]
+  "include": [
+    "./src/**/*.ts",
+    "./player/**/*.ts",
+    "./mfuns-plugin/**/*.ts",
+    "./vite.build-player.ts"
+  ]
 }

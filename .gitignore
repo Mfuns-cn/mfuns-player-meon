@@ -9,6 +9,8 @@ lerna-debug.log*
 
 playground/
 
+lib/
+
 # Dependency directories
 node_modules/
 

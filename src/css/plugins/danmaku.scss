@@ -1,4 +1,4 @@
-@import "@css/theme";
+@import "../theme";
 
 .#{$prefix} {
   &-danmaku {
@@ -36,7 +36,10 @@
     display: inline-block;
     user-select: none;
     white-space: pre;
-    text-shadow: rgb(0, 0, 0) 1px 0px 1px, rgb(0, 0, 0) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px,
+    text-shadow:
+      rgb(0, 0, 0) 1px 0px 1px,
+      rgb(0, 0, 0) 0px 1px 1px,
+      rgb(0, 0, 0) 0px -1px 1px,
       rgb(0, 0, 0) -1px 0px 1px;
     cursor: default;
   }

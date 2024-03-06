@@ -1,18 +1,7 @@
-const isMobile = /mobile/i.test(window.navigator.userAgent);
-
-/** 创建特定长度的填充数组 */
-export const createArray = <T>(count: number, val: T) => Array.from({ length: count }, () => val);
-
-/** 获取全屏元素 */
-export const getFullscreenElement = (): HTMLElement | null =>
-  document.fullscreenElement ||
-  (document as any).mozFullScreenElement ||
-  (document as any).webkitFullscreenElement ||
-  (document as any).msFullscreenElement ||
-  null;
+export const isMobile = /mobile/i.test(window.navigator.userAgent);
 
 /** 是否支持全屏 */
-export const fullScreenEnabled: boolean =
+export const fullScreenEnabled =
   document.fullscreenEnabled ||
   (document as any).webkitFullscreenEnabled ||
   (document as any).mozFullScreenEnabled ||
@@ -20,29 +9,62 @@ export const fullScreenEnabled: boolean =
   false;
 
 /** 是否支持画中画 */
-export const pictureInPictureEnabled = document.pictureInPictureEnabled;
+export const pictureInPictureEnabled = document.pictureInPictureEnabled || false;
 
 /**
- * 将时间文本转换为秒数
- *
- * @param {String} str 冒号分隔的时间文本，支持全角冒号
- * @return {Number} second
+ * 创建元素
+ * @param tagName 元素标签名
+ * @param attributes 元素属性
+ * @param children 子元素
  */
-export const timeToSecond = (str: string): number => {
-  const arr = str.split(/[:：]/).slice(-3);
-  const sec = parseInt(arr[arr.length - 1]) || 0;
-  const min = parseInt(arr[arr.length - 2]) || 0;
-  const hour = parseInt(arr[arr.length - 3]) || 0;
-  return sec + min * 60 + hour * 3600;
-};
+export function createElement<T extends keyof HTMLElementTagNameMap>(
+  tagName: T,
+  attributes?: Record<string, string>,
+  children?: Node | string | { html?: string; text?: string }
+) {
+  const el = document.createElement(tagName);
+  if (attributes) {
+    for (const name in attributes) {
+      el.setAttribute(name, attributes[name]);
+    }
+  }
+  if (typeof children == "string") {
+    el.innerText = children;
+  } else if (children instanceof Node) {
+    el.appendChild(children);
+  } else if (children?.html) {
+    el.innerHTML = children.html;
+    el.normalize();
+  } else if (children?.text) {
+    el.innerText = children.text;
+  }
+  return el;
+}
 
+/**
+ * 替换子元素
+ * @param element 父元素
+ * @param children 要替换的子节点或字符串
+ */
+export function replaceChildren(element: HTMLElement, children: Node | string) {
+  element.innerHTML = "";
+  if (typeof children == "string") {
+    element.innerText = children;
+  } else {
+    element.appendChild(children);
+  }
+}
 /**
  * 防抖
- * @param {Function} fn 需要防抖处理的函数
- * @param {number} delay 防抖延迟执行时间
- * @param {boolean} immediate 是否立即执行一次
+ * @param fn 需要防抖处理的函数
+ * @param delay 防抖延迟执行时间
+ * @param immediate 是否立即执行一次
  */
-export const debounce = (fn: (...args: unknown[]) => void, delay: number, immediate = false) => {
+export const debounce = (
+  fn: (...args: unknown[]) => void,
+  delay: number,
+  immediate: boolean = false
+) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
   let isInvoke = false;
   const f = function (this: unknown, ...args: unknown[]) {
@@ -65,28 +87,10 @@ export const debounce = (fn: (...args: unknown[]) => void, delay: number, immedi
   return f;
 };
 
-/** 创建元素 */
-export function createElement<T extends keyof HTMLElementTagNameMap>(
-  tagName: T,
-  attributes?: Record<string, string>,
-  children?: Node
-) {
-  const el = document.createElement(tagName);
-  if (attributes) {
-    for (const name in attributes) {
-      el.setAttribute(name, attributes[name]);
-    }
-  }
-  if (children) {
-    el.append(children);
-  }
-  return el;
-}
-
 /**
  * 节流
- * @param {Function} fn 需要节流处理的函数
- * @param {number} wait 执行一次后需要等待的时间
+ * @param fn 需要节流处理的函数
+ * @param wait 执行一次后需要等待的时间
  */
 export const throttle = (fn: (...args: unknown[]) => void, wait: number) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
@@ -100,181 +104,94 @@ export const throttle = (fn: (...args: unknown[]) => void, wait: number) => {
     }
   };
 };
-/** 限制数值 */
-export function clamp(number: number, lower: number, upper: number) {
+
+/** 生成一个范围内的随机数
+ * @param lower 最小值
+ * @param upper 最大值
+ * @returns 生成的随机数
+ */
+export function random(lower: number, upper: number): number {
+  return lower + Math.random() * (upper - lower);
+}
+
+/** 钳制数值
+ * @param number 传入数值
+ * @param lower 最小值
+ * @param upper 最大值
+ * @returns 钳制后的数值
+ */
+export function clamp(number: number, lower: number, upper: number): number {
   return number > lower ? (number < upper ? number : upper) : lower;
 }
 
-// === 未完全重构 ==========
+/**
+ * 将时间文本转换为秒数
+ *
+ * @param time 冒号分隔的时间文本
+ * @return 秒数
+ */
+export function timeToSecond(time: string): number {
+  const arr = time.split(":").slice(-3);
+  const sec = parseInt(arr[arr.length - 1]) || 0;
+  const min = parseInt(arr[arr.length - 2]) || 0;
+  const hour = parseInt(arr[arr.length - 3]) || 0;
+  const day = parseInt(arr[arr.length - 4]) || 0;
+  return sec + min * 60 + hour * 3600 + day * 86400;
+}
 
 /**
  * 将秒数转换为时间文本
  *
- * @param {Number} second
- * @param {Boolean} showHour
- * @return {String} 00:00 or 00:00:00
+ * @param second 秒数
+ * @param level 转换等级(二进制位属性，表示可转换的时间格式，4-天时分秒，3-时分秒，2-分秒, 1-秒)
+ * @return 时间文本
  */
-export const secondToTime = (second: number, showHour = true) => {
-  second = second || 0;
-  if (second === 0 || second === Infinity || second.toString() === "NaN") {
-    return "00:00";
+export function secondToTime(second: number, level: number = 0b0110): string {
+  second = Number.isFinite(second) ? Math.floor(second) : 0;
+  if (!(level & 0b1111)) return second.toString();
+  const join = (...args: number[]) =>
+    args.map((num) => (num < 10 ? `0${num}` : `${num}`)).join(":");
+  let minute: number, hour: number, day: number;
+  if (level & 0b0001 && second < 60) {
+    return second.toString();
   }
-  const add0 = (num: number) => (num < 10 ? `0${num}` : `${num}`);
-  const hour = Math.floor(second / 3600);
-  const min = Math.floor((second - hour * 3600) / 60);
-  const sec = Math.floor(second - hour * 3600 - min * 60);
-  if (showHour) {
-    return (hour > 0 ? [hour, min, sec] : [min, sec]).map(add0).join(":");
+  minute = Math.floor(second / 60);
+  second = second % 60;
+  if (level & 0b0010 && minute < 60) {
+    return join(minute, second);
   }
-  return [hour * 60 + min, sec].map(add0).join(":");
-};
+  hour = Math.floor(minute / 60);
+  minute = minute % 60;
+  if (level & 0b0100 && hour < 24) {
+    return join(hour, minute, second);
+  }
+  day = Math.floor(hour / 60);
+  hour = hour % 24;
+  return join(day, hour, minute, second);
+}
 
-export const storage = {
-  set: (key: string, value: any) => {
-    localStorage.setItem(key, value);
-  },
-
-  get: (key: string) => localStorage.getItem(key),
-};
-
-export const nameMap = {
-  dragStart: isMobile ? "touchstart" : "mousedown",
-  dragMove: isMobile ? "touchmove" : "mousemove",
-  dragEnd: isMobile ? "touchend" : "mouseup",
-};
-export const colorLuminance = (hex: string, lum: number) => {
-  // validate hex string
-  hex = String(hex).replace(/[^0-9a-f]/gi, "");
-  if (hex.length < 6) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
-  lum = lum || 0;
-
-  // convert to decimal and change luminosity
-  let rgb = "#";
-  let c;
-  let i;
-  for (i = 0; i < 3; i++) {
-    c = parseInt(hex.substr(i * 2, 2), 16);
-    c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
-    rgb += `00${c}`.substr(c.length);
-  }
-
-  return rgb;
-};
-
-export const hex2Rgb = (str: string, opacity: number) => {
-  // 16进制转rgb
-  const reg = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
-  if (!reg.test(str)) {
-    return;
-  }
-  let newStr = str.toLowerCase().replace(/#/g, "");
-  const len = newStr.length;
-  if (len == 3) {
-    let t = "";
-    for (let i = 0; i < len; i++) {
-      t += newStr.slice(i, i + 1).concat(newStr.slice(i, i + 1));
-    }
-    newStr = t;
-  }
-  const arr = []; // 将字符串分隔，两个两个的分隔
-  for (let i = 0; i < 6; i += 2) {
-    const s = newStr.slice(i, i + 2);
-    arr.push(parseInt(`0x${s}`));
-  }
-  if (opacity) return `rgba(${arr.join(",")},${opacity})`;
-  return `rgb(${arr.join(",")})`;
-};
-export const rgb2Hex = (str: string) => {
-  // rgb转16进制
-  const reg = /^(rgb|RGB)/;
-  if (!reg.test(str)) {
-    return;
-  }
-  const arr = str.slice(4, str.length - 1).split(",");
-  let color = "#";
-  for (let i = 0; i < arr.length; i++) {
-    let t = Number(arr[i]).toString(16);
-    if (t == "0") {
-      // 如果为“0”的话，需要补0操作,否则只有5位数
-      t += "0";
-    }
-    color += t;
-  }
-  return color;
-};
-export const color2Number = (color: string) => {
+/** 十六进制颜色转数字
+ * @param color 颜色字符串，可以省略#符号
+ * @return 数值
+ */
+export function HexColorToNumber(color: string): number {
   if (color[0] === "#") {
-    color = color.substr(1);
+    color = color.substring(1);
   }
   if (color.length === 3) {
     color = `${color[0]}${color[0]}${color[1]}${color[1]}${color[2]}${color[2]}`;
   }
   return (parseInt(color, 16) + 0x000000) & 0xffffff;
-};
+}
 
-export const number2Color = (number: number) => `#${`00000${number.toString(16)}`.slice(-6)}`;
-export const initHash = () => {
-  let count = 100;
-
-  return function (hashLength: number) {
-    if (!hashLength || typeof Number(hashLength) !== "number") {
-      return;
-    }
-    const ar = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "0",
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "w",
-      "x",
-      "y",
-      "z",
-    ];
-    const hs = [];
-    const hl = Number(hashLength);
-    const al = ar.length;
-    for (let i = 0; i < hl; i++) {
-      hs.push(ar[Math.floor(Math.random() * al)]);
-    }
-    count++;
-    return `${hs.join("")}${count}`;
-  };
-};
-export const randomFontsize = (range: number) => {
-  const allSize = [16, 18, 25, 36, 45, 64];
-  const random = Math.floor(Math.random() * range);
-  return allSize[random];
-};
+/**
+ * 数字转十六进制颜色
+ * @param number 传入的数字
+ * @return 十六进制颜色
+ */
+export function numberToHexColor(number: number): string {
+  return `#${`00000${number.toString(16)}`.slice(-6)}`;
+}
 
 const dateFormatMap = {
   yyyy: (d: Date) => d.getFullYear().toString(),
@@ -286,9 +203,14 @@ const dateFormatMap = {
   ss: (d: Date) => d.getSeconds().toString().padStart(2, "0"),
 };
 
-// date: 时间对象, pattern: 日期格式
-export const dateFormat = (date: Date, format: string) => {
+/**
+ * 格式化时间
+ * @param date 时间对象
+ * @param format 日期格式
+ * @return 格式化后的字符串
+ */
+export function dateFormat(date: Date, format: string): string {
   return format.replace(/yyyy|yy|MM|dd|HH|mm|ss/g, (match) =>
     dateFormatMap[match as keyof typeof dateFormatMap]?.(date)
   );
-};
+}
