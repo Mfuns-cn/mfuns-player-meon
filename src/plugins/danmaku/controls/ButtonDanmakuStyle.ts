@@ -3,7 +3,6 @@ import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Picker } from "@/components";
 import { HexColorToNumber } from "@/utils";
-import DanmakuBar from "../danmakuBar";
 import { ControlsPlugin } from "@/plugin";
 import { Player } from "@core";
 
@@ -53,7 +52,8 @@ const template = () => html`
 `;
 
 export default class ButtonDanmakuStyle extends ControlsPlugin {
-  name = "danmakuStyle";
+  static pluginName = "buttonDanmakuStyle";
+
   $icon: HTMLElement;
   $tooltip: HTMLElement;
 
@@ -73,7 +73,7 @@ export default class ButtonDanmakuStyle extends ControlsPlugin {
   modeList: number[] = [];
 
   get danmakuBar() {
-    return this.player.danmakuBar;
+    return this.player.plugins.danmakuBar;
   }
   constructor(player: Player) {
     const fragment = new DocumentFragment();

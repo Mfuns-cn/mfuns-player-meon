@@ -14,15 +14,16 @@
     border-top: none;
     box-sizing: border-box;
     color: $fg-light;
-  }
-  // 无底栏模式
-  &.mode-nofootbar {
-    .#{$prefix}-main {
-      width: 100%;
+    &-left {
+      display: flex;
+      flex-shrink: 0;
       height: 100%;
     }
-    .#{$prefix}-footbar {
-      display: none;
+    &-right {
+      display: flex;
+      flex-grow: 1;
+      height: 100%;
+      justify-content: flex-end;
     }
   }
 }

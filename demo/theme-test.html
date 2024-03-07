@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -192,11 +192,11 @@
       },
     };
     function setTheme(id) {
-      player.plugin.theme.setTheme(themes[id]);
+      player.plugins.theme.setTheme(themes[id]);
       console.log("已设置主题", id);
     }
     function setRadius(r) {
-      player.plugin.theme.set("borderRadius", r);
+      player.plugins.theme.set("borderRadius", r);
       console.log("已设置圆角", r);
     }
   </script>

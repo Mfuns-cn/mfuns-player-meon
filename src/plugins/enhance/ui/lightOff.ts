@@ -22,7 +22,7 @@ export default class LightOff extends BasePlugin {
   constructor(player: Player) {
     super(player);
     this.$mask = createElement("div", { class: `${classPrefix}-lightoff-mask` });
-    if (player.plugin.buttonSettings) {
+    if (player.plugins.buttonSettings) {
       const container = document.createElement("div");
       this.checkbox = new Checkbox({
         container,
@@ -32,7 +32,7 @@ export default class LightOff extends BasePlugin {
         },
         label: "关灯模式",
       });
-      player.plugin.settings?.$others.appendChild(container);
+      player.plugins.settings?.$others.appendChild(container);
       player.on("lightOffChange", (flag) => this.checkbox?.setValue(flag));
     }
   }

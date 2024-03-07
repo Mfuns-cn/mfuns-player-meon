@@ -12,19 +12,25 @@
     "./types": "./lib/core/types.js",
     "./components": "./lib/core/components.js",
     "./utils": "./lib/core/utils.js",
-    "./plugins/*": "./lib/plugins/*"
+    "./plugins/*": "./lib/plugins/*",
+    "./css/*": "./src/css/*",
+    "./icon/*": "./src/icon/*"
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run clear && tsc --project tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && babel lib -d lib",
-    "build:player": "node ./vite.build-player.js",
+    "build": "npm run build:lib && npm run build:player",
+    "build:lib": "npm run clear:lib && tsc --project tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && babel lib -d lib",
+    "build:player": "npm run clear:player && node ./vite.build-player.js",
     "preview": "vite preview",
     "lint": "",
-    "clear": "rimraf ./lib/",
-    "prepack": "npm run build"
+    "clear:lib": "rimraf ./lib/",
+    "clear:player": "rimraf ./dist/",
+    "prepack": "npm run build:lib"
   },
   "files": [
-    "lib"
+    "lib",
+    "src/css",
+    "src/icon"
   ],
   "keywords": [
     "mfuns",

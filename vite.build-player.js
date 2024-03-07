@@ -55,9 +55,7 @@ async function buildPlayers(configs) {
             },
           },
           define: {
-            __MFUNSPLAYER_VERSION__: JSON.stringify(() => {
-              return info.version;
-            }),
+            __MFUNSPLAYER_VERSION__: JSON.stringify(info.version),
             __MFUNSPLAYER_GIT_HASH__: JSON.stringify(
               execSync("git rev-parse HEAD").toString().trim().substring(0, 7)
             ),

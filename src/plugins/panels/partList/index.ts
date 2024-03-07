@@ -3,12 +3,7 @@ import { classPrefix } from "@/config";
 import { html, render } from "lit-html";
 import { VideoInfo } from "@/types";
 import { PanelPlugin } from "@/plugin";
-
-const template = html`
-  <div class="${classPrefix}-partlist">
-    <ul class="${classPrefix}-partlist-list mpui-list"></ul>
-  </div>
-`;
+import { createElement } from "@/utils";
 
 const templateList = (list: Omit<VideoInfo, "list" | "part">[], setPart: (p: number) => void) =>
   list.map(
@@ -34,17 +29,17 @@ declare module "@core" {
 /** 分P列表面板 */
 export default class PartList extends PanelPlugin {
   static pluginName = "partList";
-  name = "partList";
+
   title = "分P列表";
   $list: HTMLElement;
   private _part = 0;
   private _list: VideoInfo["list"] = [];
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-partlist`)!);
-    this.$list = this.$(`.${classPrefix}-partlist-list`)!;
+    super(player, createElement("div", { class: `${classPrefix}-partlist` }));
+    this.$list = this.$el.appendChild(
+      createElement("ul", { class: `${classPrefix}-partlist-list mpui-list` })
+    );
   }
   init() {
     this.player.on("videoChange", (v) => {
@@ -57,7 +52,7 @@ export default class PartList extends PanelPlugin {
     this._list = list;
     render(
       templateList(list || [], (p) => {
-        this.plugin.part?.set(p);
+        this.plugins.part?.set(p);
       }),
       this.$list
     );

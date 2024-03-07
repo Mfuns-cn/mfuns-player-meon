@@ -1,29 +1,24 @@
-import { html, render } from "lit-html";
+import { createElement } from "@/utils";
 
-const template = () => html`
+const templateHTML = /*html*/ `
   <div
-    class="mpui-slider mpui-slider-vertical"
-    style="position: relative; width: 100%; height: 100%"
+    class="mpui-slider-track"
+    style="
+      position: absolute;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center
+    "
   >
-    <div
-      class="mpui-slider-track"
-      style="
-        position: absolute;
-        height: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        justify-content: center;
-        align-items: center
-      "
-    >
-      <div class="mpui-slider-bar" style="position: absolute; bottom: 0; width: 100%"></div>
-      <div class="mpui-slider-thumb-track" style="width: 0px">
-        <div
-          class="mpui-slider-thumb"
-          style="position: absolute; transform: translate(-50%, -50%)"
-        ></div>
-      </div>
+    <div class="mpui-slider-bar" style="position: absolute; bottom: 0; width: 100%"></div>
+    <div class="mpui-slider-thumb-track" style="width: 0px">
+      <div
+        class="mpui-slider-thumb"
+        style="position: absolute; transform: translate(-50%, -50%)"
+      ></div>
     </div>
   </div>
 `;
@@ -90,13 +85,20 @@ export class SliderVertical implements SliderVerticalOptions {
     this.onDragEnd = onDragEnd;
     this.onDrag = onDrag;
 
-    render(template(), container);
-
-    this.$el = this.container.querySelector(".mpui-slider")!;
+    this.$el = createElement(
+      "div",
+      {
+        class: "mpui-slider mpui-slider-vertical",
+        style: "position: relative; width: 100%; height: 100%",
+      },
+      templateHTML
+    );
     this.$track = this.$el.querySelector(".mpui-slider-track")!; // 滑动条轨道
     this.$bar = this.$track.querySelector(".mpui-slider-bar")!; // 滑动条痕迹
     this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track")!; // 滑块轨道
     this.$thumb = this.$track.querySelector(".mpui-slider-thumb")!; // 滑块
+
+    this.container.appendChild(this.$el);
 
     // 滑动条事件
     // 点击鼠标事件

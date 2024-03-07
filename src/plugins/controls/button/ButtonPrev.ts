@@ -1,16 +1,14 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { PlayerOptions } from "@/types";
 import { ControlsPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-prev is-autohide is-disabled">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-prev"></i>
-    </div>
-    <div class="mpui-tooltip">上一P</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-prev"></i>
   </div>
+  <div class="mpui-tooltip">上一P</div>
 `;
 
 declare module "@core" {
@@ -29,21 +27,26 @@ export default class ButtonPrev extends ControlsPlugin {
   static pluginName = "buttonPrev";
   $icon: HTMLElement;
   $tooltip: HTMLElement;
-  name = "prev";
 
   /** 只有单个视频时，隐藏所有切换按钮 */
   singleHide: boolean = true;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        {
+          class: `${classPrefix}-controls-button ${classPrefix}-button-prev is-autohide is-disabled`,
+        },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
   }
 
   apply(player: Player, options: PlayerOptions): void {
-    super.apply(player, options);
     this.singleHide = options.switchButton?.singleHide ?? true;
   }
 

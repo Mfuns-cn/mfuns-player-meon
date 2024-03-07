@@ -1,11 +1,10 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { PlayerOptions } from "@/types";
 import { createElement } from "@/utils";
-import { BasePlugin, PanelItem, PanelPlugin, UIOptionsItem } from "@/plugin";
+import { BasePlugin, PanelItem, PanelPlugin, PluginFrom } from "@/plugin";
 
-const template = () => html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-modal-mask"></div>
   <div class="${classPrefix}-modal">
     <div class="${classPrefix}-modal-head">
@@ -38,15 +37,14 @@ export default class Modal extends BasePlugin {
   $title: HTMLElement;
   $close: HTMLElement;
   current: PanelItem | null = null;
-  #initPanels: UIOptionsItem<PanelItem>[] = [];
+  #initPanels: PluginFrom<PanelItem>[] = [];
   get isShow(): boolean {
     return this.container.classList.contains("is-show");
   }
 
   constructor(player: Player) {
     super(player);
-    this.container = createElement("div", { class: `${classPrefix}-modal-wrap` });
-    render(template(), this.container);
+    this.container = createElement("div", { class: `${classPrefix}-modal-wrap` }, templateHTML);
     this.$el = this.container.querySelector(`.${classPrefix}-modal`)!;
     this.$mask = this.container.querySelector(`.${classPrefix}-modal-mask`)!;
     this.$content = this.$el.querySelector(`.${classPrefix}-modal-content`)!;
@@ -69,7 +67,7 @@ export default class Modal extends BasePlugin {
   }
   ready(): void {
     this.#initPanels.forEach((item) => {
-      const panel = this.player.panel.get(item);
+      const panel = this.player.plugin.from(item);
       panel && this.mount(panel);
     });
     this.#initPanels = [];

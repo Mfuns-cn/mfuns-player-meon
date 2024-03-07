@@ -1,30 +1,27 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
-import { secondToTime } from "@/utils";
+import { createElement, secondToTime } from "@/utils";
 import { ControlsPlugin } from "@/plugin";
 
-const template = () => html`
-  <div class="${classPrefix}-progress">
-    <div class="${classPrefix}-progress-bar">
-      <div class="${classPrefix}-progress-buffered"></div>
-      <div class="${classPrefix}-progress-played"></div>
-      <div class="${classPrefix}-progress-thumb-track">
-        <div class="${classPrefix}-progress-thumb"></div>
-      </div>
-      <div class="${classPrefix}-progress-preview">
-        <div class="${classPrefix}-progress-thumbnail"></div>
-        <div class="${classPrefix}-progress-time"></div>
-      </div>
-      <div class="${classPrefix}-progress-tip"></div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-progress-bar">
+    <div class="${classPrefix}-progress-buffered"></div>
+    <div class="${classPrefix}-progress-played"></div>
+    <div class="${classPrefix}-progress-thumb-track">
+      <div class="${classPrefix}-progress-thumb"></div>
     </div>
+    <div class="${classPrefix}-progress-preview">
+      <div class="${classPrefix}-progress-thumbnail"></div>
+      <div class="${classPrefix}-progress-time"></div>
+    </div>
+    <div class="${classPrefix}-progress-tip"></div>
   </div>
 `;
 
 /** 进度条 */
 export default class Progress extends ControlsPlugin {
   static readonly pluginName = "progress";
-  name = "progress";
+
   $bar: HTMLElement;
   $buffered: HTMLElement;
   $played: HTMLElement;
@@ -61,9 +58,7 @@ export default class Progress extends ControlsPlugin {
   private isActive = false;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template(), fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-progress`)!);
+    super(player, createElement("div", { class: `${classPrefix}-progress` }, templateHTML));
 
     this.$bar = this.$(`.${classPrefix}-progress-bar`)!;
     this.$buffered = this.$(`.${classPrefix}-progress-buffered`)!;

@@ -6,7 +6,6 @@ import { ControlsPlugin } from "@/plugin";
 
 export default class VideoTitle extends ControlsPlugin {
   static pluginName = "videoTitle";
-  name = "title";
 
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-videotitle` }));

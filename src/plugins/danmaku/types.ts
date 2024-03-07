@@ -103,7 +103,7 @@ declare module "@core" {
       /** 内容屏蔽 */
       blockContent: (string | RegExp)[];
     };
-    danmakuInvoke: DanmakuInvokes;
+    danmakuInvoke?: DanmakuInvokes;
   }
 
   interface VideoInfo {

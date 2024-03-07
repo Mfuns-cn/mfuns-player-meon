@@ -35,7 +35,7 @@ export default class AutoPart extends BasePlugin {
     if (options.autoPart) this.toggle(true);
   }
   ready() {
-    if (this.plugin.settings) {
+    if (this.plugins.settings) {
       const container = document.createElement("div");
       this.checkbox = new Checkbox({
         container,
@@ -45,7 +45,7 @@ export default class AutoPart extends BasePlugin {
         },
         label: "分P连播",
       });
-      this.plugin.settings.$play.appendChild(container);
+      this.plugins.settings.$play.appendChild(container);
     }
   }
   toggle(v: boolean) {

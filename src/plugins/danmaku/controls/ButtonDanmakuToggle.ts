@@ -1,31 +1,31 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { ControlsPlugin } from "@/plugin";
-import { PlayerOptions } from "@/types";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-danmakutoggle is-on">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-danmaku-off"></i>
-      <i class="mpicon-danmaku"></i>
-    </div>
-    <div class="mpui-tooltip">关闭弹幕</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-danmaku-off"></i>
+    <i class="mpicon-danmaku"></i>
   </div>
+  <div class="mpui-tooltip">关闭弹幕</div>
 `;
 
 export default class ButtonDanmakuToggle extends ControlsPlugin {
   static pluginName = "buttonDanmakuToggle";
-  name = "danmakuToggle";
 
   $icon: HTMLElement;
   $tooltip: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
-
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-danmakutoggle is-on` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
   }
@@ -38,7 +38,7 @@ export default class ButtonDanmakuToggle extends ControlsPlugin {
       this._change(false);
     });
     this.$icon.addEventListener("click", () => {
-      this.plugin.danmaku?.toggle();
+      this.plugins.danmaku?.toggle();
     });
   }
 

@@ -3,9 +3,9 @@ import { VideoInfo, PluginConstructor, PlayerExternals, PluginItem, PlayerInvoke
 /** 播放器初始化选项 */
 export interface PlayerOptions {
   /** 播放器容器 */
-  container: HTMLElement;
+  container?: HTMLElement;
   /** 视频信息 */
-  video: VideoInfo;
+  video?: VideoInfo;
 
   // --- 播放配置 --- //
   /** 音量 */

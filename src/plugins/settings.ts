@@ -1,9 +1,8 @@
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
-import { BasePlugin, PanelPlugin } from "@/plugin";
-import { PlayerOptions } from "@/types";
+import { PanelPlugin } from "@/plugin";
 import { Checkbox, Picker } from "@/components";
-import { html, render } from "lit-html";
+import { createElement } from "@/utils";
 
 declare module "@core" {
   interface PlayerPlugins {
@@ -11,32 +10,30 @@ declare module "@core" {
   }
 }
 
-const template = html`
-  <div class="${classPrefix}-settings">
-    <div class="${classPrefix}-settings-slot">
-      <div class="${classPrefix}-panel-row">
-        <div class="${classPrefix}-row-label">播放倍速</div>
-        <div class="${classPrefix}-settings-rate-picker"></div>
-      </div>
-      <div class="${classPrefix}-panel-row">
-        <div class="${classPrefix}-row-label">视频比例</div>
-        <div class="${classPrefix}-settings-ratio-picker"></div>
-      </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-settings-slot">
+    <div class="${classPrefix}-panel-row">
+      <div class="${classPrefix}-row-label">播放倍速</div>
+      <div class="${classPrefix}-settings-rate-picker"></div>
     </div>
     <div class="${classPrefix}-panel-row">
-      <div class="${classPrefix}-row-label">播放方式</div>
-      <div class="${classPrefix}-settings-play"></div>
+      <div class="${classPrefix}-row-label">视频比例</div>
+      <div class="${classPrefix}-settings-ratio-picker"></div>
     </div>
-    <div class="${classPrefix}-panel-row">
-      <div class="${classPrefix}-row-label">其他设置</div>
-      <div class="${classPrefix}-settings-others"></div>
-    </div>
+  </div>
+  <div class="${classPrefix}-panel-row">
+    <div class="${classPrefix}-row-label">播放方式</div>
+    <div class="${classPrefix}-settings-play"></div>
+  </div>
+  <div class="${classPrefix}-panel-row">
+    <div class="${classPrefix}-row-label">其他设置</div>
+    <div class="${classPrefix}-settings-others"></div>
   </div>
 `;
 
 export default class Settings extends PanelPlugin {
   static pluginName = "settings";
-  name = "settings";
+
   title = "设置";
 
   $slot: HTMLElement;
@@ -52,9 +49,7 @@ export default class Settings extends PanelPlugin {
   toggleAutopart!: Checkbox;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-settings`)!);
+    super(player, createElement("div", { class: `${classPrefix}-settings` }, templateHTML));
     this.$slot = this.$(`.${classPrefix}-settings-slot`)!;
     this.$play = this.$(`.${classPrefix}-settings-play`)!;
     this.$others = this.$(`.${classPrefix}-settings-others`)!;

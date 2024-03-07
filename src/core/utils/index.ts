@@ -15,12 +15,12 @@ export const pictureInPictureEnabled = document.pictureInPictureEnabled || false
  * 创建元素
  * @param tagName 元素标签名
  * @param attributes 元素属性
- * @param children 子元素
+ * @param children 子元素/HTML字符串
  */
 export function createElement<T extends keyof HTMLElementTagNameMap>(
   tagName: T,
   attributes?: Record<string, string>,
-  children?: Node | string | { html?: string; text?: string }
+  children?: Node | string
 ) {
   const el = document.createElement(tagName);
   if (attributes) {
@@ -29,14 +29,9 @@ export function createElement<T extends keyof HTMLElementTagNameMap>(
     }
   }
   if (typeof children == "string") {
-    el.innerText = children;
+    el.innerHTML = children;
   } else if (children instanceof Node) {
     el.appendChild(children);
-  } else if (children?.html) {
-    el.innerHTML = children.html;
-    el.normalize();
-  } else if (children?.text) {
-    el.innerText = children.text;
   }
   return el;
 }
@@ -44,13 +39,13 @@ export function createElement<T extends keyof HTMLElementTagNameMap>(
 /**
  * 替换子元素
  * @param element 父元素
- * @param children 要替换的子节点或字符串
+ * @param children 要替换的子节点或HTML字符串
  */
 export function replaceChildren(element: HTMLElement, children: Node | string) {
-  element.innerHTML = "";
   if (typeof children == "string") {
-    element.innerText = children;
+    element.innerHTML = children;
   } else {
+    element.innerHTML = "";
     element.appendChild(children);
   }
 }

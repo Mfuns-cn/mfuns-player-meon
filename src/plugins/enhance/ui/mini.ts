@@ -40,7 +40,7 @@ export default class Mini extends BasePlugin {
       }
       console.log(isIntersecting);
     });
-    if (player.plugin.buttonSettings) {
+    if (player.plugins.buttonSettings) {
       const container = document.createElement("div");
       this.checkbox = new Checkbox({
         container,
@@ -50,7 +50,7 @@ export default class Mini extends BasePlugin {
         },
         label: "小窗模式",
       });
-      player.plugin.settings?.$others.appendChild(container);
+      player.plugins.settings?.$others.appendChild(container);
       player.on("miniChange", (flag) => this.checkbox?.setValue(flag));
     }
   }

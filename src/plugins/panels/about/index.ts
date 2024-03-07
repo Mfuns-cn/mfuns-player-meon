@@ -25,7 +25,7 @@ const template = () => html`
 /** 播放器面板 */
 export default class about extends PanelPlugin {
   static pluginName = "about";
-  name = "about";
+
   title = "关于";
   constructor(player: Player) {
     const fragment = new DocumentFragment();

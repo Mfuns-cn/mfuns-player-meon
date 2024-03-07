@@ -37,7 +37,7 @@ export default class Theme extends BasePlugin {
   private _handleDarkScheme: (e: MediaQueryListEvent) => void;
   constructor(player: Player) {
     super(player);
-    this.themeElement = [this.player.container];
+    this.themeElement = this.player.container ? [this.player.container] : [];
     this._handleDarkScheme = (e) => {
       this.player.$el.classList.toggle("mpui-dark", e.matches);
     };

@@ -140,8 +140,8 @@ const defaultParsers: Record<string, DanmakuParser> = {
         color: +m[3],
         user: m[6],
         content: c,
-        size: +m[2] ?? 25,
-        date: +m[4] ?? 0,
+        size: +m[2] || 25,
+        date: +m[4] || 0,
         id: +m[7],
       }));
     },

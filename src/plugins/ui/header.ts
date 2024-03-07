@@ -1,12 +1,10 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
-import { PlayerOptions } from "@/types";
 
 import { BasePlugin } from "@/plugin";
 import { createElement } from "@/utils";
 
-const template = () => html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-header-mask"></div>
   <div class="${classPrefix}-header-main mpui-crystal">
     <div class="${classPrefix}-header-left"></div>
@@ -40,8 +38,7 @@ export default class Header extends BasePlugin {
   constructor(player: Player) {
     super(player);
     this.player = player;
-    this.$el = createElement("div", { class: `${classPrefix}-header` });
-    render(template(), this.$el);
+    this.$el = createElement("div", { class: `${classPrefix}-header` }, templateHTML);
     this.$main = this.$el.querySelector(`.${classPrefix}-header-main`)!;
     this.$left = this.$el.querySelector(`.${classPrefix}-header-left`)!;
     this.$center = this.$el.querySelector(`.${classPrefix}-header-center`)!;

@@ -54,8 +54,22 @@ export class Player extends CorePlayer {
       controller: {
         controls: {
           top: ["progress"],
-          left: ["prev", "play", "next", "time"],
-          right: ["quality", "part", "volume", "settings", "pip", "fullscreen"],
+          center: ["danmakuBar"],
+          left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
+          right: [
+            "buttonQuality",
+            "buttonPart",
+            "buttonVolume",
+            "buttonSettings",
+            "buttonPip",
+            "buttonFullscreen",
+          ],
+        },
+      },
+      danmakuBar: {
+        controls: {
+          outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
+          left: ["buttonDanmakuStyle"],
         },
       },
       side: {

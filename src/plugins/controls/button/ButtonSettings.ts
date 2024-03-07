@@ -1,36 +1,69 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { ControlsPlugin } from "@/plugin";
+import { ControlsItem, ControlsPlugin, PluginFrom } from "@/plugin";
+import { PlayerOptions } from "@core";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-settings">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-settings"></i>
-    </div>
-    <div class="${classPrefix}-controls-panel-wrap">
-      <div class="${classPrefix}-controls-panel"></div>
-    </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-settings"></i>
   </div>
+  <div class="${classPrefix}-controls-panel-wrap">
+    <div class="${classPrefix}-controls-panel">
+  </div>
+    
 `;
+
+declare module "@core" {
+  interface PlayerOptions {
+    buttonSettings?: {
+      controls?: ControlsPlugin[];
+    };
+  }
+}
 
 export default class ButtonSettings extends ControlsPlugin {
   static pluginName = "buttonSettings";
-  name = "settings";
+
   $icon: HTMLElement;
   $panel: HTMLElement;
 
+  controls: ControlsPlugin[] = [];
+
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-settings` },
+        templateHTML
+      )
+    );
 
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$panel = this.$(`.${classPrefix}-controls-panel`)!;
   }
 
+  apply(player: Player, options: PlayerOptions) {
+    this.controls = options.buttonSettings?.controls || [];
+  }
+
   ready() {
-    const settings = this.player.panel.get("settings");
-    settings?.mount(this.$panel);
+    this.build(this.$panel, this.controls);
+  }
+
+  setControls(controls: ControlsPlugin[]) {
+    this.controls = controls;
+    this.build(this.$panel, controls);
+  }
+
+  protected build(container: HTMLElement, list?: PluginFrom<ControlsItem>[]) {
+    container.innerHTML = "";
+    const fragment = new DocumentFragment();
+    list?.forEach((item) => {
+      const el = this.player.plugin.from(item)?.$el;
+      if (el) fragment.appendChild(el);
+    });
+    container.appendChild(fragment);
   }
 }

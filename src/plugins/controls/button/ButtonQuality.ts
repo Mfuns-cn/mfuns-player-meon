@@ -1,20 +1,16 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { ControlsPlugin } from "@/plugin";
 import { QualityItem } from "@plugins/quality";
 import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-quality">
-    <div class="${classPrefix}-controls-button-icon">
-      <div class="${classPrefix}-controls-button-text">自动</div>
-    </div>
-
-    <div class="${classPrefix}-controls-panel-wrap">
-      <div class="${classPrefix}-controls-panel">
-        <ul class="${classPrefix}-button-quality-list"></ul>
-      </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <div class="${classPrefix}-controls-button-text">自动</div>
+  </div>
+  <div class="${classPrefix}-controls-panel-wrap">
+    <div class="${classPrefix}-controls-panel">
+      <ul class="${classPrefix}-button-quality-list"></ul>
     </div>
   </div>
 `;
@@ -28,7 +24,7 @@ declare module "@plugins/quality" {
 
 export default class ButtonQuality extends ControlsPlugin {
   static pluginName = "buttonQuality";
-  name = "quality";
+
   $icon: HTMLElement;
   $text: HTMLElement;
   $panel: HTMLElement;
@@ -43,9 +39,14 @@ export default class ButtonQuality extends ControlsPlugin {
   getButtonLabel?: (quality: QualityItem) => string | HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-quality` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$text = this.$(`.${classPrefix}-controls-button-text`)!;
     this.$panel = this.$(`.${classPrefix}-controls-panel`)!;

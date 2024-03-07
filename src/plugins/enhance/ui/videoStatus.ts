@@ -1,11 +1,9 @@
 import { classPrefix } from "@/config";
-import { BasePlugin } from "@/plugin";
-import { PlayerOptions } from "@/types";
+import { UIPlugin } from "@/plugin";
 import { createElement } from "@/utils";
 import { Player } from "@/player";
-import { html, render } from "lit-html";
 
-const template = html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-videostatus-paused"></div>
   <div class="${classPrefix}-videostatus-loading">
     <div class="${classPrefix}-videostatus-loading-icon">
@@ -25,19 +23,16 @@ const template = html`
 
 /** 视频状态显示 */
 
-export default class VideoStatus extends BasePlugin {
+export default class VideoStatus extends UIPlugin {
   static pluginName = "videoStatus";
-  $el: HTMLElement;
   $paused: HTMLElement;
   $loading: HTMLElement;
   $volume: HTMLElement;
   constructor(player: Player) {
-    super(player);
-    this.$el = createElement("div", { class: `${classPrefix}-videostatus` });
-    render(template, this.$el);
-    this.$paused = this.$el.querySelector(`.${classPrefix}-videostatus-paused`)!;
-    this.$loading = this.$el.querySelector(`.${classPrefix}-videostatus-loading`)!;
-    this.$volume = this.$el.querySelector(`.${classPrefix}-videostatus-volume`)!;
+    super(player, createElement("div", { class: `${classPrefix}-videostatus` }, templateHTML));
+    this.$paused = this.$(`.${classPrefix}-videostatus-paused`)!;
+    this.$loading = this.$(`.${classPrefix}-videostatus-loading`)!;
+    this.$volume = this.$(`.${classPrefix}-videostatus-volume`)!;
 
     this.player.$area.appendChild(this.$el);
   }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -132,15 +132,17 @@
       player.on("videoLoad", ({ live }) => {
         if (live && !isLive) {
           isLive = live;
-          player.plugin.controller.setControls({
+          player.plugins.controller.setControls({
             left: ["play"],
+            center: ["danmakuBar"],
             right: ["quality", "part", "volume", "settings", "pip", "fullscreen"],
           });
         } else if (!live && isLive) {
           isLive = live;
-          player.plugin.controller.setControls({
+          player.plugins.controller.setControls({
             top: ["progress"],
             left: ["play", "next", "time"],
+            center: ["danmakuBar"],
             right: ["quality", "part", "volume", "settings", "pip", "fullscreen"],
           });
         }

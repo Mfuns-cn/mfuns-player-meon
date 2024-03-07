@@ -1,45 +1,42 @@
 import { MultiPicker, Slider } from "@/components";
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { PlayerOptions } from "@/types";
 import { ControlsPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-danmakusettings">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-danmaku-settings"></i>
-    </div>
-    <div class="${classPrefix}-controls-panel-wrap">
-      <div class="${classPrefix}-controls-panel ${classPrefix}-controls-panel-danmaku-settings">
-        <div class="${classPrefix}-panel-row">
-          <div class="${classPrefix}-row-label">类型屏蔽</div>
-          <div class="${classPrefix}-danmaku-settings-filter-picker"></div>
-        </div>
-        <div class="${classPrefix}-panel-row">
-          <div class="${classPrefix}-row-label">不透明度</div>
-          <div
-            class="${classPrefix}-danmaku-settings-opacity-slider ${classPrefix}-slider-wrap"
-          ></div>
-          <div class="${classPrefix}-danmaku-settings-opacity-value ${classPrefix}-row-value"></div>
-        </div>
-        <div class="${classPrefix}-panel-row">
-          <div class="${classPrefix}-row-label">显示区域</div>
-          <div class="${classPrefix}-danmaku-settings-area-slider ${classPrefix}-slider-wrap"></div>
-          <div class="${classPrefix}-danmaku-settings-area-value ${classPrefix}-row-value"></div>
-        </div>
-        <div class="${classPrefix}-panel-row">
-          <div class="${classPrefix}-row-label">文字大小</div>
-          <div class="${classPrefix}-danmaku-settings-size-slider ${classPrefix}-slider-wrap"></div>
-          <div class="${classPrefix}-danmaku-settings-size-value ${classPrefix}-row-value"></div>
-        </div>
-        <div class="${classPrefix}-panel-row">
-          <div class="${classPrefix}-row-label">弹幕速度</div>
-          <div
-            class="${classPrefix}-danmaku-settings-speed-slider  ${classPrefix}-slider-wrap"
-          ></div>
-          <div class="${classPrefix}-danmaku-settings-speed-value ${classPrefix}-row-value"></div>
-        </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-danmaku-settings"></i>
+  </div>
+  <div class="${classPrefix}-controls-panel-wrap">
+    <div class="${classPrefix}-controls-panel ${classPrefix}-controls-panel-danmaku-settings">
+      <div class="${classPrefix}-panel-row">
+        <div class="${classPrefix}-row-label">类型屏蔽</div>
+        <div class="${classPrefix}-danmaku-settings-filter-picker"></div>
+      </div>
+      <div class="${classPrefix}-panel-row">
+        <div class="${classPrefix}-row-label">不透明度</div>
+        <div
+          class="${classPrefix}-danmaku-settings-opacity-slider ${classPrefix}-slider-wrap"
+        ></div>
+        <div class="${classPrefix}-danmaku-settings-opacity-value ${classPrefix}-row-value"></div>
+      </div>
+      <div class="${classPrefix}-panel-row">
+        <div class="${classPrefix}-row-label">显示区域</div>
+        <div class="${classPrefix}-danmaku-settings-area-slider ${classPrefix}-slider-wrap"></div>
+        <div class="${classPrefix}-danmaku-settings-area-value ${classPrefix}-row-value"></div>
+      </div>
+      <div class="${classPrefix}-panel-row">
+        <div class="${classPrefix}-row-label">文字大小</div>
+        <div class="${classPrefix}-danmaku-settings-size-slider ${classPrefix}-slider-wrap"></div>
+        <div class="${classPrefix}-danmaku-settings-size-value ${classPrefix}-row-value"></div>
+      </div>
+      <div class="${classPrefix}-panel-row">
+        <div class="${classPrefix}-row-label">弹幕速度</div>
+        <div
+          class="${classPrefix}-danmaku-settings-speed-slider  ${classPrefix}-slider-wrap"
+        ></div>
+        <div class="${classPrefix}-danmaku-settings-speed-value ${classPrefix}-row-value"></div>
       </div>
     </div>
   </div>
@@ -47,7 +44,6 @@ const template = html`
 
 export default class ButtonDanmakuSettings extends ControlsPlugin {
   static pluginName = "buttonDanmakuSettings";
-  name = "danmakuSettings";
 
   $icon: HTMLElement;
 
@@ -69,16 +65,21 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
   sliderSpeed!: Slider;
 
   get danmaku() {
-    return this.plugin.danmaku!;
+    return this.plugins.danmaku!;
   }
   get danmakuEngine() {
-    return this.plugin.danmakuEngine!;
+    return this.plugins.danmakuEngine!;
   }
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-danmakusettings` },
+        templateHTML
+      )
+    );
 
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
 

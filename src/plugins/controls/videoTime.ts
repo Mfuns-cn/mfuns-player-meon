@@ -1,24 +1,20 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
-import { secondToTime, timeToSecond } from "@/utils";
-import { PlayerOptions } from "@/types";
+import { createElement, secondToTime, timeToSecond } from "@/utils";
 import { ControlsPlugin } from "@/plugin";
 
-const template = html`
-  <div class="${classPrefix}-videotime">
-    <div class="${classPrefix}-videotime-label">
-      <span class="${classPrefix}-videotime-current">00:00</span>
-      <span class="${classPrefix}-videotime-divider">/</span>
-      <span class="${classPrefix}-videotime-total">00:00</span>
-    </div>
-    <input class="${classPrefix}-videotime-input mpui-input" />
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-videotime-label">
+    <span class="${classPrefix}-videotime-current">00:00</span>
+    <span class="${classPrefix}-videotime-divider">/</span>
+    <span class="${classPrefix}-videotime-total">00:00</span>
   </div>
+  <input class="${classPrefix}-videotime-input mpui-input" />
 `;
 
 export default class VideoTime extends ControlsPlugin {
   static pluginName = "videoTime";
-  name = "time";
+
   $label: HTMLElement;
   $current: HTMLElement;
   $total: HTMLElement;
@@ -28,9 +24,7 @@ export default class VideoTime extends ControlsPlugin {
   private timeFormat = 0b0010;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-videotime`)!);
+    super(player, createElement("div", { class: `${classPrefix}-videotime` }, templateHTML));
     this.$label = this.$(`.${classPrefix}-videotime-label`)!;
     this.$current = this.$(`.${classPrefix}-videotime-current`)!;
     this.$total = this.$(`.${classPrefix}-videotime-total`)!;

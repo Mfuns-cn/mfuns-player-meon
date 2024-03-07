@@ -30,6 +30,7 @@ import HlsLoader from "@plugins/videoLoader/hlsLoader";
 import DashLoader from "@plugins/videoLoader/dashLoader";
 import FlvLoader from "@plugins/videoLoader/flvLoader";
 import AspectRatio from "@plugins/enhance/video/aspectRatio";
+import Footbar from "@plugins/ui/footbar";
 
 /** 内置插件 */
 const plugins = [
@@ -51,6 +52,7 @@ const plugins = [
   LoadingMask,
   Mini,
   LightOff,
+  Footbar,
 ];
 
 const panels = [About, Hotkeys, PartList];
@@ -70,17 +72,29 @@ export class Player extends CorePlayer {
       controller: {
         controls: {
           top: ["progress"],
-          left: ["prev", "play", "next", "time"],
+          center: [],
+          left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
           right: [
-            "quality",
-            "part",
-            "volume",
-            "settings",
-            "pip",
-            "widescreen",
-            "webscreen",
-            "fullscreen",
+            "buttonQuality",
+            "buttonPart",
+            "buttonVolume",
+            "buttonSettings",
+            "buttonPip",
+            "buttonWidescreen",
+            "buttonWebscreen",
+            "buttonFullscreen",
           ],
+        },
+      },
+      danmakuBar: {
+        controls: {
+          outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
+          left: ["buttonDanmakuStyle"],
+        },
+      },
+      footbar: {
+        controls: {
+          right: ["danmakuBar"],
         },
       },
       ...options,

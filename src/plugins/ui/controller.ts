@@ -1,11 +1,11 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { PlayerOptions } from "@/types";
 
-import { BasePlugin, ControlsItem, UIOptionsItem } from "@/plugin";
+import { BasePlugin, ControlsItem, PluginFrom } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = () => html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-controller-mask"></div>
   <div class="${classPrefix}-controller mpui-black">
     <div class="${classPrefix}-controller-top"></div>
@@ -27,10 +27,10 @@ declare module "@core" {
 }
 
 export interface ControllerControls {
-  left?: UIOptionsItem<ControlsItem>[];
-  center?: UIOptionsItem<ControlsItem>[];
-  right?: UIOptionsItem<ControlsItem>[];
-  top?: UIOptionsItem<ControlsItem>[];
+  left?: PluginFrom<ControlsItem>[];
+  center?: PluginFrom<ControlsItem>[];
+  right?: PluginFrom<ControlsItem>[];
+  top?: PluginFrom<ControlsItem>[];
 }
 
 /** 控制栏 */
@@ -50,21 +50,17 @@ export default class Controller extends BasePlugin {
   protected inactiveHook: () => boolean | void;
   protected mouseEnterHandler: () => void;
   protected mouseLeaveHandler: () => void;
-  protected controls: {
-    left?: UIOptionsItem<ControlsItem>[];
-    center?: UIOptionsItem<ControlsItem>[];
-    right?: UIOptionsItem<ControlsItem>[];
-    top?: UIOptionsItem<ControlsItem>[];
-  } = {};
+  protected controls: ControllerControls = {};
 
   constructor(player: Player) {
     super(player);
     this.player = player;
-    this.container = document.createElement("div");
-    this.container.className = `${classPrefix}-controller-wrap`;
-    const fragment = new DocumentFragment();
-    render(template(), fragment);
-    this.$el = fragment.querySelector(`.${classPrefix}-controller`)!;
+    this.container = createElement(
+      "div",
+      { class: `${classPrefix}-controller-wrap` },
+      templateHTML
+    );
+    this.$el = this.container.querySelector(`.${classPrefix}-controller`)!;
     this.$top = this.$el.querySelector(`.${classPrefix}-controller-top`)!;
     this.$content = this.$el.querySelector(`.${classPrefix}-controller-content`)!;
     this.$left = this.$el.querySelector(`.${classPrefix}-controller-left`)!;
@@ -79,8 +75,6 @@ export default class Controller extends BasePlugin {
     this.mouseLeaveHandler = () => {
       this.isHover = false;
     };
-
-    this.container.appendChild(fragment);
   }
   init() {
     this.player.hook.register("inactive", this.inactiveHook);
@@ -95,17 +89,18 @@ export default class Controller extends BasePlugin {
   }
   /** 更新控制组件 */
   setControls(controls: ControllerControls) {
+    this.controls = controls;
     const { left, center, right, top } = controls;
     this.build(this.$left, left);
     this.build(this.$center, center);
     this.build(this.$right, right);
     this.build(this.$top, top);
   }
-  protected build(container: HTMLElement, list?: UIOptionsItem<ControlsItem>[]) {
+  protected build(container: HTMLElement, list?: PluginFrom<ControlsItem>[]) {
     container.innerHTML = "";
     const fragment = new DocumentFragment();
     list?.forEach((item) => {
-      const el = this.player.controls.get(item)?.$el;
+      const el = this.player.plugin.from<ControlsItem>(item)?.$el;
       if (el) fragment.appendChild(el);
     });
     container.appendChild(fragment);

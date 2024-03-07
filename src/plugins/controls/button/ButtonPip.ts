@@ -1,30 +1,31 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { PlayerOptions } from "@/types";
 import { ControlsPlugin } from "@/plugin";
-import { pictureInPictureEnabled } from "@/utils";
+import { createElement, pictureInPictureEnabled } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-pip">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-pip"></i>
-      <i class="mpicon-pip-exit"></i>
-    </div>
-    <div class="mpui-tooltip">画中画</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-pip"></i>
+    <i class="mpicon-pip-exit"></i>
   </div>
+  <div class="mpui-tooltip">画中画</div>
 `;
 
 export default class ButtonPip extends ControlsPlugin {
   static pluginName = "buttonPip";
-  name = "pip";
+
   $icon: HTMLElement;
   $tooltip: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-pip` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
   }

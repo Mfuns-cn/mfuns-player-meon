@@ -1,28 +1,31 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { ControlsPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-webscreen">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-webscreen"></i>
-      <i class="mpicon-webscreen-exit"></i>
-    </div>
-    <div class="mpui-tooltip">网页全屏</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-webscreen"></i>
+    <i class="mpicon-webscreen-exit"></i>
   </div>
+  <div class="mpui-tooltip">网页全屏</div>
 `;
 
 export default class ButtonWebscreen extends ControlsPlugin {
   static pluginName = "buttonWebscreen";
-  name = "webscreen";
+
   $icon: HTMLElement;
   $tooltip: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-webscreen` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
   }

@@ -5,13 +5,12 @@ import { Player } from "@/player";
 export abstract class BasePlugin implements PluginItem {
   static pluginName: string;
   protected readonly player: Player;
-  /** 播放器插件 @deprecated */
-  protected readonly plugin: Player["plugin"];
+  protected readonly plugins: Player["plugins"];
   /** 抛出错误 */
   protected readonly throw: Player["throw"];
   constructor(player: Player) {
     this.player = player;
-    this.plugin = player.plugin;
+    this.plugins = player.plugins;
     this.throw = player.throw;
   }
   /** 插件创建后 */
@@ -26,21 +25,38 @@ export abstract class BasePlugin implements PluginItem {
   destroy?(): void;
 }
 
-/** 控制组件 */
-export interface ControlsItem extends PluginItem {
+/** UI组件 */
+export interface UIItem extends PluginItem {
+  /** 组件元素 */
   $el: HTMLElement;
+  /** 组件标题 */
+  title?: string;
+  /** 忽略该组件，用于不支持的情况 */
   ignored?: boolean;
 }
 
-/** 面板组件 */
-export interface PanelItem extends PluginItem {
-  $el: HTMLElement;
-  title?: string;
+/** 可挂载组件 */
+export interface MountableItem extends UIItem {
+  /** 将组件挂载到父元素 */
   mount(
+    /** 挂载的容器元素 */
     el: HTMLElement,
-    opt?: { onToggle?: (flag: boolean) => void; onUnmount?: () => void }
+    opt?: {
+      /** 挂载组件时执行的逻辑 */
+      onToggle?: (flag: boolean) => void;
+      /** 卸载组件时执行的逻辑 */
+      onUnmount?: () => void;
+    }
   ): void;
+  /** 卸载组件 */
   unmount(): void;
+}
+
+/** 控制组件 */
+export interface ControlsItem extends UIItem {}
+
+/** 面板组件 */
+export interface PanelItem extends MountableItem {
   toggle(flag?: boolean): void;
 }
 
@@ -63,11 +79,20 @@ export abstract class UIPlugin extends BasePlugin {
   }
 }
 
-/** 控制组件插件 */
-export abstract class ControlsPlugin extends UIPlugin implements ControlsItem {
-  abstract name: string;
-  apply(player: Player, options: PlayerOptions) {
-    player.controls.register(this.name, this);
+/** 可挂载组件插件 */
+export abstract class MountablePlugin extends UIPlugin implements MountableItem {
+  title?: string;
+  #onUnmount?: () => void;
+  /** 挂载 */
+  mount(el: HTMLElement, opt?: { onUnmount?: () => void }) {
+    el.appendChild(this.$el);
+    this.unmount();
+    this.#onUnmount = opt?.onUnmount;
+  }
+  /** 卸载 */
+  unmount() {
+    this.#onUnmount?.();
+    this.#onUnmount = undefined;
   }
   show() {
     this.$el.style.display = "";
@@ -77,38 +102,33 @@ export abstract class ControlsPlugin extends UIPlugin implements ControlsItem {
   }
 }
 
+/** 控制组件插件 */
+export abstract class ControlsPlugin extends MountablePlugin implements ControlsItem {}
+
 /** 面板插件 */
-export abstract class PanelPlugin extends UIPlugin implements PanelItem {
-  abstract name: string;
-  abstract title?: string;
+export abstract class PanelPlugin extends MountablePlugin implements PanelItem {
+  title?: string;
   container?: HTMLElement;
-  onUnmount?: () => void;
-  onToggle?: (flag: boolean) => void;
+  #onToggle?: (flag: boolean) => void;
   shown = false;
   constructor(player: Player, el: HTMLElement) {
     super(player, el);
   }
-  apply(player: Player, options: PlayerOptions): void {
-    player.panel.register(this.name, this);
-  }
   /** 挂载 */
   mount(el: HTMLElement, opt?: { onToggle?: (flag: boolean) => void; onUnmount?: () => void }) {
-    el.appendChild(this.$el);
-    this.unmount();
-    this.onToggle = opt?.onToggle;
-    this.onUnmount = opt?.onUnmount;
+    super.mount(el, { onUnmount: opt?.onUnmount });
+    this.#onToggle = opt?.onToggle;
   }
   /** 卸载 */
   unmount() {
     this.toggle(false);
-    this.onUnmount?.();
-    this.onToggle = undefined;
-    this.onUnmount = undefined;
+    super.unmount();
+    this.#onToggle = undefined;
   }
   /** 切换显示隐藏状态 */
   toggle(flag?: boolean) {
     this.shown = flag ?? !this.shown;
-    this.onToggle?.(this.shown);
+    this.#onToggle?.(this.shown);
   }
 }
 
@@ -116,13 +136,10 @@ export abstract class PanelPlugin extends UIPlugin implements PanelItem {
 export abstract class MenuPlugin extends BasePlugin implements MenuItem {
   abstract name: string;
   abstract content: string | HTMLElement | ((player: Player) => string | HTMLElement);
-  apply(player: Player) {
-    player.menu.register(this.name, this);
-  }
 }
 
 export interface PanelContainer {
   mount: (panel: PanelPlugin) => void;
 }
 
-export type UIOptionsItem<T> = (new (player: Player) => T) | T | string;
+export type PluginFrom<T = PluginItem> = (new (player: Player) => T) | T | string;

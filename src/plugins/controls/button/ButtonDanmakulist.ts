@@ -1,11 +1,10 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { PlayerOptions } from "@/types";
 import { ControlsPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-danmakulist">
+const templateHTML = /*html*/ `
+  <div class="">
     <div class="${classPrefix}-controls-button-icon">
       <div class="${classPrefix}-controls-button-text">弹幕列表</div>
     </div>
@@ -15,17 +14,20 @@ const template = html`
 
 export default class ButtonDanmakulist extends ControlsPlugin {
   static pluginName = "buttonDanmakuList";
-  name = "danmakuList";
 
   $icon: HTMLElement;
   $tooltip: HTMLElement;
   $text: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
-
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-danmakulist` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$text = this.$(`.${classPrefix}-controls-button-text`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
@@ -33,7 +35,7 @@ export default class ButtonDanmakulist extends ControlsPlugin {
 
   init() {
     this.$icon.addEventListener("click", () => {
-      (this.plugin as any).danmakuList?.toggle();
+      (this.plugins as any).danmakuList?.toggle();
     });
   }
 }

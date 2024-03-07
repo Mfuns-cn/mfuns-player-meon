@@ -1,9 +1,8 @@
 import { classPrefix } from "@/config";
-import { BasePlugin } from "@/plugin";
+import { UIPlugin } from "@/plugin";
 import { PlayerOptions } from "@/types";
 import { createElement } from "@/utils";
 import { Player } from "@/player";
-import { html, render } from "lit-html";
 
 declare module "@core" {
   interface PlayerOptions {
@@ -14,7 +13,7 @@ declare module "@core" {
   }
 }
 
-const template = html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-loadingmask-icon">
     <div class="${classPrefix}-loadingmask-image"></div>
   </div>
@@ -24,20 +23,17 @@ const template = html`
 
 /** 加载画面 */
 
-export default class LoadingMask extends BasePlugin {
+export default class LoadingMask extends UIPlugin {
   static pluginName = "loadingMask";
-  $el: HTMLElement;
   $info: HTMLElement;
   $tips: HTMLElement;
   getTips?: () => Promise<string | Node>;
   delay: number = 0;
 
   constructor(player: Player) {
-    super(player);
-    this.$el = createElement("div", { class: `${classPrefix}-loadingmask` });
-    render(template, this.$el);
-    this.$info = this.$el.querySelector(`.${classPrefix}-loadingmask-info`)!;
-    this.$tips = this.$el.querySelector(`.${classPrefix}-loadingmask-tips`)!;
+    super(player, createElement("div", { class: `${classPrefix}-loadingmask` }, templateHTML));
+    this.$info = this.$(`.${classPrefix}-loadingmask-info`)!;
+    this.$tips = this.$(`.${classPrefix}-loadingmask-tips`)!;
 
     this.player.$main.appendChild(this.$el);
     /* if (!this.api?.loadingTips) {

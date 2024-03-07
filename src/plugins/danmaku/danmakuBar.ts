@@ -3,37 +3,28 @@ import { keyCode } from "@/utils/KeyCode.enum";
 import { PlayerOptions } from "@/types";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { html, render } from "lit-html";
 import Controller from "../ui/controller";
-import { ControlsPlugin, ControlsItem, UIOptionsItem } from "@/plugin";
+import { ControlsPlugin, ControlsItem, PluginFrom } from "@/plugin";
 import Danmaku from "./danmaku";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-danmakubar">
-    <div class="${classPrefix}-danmakubar-slot"></div>
-    <div class="${classPrefix}-danmakubar-input-wrap">
-      <div class="${classPrefix}-danmakubar-input-slot"></div>
-      <input type="text" autocompleted="new-password" class="${classPrefix}-danmakubar-input" />
-      <div class="${classPrefix}-danmakubar-status-loading">弹幕功能加载中...</div>
-      <div class="${classPrefix}-danmakubar-status-login">需要<a>登录</a>后才能发送弹幕哦~</div>
-      <div class="${classPrefix}-danmakubar-send">发送</div>
-    </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-danmakubar-outer"></div>
+  <div class="${classPrefix}-danmakubar-input-wrap">
+    <div class="${classPrefix}-danmakubar-left"></div>
+    <input type="text" autocompleted="new-password" class="${classPrefix}-danmakubar-input" />
+    <div class="${classPrefix}-danmakubar-status-loading">弹幕功能加载中...</div>
+    <div class="${classPrefix}-danmakubar-status-login">需要<a>登录</a>后才能发送弹幕哦~</div>
+    <div class="${classPrefix}-danmakubar-right"></div>
+    <div class="${classPrefix}-danmakubar-send">发送</div>
   </div>
 `;
 
 declare module "@core" {
-  interface Player {
-    danmakuBar?: DanmakuBar;
-  }
-}
-declare module "@core" {
   interface PlayerOptions {
     /** 弹幕栏设置 */
     danmakuBar?: {
-      controls: {
-        left: UIOptionsItem<ControlsItem>[];
-        right: UIOptionsItem<ControlsItem>[];
-      };
+      controls?: DanmakuBarControls;
       /** 占位文本 */
       placeholder?: string;
       /** 需要登录 */
@@ -59,18 +50,24 @@ declare module "@core" {
   }
 }
 
+export interface DanmakuBarControls {
+  outer?: PluginFrom<ControlsItem>[];
+  left?: PluginFrom<ControlsItem>[];
+  right?: PluginFrom<ControlsItem>[];
+}
+
 /** 弹幕栏
  *
  * 前置插件: `danmaku`
  */
 export default class DanmakuBar extends ControlsPlugin {
   static pluginName = "danmakuBar";
-  name = "danmakuBar";
 
   $send: HTMLElement;
   $input: HTMLInputElement;
-  $slot: HTMLElement;
-  $inputSlot: HTMLElement;
+  $outer: HTMLElement;
+  $left: HTMLElement;
+  $right: HTMLElement;
 
   $logina: HTMLElement;
 
@@ -89,20 +86,21 @@ export default class DanmakuBar extends ControlsPlugin {
   /** 冷却计时器 */
   coolDownTimer = 0;
 
-  constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-danmakubar`)!);
+  protected controls: DanmakuBarControls = {};
 
-    this.controller = this.plugin.controller!;
-    this.danmaku = this.plugin.danmaku!;
+  constructor(player: Player) {
+    super(player, createElement("div", { class: `${classPrefix}-danmakubar` }, templateHTML));
+
+    this.controller = this.plugins.controller!;
+    this.danmaku = this.plugins.danmaku!;
 
     this.$send = this.$el.querySelector(`.${classPrefix}-danmakubar-send`)!;
     this.$input = this.$el.querySelector(`.${classPrefix}-danmakubar-input`)!;
-    this.$slot = this.$el.querySelector(`.${classPrefix}-danmakubar-slot`)!;
-    this.$inputSlot = this.$el.querySelector(`.${classPrefix}-danmakubar-input-slot`)!;
-    this.$logina = this.$el.querySelector(`.${classPrefix}-danmakubar-status-login a`)!;
+    this.$outer = this.$el.querySelector(`.${classPrefix}-danmakubar-outer`)!;
+    this.$left = this.$el.querySelector(`.${classPrefix}-danmakubar-left`)!;
+    this.$right = this.$el.querySelector(`.${classPrefix}-danmakubar-right`)!;
 
+    this.$logina = this.$el.querySelector(`.${classPrefix}-danmakubar-status-login a`)!;
     this.$logina.onclick = () => this.player.login?.();
 
     this.player.on("videoChange", () => {
@@ -127,15 +125,36 @@ export default class DanmakuBar extends ControlsPlugin {
       this.setLoginRequired(true);
     }
     this.setPlaceHolder(options.danmakuBar?.placeholder || defaultPlaceholder);
+    this.controls = options.danmakuBar?.controls || {};
+  }
+  ready() {
+    this.setControls(this.controls);
+  }
+  /** 更新控制组件 */
+  setControls(controls: DanmakuBarControls) {
+    this.controls = controls;
+    const { outer, left, right } = controls;
+    this.build(this.$outer, outer);
+    this.build(this.$left, left);
+    this.build(this.$right, right);
   }
   setPlaceHolder(placeholder: string) {
     this.$input.placeholder = placeholder;
+  }
+  protected build(container: HTMLElement, list?: PluginFrom<ControlsItem>[]) {
+    container.innerHTML = "";
+    const fragment = new DocumentFragment();
+    list?.forEach((item) => {
+      const el = this.player.plugin.from(item)?.$el;
+      if (el) fragment.appendChild(el);
+    });
+    container.appendChild(fragment);
   }
   /** 执行弹幕发送操作 */
   private send() {
     // 如果内容为空或只有空格，则不进行发送操作
     if (!this.$input.value.trim() || this.coolDownTimer) return;
-    this.plugin.danmakuOperate?.send(this.generateDanmaku());
+    this.plugins.danmakuOperate?.send(this.generateDanmaku());
     this.$input.value = "";
   }
   /** 设置弹幕发送冷却 */

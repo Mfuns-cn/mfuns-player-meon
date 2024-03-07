@@ -26,7 +26,7 @@ interface HotkeyInfoListItem {
 /** 快捷键信息面板 */
 export default class HotkeyInfo extends PanelPlugin {
   static pluginName = "hotkeyInfo";
-  name = "hotkeyInfo";
+
   title = "快捷键说明";
   constructor(player: Player) {
     const hotkeyInfoList = [

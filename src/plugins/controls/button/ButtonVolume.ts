@@ -1,38 +1,40 @@
-import { html, render } from "lit-html";
 import { SliderVertical } from "@/components";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
 import { ControlsPlugin } from "@/plugin";
-import { PlayerOptions } from "@/types";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-volume">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-volume"></i>
-      <i class="mpicon-volume-off"></i>
-    </div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-volume"></i>
+    <i class="mpicon-volume-off"></i>
+  </div>
 
-    <div class="${classPrefix}-controls-panel-wrap">
-      <div class="${classPrefix}-controls-panel">
-        <div class="${classPrefix}-button-volume-value">0</div>
-        <div class="${classPrefix}-button-volume-slider"></div>
-      </div>
+  <div class="${classPrefix}-controls-panel-wrap">
+    <div class="${classPrefix}-controls-panel">
+      <div class="${classPrefix}-button-volume-value">0</div>
+      <div class="${classPrefix}-button-volume-slider"></div>
     </div>
   </div>
 `;
 
 export default class ButtonVolume extends ControlsPlugin {
   static pluginName = "buttonVolume";
-  name = "volume";
+
   $icon: HTMLElement;
   $slider: HTMLElement;
   $value: HTMLElement;
   slider!: SliderVertical;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-volume` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$slider = this.$(`.${classPrefix}-button-volume-slider`)!;
     this.$value = this.$(`.${classPrefix}-button-volume-value`)!;

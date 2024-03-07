@@ -8,7 +8,6 @@ import { VirtualList } from "./VirtualList";
 import "./style.scss";
 import Danmaku from "@plugins/danmaku/danmaku";
 import { PanelPlugin } from "@/plugin";
-import { PlayerOptions } from "@/types";
 
 declare module "@core" {
   interface PlayerEventMap {
@@ -114,7 +113,7 @@ const getDanmakuListItem = (
 
 export default class DanmakuList extends PanelPlugin {
   static readonly pluginName = "danmakuList";
-  name = "danmakuList";
+
   title = "弹幕列表";
   player: Player;
   danmaku: Danmaku;
@@ -149,7 +148,7 @@ export default class DanmakuList extends PanelPlugin {
     );
     super(player, fragment.querySelector(`.${classPrefix}-danmakulist`)!);
     this.player = player;
-    this.danmaku = player.plugin.danmaku!;
+    this.danmaku = player.plugins.danmaku!;
     this.$main = this.$(`.${classPrefix}-danmakulist-main`)!;
     this.$container = this.$(`.${classPrefix}-danmakulist-container`)!;
     this.$status = this.$(`.${classPrefix}-danmakulist-status`)!;
@@ -225,8 +224,8 @@ export default class DanmakuList extends PanelPlugin {
     }
   }
   init() {
-    const api = this.plugin.danmaku?.invoke;
-    const operate = this.plugin.danmakuOperate;
+    const api = this.plugins.danmaku?.invoke;
+    const operate = this.plugins.danmakuOperate;
     this.list = new VirtualList({
       el: this.$container,
       getData: () => {

@@ -12,9 +12,6 @@ import { classPrefix, gitHash, version } from "./config";
 import VideoController from "./module/videoController";
 import PluginManager from "./module/pluginManager";
 import HookManager from "./module/hookManager";
-import ControlsManager from "./module/controlsManager";
-import PanelManager from "./module/panelManager";
-import MenuManager from "./module/menuManager";
 import LoaderManager from "./module/loaderManager";
 import EventEmitter from "./module/eventEmitter";
 
@@ -25,7 +22,7 @@ export class Player {
   static readonly version = version;
   static readonly gitHash = gitHash;
   /** 容器 */
-  readonly container: HTMLElement;
+  readonly container?: HTMLElement;
   /** 播放器元素 */
   readonly $el: HTMLDivElement;
   /** 播放器主要区域 */
@@ -36,20 +33,14 @@ export class Player {
   readonly $content: HTMLDivElement;
   /** hook */
   readonly hook = new HookManager();
-  /** 控制组件 */
-  readonly controls: ControlsManager;
-  /** 面板 */
-  readonly panel: PanelManager;
-  /** 菜单项 */
-  readonly menu: MenuManager;
   /** 媒体加载器 */
   readonly loader: LoaderManager;
   /** 插件 */
-  readonly plugin: PlayerPlugins = {};
+  readonly plugins: PlayerPlugins = {};
+  /** 插件管理 */
+  readonly plugin: PluginManager;
   /** 视频控制 */
   protected _videoController: VideoController;
-  /** 插件管理 */
-  protected _pluginManager: PluginManager;
   /** 事件机制 */
   protected _eventEmitter = new EventEmitter();
   /** Player类 */
@@ -65,12 +56,9 @@ export class Player {
       createElement("div", { class: `${classPrefix}-content` })
     );
 
-    this._pluginManager = new PluginManager(this);
+    this.plugin = new PluginManager(this);
     this._videoController = new VideoController(this, options);
     this.loader = new LoaderManager(this);
-    this.controls = new ControlsManager(this);
-    this.panel = new PanelManager(this);
-    this.menu = new MenuManager(this);
 
     this.init(options);
   }
@@ -97,16 +85,15 @@ export class Player {
     });
 
     // 注册列表中的插件
-    this._pluginManager.pluginsRegister(options);
+    this.plugin.init(options);
 
     // 播放器挂载
-    this.container.appendChild(this.$el);
-    this._pluginManager.playerMounted();
+    this.container?.appendChild(this.$el);
 
     this.emit("mounted");
 
     // 装载视频
-    this._videoController.set(options.video, options.autoPlay, options.time);
+    this._videoController.set(options.video || {}, options.autoPlay, options.time);
   }
 
   /** 播放器视频元素 */
@@ -293,7 +280,7 @@ export class Player {
   /** 播放器销毁 */
   public destroy() {
     // 所有插件执行destroy函数
-    this._pluginManager.destroy();
+    this.plugin.destroy();
   }
 }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -261,8 +261,8 @@
             console.log(
               `向 id:${danmakuId}@${danmaku.time}s 发送一条弹幕: \n${danmaku.content}\n模式${danmaku.mode} 颜色${danmaku.color} 字号${danmaku.size}`
             );
-            player.plugin.danmakuBar.setCoolDown(5);
-            player.plugin.danmakuList.add([
+            player.plugins.danmakuBar.setCoolDown(5);
+            player.plugins.danmakuList.add([
               {
                 id: `send:${Date.now()}`,
                 date: Math.floor(Date.now() / 1000),
@@ -308,7 +308,7 @@
           },
           delay: 500,
         },
-        danmakuBar: {
+        danmakuStyle: {
           fontSizeList: [
             [12, "极小"],
             [18, "小"],
@@ -351,7 +351,7 @@
       player = new MfunsPlayer.Player(mfunsPlayerConfig);
       window.player = player;
       console.log(player);
-      player.plugin.danmakuList.mount(playerExtra);
+      player.plugins.danmakuList.mount(playerExtra);
 
       player.on("play", () => {
         console.log("play");
@@ -370,22 +370,22 @@
         setStorage("lastPosition", t);
       });
       player.on("webscreen:enter", () => {
-        player.plugin.side.mount(player.plugin.danmakuList);
+        player.plugins.side.mount(player.plugins.danmakuList);
       });
       player.on("fullscreen:enter", () => {
-        player.plugin.side.mount(player.plugin.danmakuList);
+        player.plugins.side.mount(player.plugins.danmakuList);
       });
       player.on("webscreenExit", () => {
-        player.plugin.danmakuList.mount(playerExtra);
+        player.plugins.danmakuList.mount(playerExtra);
       });
       player.on("fullscreenExit", () => {
-        player.plugin.danmakuList.mount(playerExtra);
+        player.plugins.danmakuList.mount(playerExtra);
       });
       player.on("widescreenExit", () => {
-        player.plugin.danmakuList.mount(playerExtra);
+        player.plugins.danmakuList.mount(playerExtra);
       });
       player.on("widescreen:enter", () => {
-        player.plugin.side.mount(player.plugin.danmakuList);
+        player.plugins.side.mount(player.plugins.danmakuList);
       });
     };
   </script>

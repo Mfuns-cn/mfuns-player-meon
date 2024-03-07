@@ -5,7 +5,31 @@
 
 ### 使用方法
 
-待补充
+#### NPM安装与导入
+使用包管理器安装
+
+``` bash
+# NPM
+npm install mfuns-player-meon
+
+#yarn
+yarn add mfuns-player-meon
+```
+``` ts
+import { Player } from "mfuns-player-meon"
+const player = new Player({...})
+```
+
+
+#### `<script>`引入
+下载`dist`中的js脚本，并使用`<script>`标签引入，此处以umd格式的模块为例：
+``` html
+<script src="/js/mfuns-player.umd.js"><script>
+<script>
+  // 通过script标签引入的模块可通过window.MfunsPlayer访问
+  const player = new MfunsPlayer.Player({...})
+</script>
+```
 
 
 ### 基础配置选项

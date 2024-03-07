@@ -24,7 +24,7 @@ export default class BlackBorder extends BasePlugin {
   checkbox?: Checkbox;
   constructor(player: Player) {
     super(player);
-    if (player.plugin.buttonSettings) {
+    if (player.plugins.buttonSettings) {
       const container = document.createElement("div");
       this.checkbox = new Checkbox({
         container,
@@ -34,7 +34,7 @@ export default class BlackBorder extends BasePlugin {
         },
         label: "隐藏黑边",
       });
-      player.plugin.settings?.$others.appendChild(container);
+      player.plugins.settings?.$others.appendChild(container);
     }
   }
   apply(player: Player, options: PlayerOptions): void {

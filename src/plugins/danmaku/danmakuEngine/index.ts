@@ -24,7 +24,7 @@ export default class DanmakuEngine extends BasePlugin {
   $el: HTMLDivElement;
   constructor(player: Player) {
     super(player);
-    this.$el = this.plugin.danmaku!.$el.appendChild(
+    this.$el = this.plugins.danmaku!.$el.appendChild(
       createElement("div", { class: `${classPrefix}-rowdanmaku` })
     );
     this.core = new MeonDanmakuEngine(this.$el, {

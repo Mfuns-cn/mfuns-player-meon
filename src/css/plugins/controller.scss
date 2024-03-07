@@ -36,17 +36,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
     }
     &-left {
       height: 100%;
-      max-width: 200px;
       display: flex;
       align-items: center;
       flex-shrink: 0;
     }
     &-right {
       height: 100%;
-      min-width: 200px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -54,10 +53,9 @@
     }
     &-center {
       flex-grow: 1;
-      &.is-bar {
-        margin: 0 60px;
-        max-width: 600px;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     &-top {
       width: 100%;

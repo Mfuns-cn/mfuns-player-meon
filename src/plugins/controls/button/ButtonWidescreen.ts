@@ -1,31 +1,31 @@
-import { html, render } from "lit-html";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import {} from "../../screen/widescreen";
-import { PlayerOptions } from "@/types";
 import { ControlsPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = html`
-  <div class="${classPrefix}-controls-button ${classPrefix}-button-widescreen">
-    <div class="${classPrefix}-controls-button-icon">
-      <i class="mpicon-widescreen"></i>
-      <i class="mpicon-widescreen-exit"></i>
-    </div>
-    <div class="mpui-tooltip">宽屏模式</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-controls-button-icon">
+    <i class="mpicon-widescreen"></i>
+    <i class="mpicon-widescreen-exit"></i>
   </div>
+  <div class="mpui-tooltip">宽屏模式</div>
 `;
 
 export default class ButtonWidescreen extends ControlsPlugin {
   static pluginName = "buttonWidescreen";
-  name = "widescreen";
+
   $icon: HTMLElement;
   $tooltip: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(template, fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-controls-button`)!);
-
+    super(
+      player,
+      createElement(
+        "div",
+        { class: `${classPrefix}-controls-button ${classPrefix}-button-widescreen` },
+        templateHTML
+      )
+    );
     this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
     this.$tooltip = this.$(".mpui-tooltip")!;
   }

@@ -13,7 +13,7 @@ export interface PlayerPropertyDescriptor<T> extends PropertyDescriptor {
 /** 播放器插件构造函数 */
 export interface PluginConstructor {
   /** 插件名称 */
-  readonly pluginName: string;
+  readonly pluginName?: string;
   /** 插件构造函数 */
   new (player: Player): PluginItem;
 }
@@ -32,6 +32,8 @@ export interface PluginItem {
   mounted?: (player: Player) => void;
   /** 执行销毁 */
   destroy?: () => void;
+  /** 插件是否已初始化 */
+  initialized?: boolean;
 }
 
 /** 播放列表项 */

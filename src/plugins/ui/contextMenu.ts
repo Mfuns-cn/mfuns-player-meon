@@ -1,6 +1,6 @@
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
-import { BasePlugin, MenuItem, UIOptionsItem } from "@/plugin";
+import { BasePlugin, MenuItem, PluginFrom } from "@/plugin";
 import { html, render } from "lit-html";
 import { createElement } from "@/utils";
 import { PlayerOptions } from "@core";
@@ -15,7 +15,7 @@ declare module "@core" {
   }
   interface PlayerOptions {
     contextMenu?: {
-      list: UIOptionsItem<MenuItem>[];
+      list: PluginFrom<MenuItem>[];
     };
   }
 }
@@ -34,7 +34,7 @@ export default class ContextMenu extends BasePlugin {
   container: HTMLElement;
   $el: HTMLElement;
   $list: HTMLElement;
-  list: UIOptionsItem<MenuItem>[] = [];
+  list: PluginFrom<MenuItem>[] = [];
   private isShow = false;
   constructor(player: Player) {
     super(player);

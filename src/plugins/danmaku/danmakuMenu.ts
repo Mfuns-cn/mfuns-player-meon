@@ -55,16 +55,16 @@ export default class DanmakuMenu extends BasePlugin {
   }
   init() {
     this.player.on("contextMenuShow", (x, y) => {
-      const captured = this.plugin.danmakuEngine?.capture(x, y, 4);
+      const captured = this.plugins.danmakuEngine?.capture(x, y, 4);
       this.update(captured || []);
     });
   }
   ready() {
-    this.plugin.contextMenu?.$list.before(this.$el);
+    this.plugins.contextMenu?.$list.before(this.$el);
   }
   update(danmaku: DanmakuItem[]) {
-    const api = this.plugin.danmaku?.invoke;
-    const operate = this.plugin.danmakuOperate;
+    const api = this.plugins.danmaku?.invoke;
+    const operate = this.plugins.danmakuOperate;
     if (danmaku?.length) {
       this.$el.style.display = "";
     } else {
@@ -110,7 +110,7 @@ export default class DanmakuMenu extends BasePlugin {
           this.player.emit("danmaku:select", dm);
         },
         () => {
-          this.plugin.contextMenu?.hide();
+          this.plugins.contextMenu?.hide();
         }
       ),
       this.$el

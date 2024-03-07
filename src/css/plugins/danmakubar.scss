@@ -7,6 +7,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    max-width: 600px;
 
     .#{$prefix}-danmakubar-status-loading {
       display: none;
@@ -101,8 +102,9 @@
         cursor: not-allowed;
       }
     }
-    &-slot,
-    &-input-slot {
+    &-outer,
+    &-left,
+    &-right {
       display: flex;
       flex-shrink: 0;
     }
@@ -126,6 +128,7 @@
       color: $fg-dark;
       background-color: transparent;
       box-sizing: border-box;
+      width: 0;
 
       &::-webkit-input-placeholder {
         color: $fg-dark-s;
@@ -168,10 +171,11 @@
     }
   }
 
-  &-danmakubar-wrap {
+  &-footbar {
     height: 40px;
   }
-  &-danmakubar-wrap &-danmakubar {
+  &-footbar &-danmakubar {
+    max-width: unset;
     .#{$prefix}-controller-icon-wrap {
       padding: 0 7px;
     }

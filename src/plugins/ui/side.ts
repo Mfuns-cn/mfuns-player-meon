@@ -1,11 +1,10 @@
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { PlayerOptions } from "@/types";
-import { BasePlugin, PanelItem, UIOptionsItem } from "@/plugin";
+import { BasePlugin, PanelItem, PluginFrom } from "@/plugin";
 import { createElement } from "@/utils";
 
-const template = () => html`
+const templateHTML = /*html*/ `
   <div class="${classPrefix}-side-mask"></div>
   <div class="${classPrefix}-side">
     <div class="${classPrefix}-side-head">
@@ -24,7 +23,7 @@ declare module "@core" {
   }
   interface PlayerOptions {
     side?: {
-      panels?: UIOptionsItem<PanelItem>[];
+      panels?: PluginFrom<PanelItem>[];
     };
   }
 }
@@ -38,15 +37,14 @@ export default class Side extends BasePlugin {
   $title: HTMLElement;
   $close: HTMLElement;
   current: PanelItem | null = null;
-  #initPanels: UIOptionsItem<PanelItem>[] = [];
+  #initPanels: PluginFrom<PanelItem>[] = [];
   get isShow(): boolean {
     return this.container.classList.contains("is-show");
   }
 
   constructor(player: Player) {
     super(player);
-    this.container = createElement("div", { class: `${classPrefix}-side-wrap` });
-    render(template(), this.container);
+    this.container = createElement("div", { class: `${classPrefix}-side-wrap` }, templateHTML);
     this.$el = this.container.querySelector(`.${classPrefix}-side`)!;
     this.$mask = this.container.querySelector(`.${classPrefix}-side-mask`)!;
     this.$content = this.$el.querySelector(`.${classPrefix}-side-content`)!;
@@ -69,7 +67,7 @@ export default class Side extends BasePlugin {
   }
   ready(): void {
     this.#initPanels.forEach((item) => {
-      const panel = this.player.panel.get(item);
+      const panel = this.player.plugin.from(item);
       panel && this.mount(panel);
     });
     this.#initPanels = [];
