@@ -31,6 +31,10 @@ export default class DanmakuLoader extends BasePlugin {
     return this.player.danmaku;
   }
 
+  get invokes() {
+    return this.player.invokes;
+  }
+
   init() {
     this.player.on("videoChange", (info) => {
       this.reload(info);
@@ -64,8 +68,8 @@ export default class DanmakuLoader extends BasePlugin {
       if (!parser) throw "未知弹幕格式";
       try {
         return parser.parse(raw);
-      } catch {
-        throw "无法正确解析弹幕格式";
+      } catch (e) {
+        throw e || "无法正确解析弹幕格式";
       }
     }
   }
@@ -87,13 +91,15 @@ export default class DanmakuLoader extends BasePlugin {
 
   /** 加载弹幕 */
   private load(info: VideoInfo) {
-    this.danmaku!.invoke.get?.(info)
+    this.invokes
+      .danmakuGet?.(info)
       .then((data) => this.parse(data as any, this.type))
       .then((dan) => {
         dan && this.add(dan);
         this.player.emit("danmaku:loaded", dan, info);
       })
       .catch((err) => {
+        this.player.throw(new Error(err));
         this.player.emit("danmaku:loadFailed", err, info);
       });
   }
@@ -118,6 +124,7 @@ const defaultParsers: Record<string, DanmakuParser> = {
   "bilibili-xml": {
     type: "xml",
     parse: (xmlDoc: XMLDocument) => {
+      console.log(xmlDoc);
       const dan: [string, any][] = [];
       // 获取xml文档的所有子节点
       const nodeList = xmlDoc.childNodes;

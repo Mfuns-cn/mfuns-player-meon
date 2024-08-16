@@ -1,7 +1,4 @@
-import { html, render } from "lit-html";
-
-const templateWrap = ({ label }: { label?: string }) =>
-  html` <div class="mpui-switch">${label}</div> `;
+import { createElement } from "@/utils";
 
 interface SwitchOptions {
   /** 挂载容器 */
@@ -38,8 +35,8 @@ export class Switch implements SwitchOptions {
     this.value = value;
     this.onChange = onChange; // 更新数据时需要执行的函数
     this.onToggle = onToggle;
-    // 注入模板
-    render(templateWrap({ label: this.label }), this.container);
+
+    this.$el = createElement("div", { class: `mpui-switch` }, this.label);
 
     this.$el = this.container.querySelector(".mpui-switch")!;
     this.$el.addEventListener("click", () => {

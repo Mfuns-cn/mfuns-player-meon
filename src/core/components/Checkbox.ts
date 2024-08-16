@@ -1,11 +1,4 @@
-import { html, render } from "lit-html";
-
-const templateWrap = ({ label }: { label?: string }) => html`
-  <div class="mpui-checkbox">
-    <div class="mpui-checkbox-icon"></div>
-    <div class="mpui-checkbox-label">${label}</div>
-  </div>
-`;
+import { createElement } from "@/utils";
 
 interface CheckboxOptions {
   /** 挂载容器 */
@@ -43,10 +36,18 @@ export class Checkbox implements CheckboxOptions {
     this.onChange = onChange; // 更新数据时需要执行的函数
     this.onToggle = onToggle;
     this.label = label;
-    // 注入模板
-    render(templateWrap({ label: this.label }), this.container);
 
-    this.$el = this.container.querySelector(".mpui-checkbox")!;
+    this.$el = this.container.appendChild(
+      createElement(
+        "div",
+        { class: "mpui-checkbox" },
+        /*html*/ `
+          <div class="mpui-checkbox-icon"></div>
+          <div class="mpui-checkbox-label">${label}</div>
+        `
+      )
+    );
+
     this.$el.addEventListener("click", () => {
       this.toggle();
     });

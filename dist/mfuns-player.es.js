@@ -1,14 +1,14 @@
-var Bs = (i, t, e) => {
+var qs = (i, t, e) => {
   if (!t.has(i))
     throw TypeError("Cannot " + e);
 };
-var D = (i, t, e) => (Bs(i, t, "read from private field"), e ? e.call(i) : t.get(i)), I = (i, t, e) => {
+var P = (i, t, e) => (qs(i, t, "read from private field"), e ? e.call(i) : t.get(i)), D = (i, t, e) => {
   if (t.has(i))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(i) : t.set(i, e);
-}, T = (i, t, e, s) => (Bs(i, t, "write to private field"), s ? s.call(i, e) : t.set(i, e), e);
+}, T = (i, t, e, s) => (qs(i, t, "write to private field"), s ? s.call(i, e) : t.set(i, e), e);
 const Ti = /mobile/i.test(window.navigator.userAgent), hi = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || !1, ci = document.pictureInPictureEnabled || !1;
-function p(i, t, e) {
+function u(i, t, e) {
   const s = document.createElement(i);
   if (t)
     for (const n in t)
@@ -39,14 +39,14 @@ function _i(i, t) {
 function Pt(i, t, e) {
   return i > t ? i < e ? i : e : t;
 }
-function Dt(i) {
+function Rt(i) {
   const t = i.split(":").slice(-3), e = parseInt(t[t.length - 1]) || 0, s = parseInt(t[t.length - 2]) || 0, n = parseInt(t[t.length - 3]) || 0, a = parseInt(t[t.length - 4]) || 0;
   return e + s * 60 + n * 3600 + a * 86400;
 }
-function $t(i, t = 6) {
+function vt(i, t = 6) {
   if (i = Number.isFinite(i) ? Math.floor(i) : 0, !(t & 15))
     return i.toString();
-  const e = (...l) => l.map((o) => o < 10 ? `0${o}` : `${o}`).join(":");
+  const e = (...l) => l.map((h) => h < 10 ? `0${h}` : `${h}`).join(":");
   let s, n, a;
   return t & 1 && i < 60 ? i.toString() : (s = Math.floor(i / 60), i = i % 60, t & 2 && s < 60 ? e(s, i) : (n = Math.floor(s / 60), s = s % 60, t & 4 && n < 24 ? e(n, s, i) : (a = Math.floor(n / 60), n = n % 24, e(a, n, s, i))));
 }
@@ -74,11 +74,11 @@ function Ie(i, t) {
     }
   );
 }
-const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   HexColorToNumber: di,
   clamp: Pt,
-  createElement: p,
+  createElement: u,
   dateFormat: Ie,
   debounce: Ne,
   fullScreenEnabled: hi,
@@ -87,10 +87,10 @@ const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   pictureInPictureEnabled: ci,
   random: _i,
   replaceChildren: Ai,
-  secondToTime: $t,
+  secondToTime: vt,
   throttle: Hi,
-  timeToSecond: Dt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.0", Fi = "d35525d", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Di = [
+  timeToSecond: Rt
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.1", Fi = "05aa06b", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ri = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], Vs = {
@@ -113,10 +113,10 @@ const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   enterpictureinpicture: () => [],
   leavepictureinpicture: () => []
 };
-class Ri {
+class Di {
   constructor(t, e) {
     this.ratio = null, this.info = {}, this.mediaController = null, this.player = t, this.$el = this.player.$content.appendChild(
-      p("video", { class: `${r}-video` })
+      u("video", { class: `${r}-video` })
     ), this._attachEvent(this.$el), this.player.on("ended", () => {
       this.player.hook.call("end").then((s) => {
         s && this.player.emit("end");
@@ -129,10 +129,10 @@ class Ri {
       var a, l;
       if (n) {
         (l = (a = this.mediaController) == null ? void 0 : a.destroy) == null || l.call(a), this.mediaController = null, this.info = t, this.player.emit("videoChange", { ...t });
-        let { url: o, type: h, live: c } = t;
-        const u = { url: o, type: h, play: e, time: s, live: c };
-        this.player.hook.call("video.beforeLoad", u).then(() => {
-          u.url ? this.load(u) : this.player.throw(new Error("缺少视频播放信息"));
+        let { url: h, type: o, live: c } = t;
+        const p = { url: h, type: o, play: e, time: s, live: c };
+        this.player.hook.call("video.beforeLoad", p).then(() => {
+          p.url ? this.load(p) : this.player.throw(new Error("缺少视频播放信息"));
         });
       }
     });
@@ -198,9 +198,9 @@ class Ni {
   }
   /** 注册插件 */
   register(t, e) {
-    var n, a, l, o;
+    var n, a, l, h;
     const s = typeof t == "function" ? new t(this.player) : t;
-    t.pluginName && (this.list[t.pluginName] = s), !s.initialized && ((n = s.init) == null || n.call(s, this.player), (a = s.apply) == null || a.call(s, this.player, e), this.isReady && ((l = s.ready) == null || l.call(s, this.player)), this.isMounted && ((o = s.mounted) == null || o.call(s, this.player)), s.initialized = !0);
+    t.pluginName && (this.list[t.pluginName] = s), !s.initialized && ((n = s.init) == null || n.call(s, this.player), (a = s.apply) == null || a.call(s, this.player, e), this.isReady && ((l = s.ready) == null || l.call(s, this.player)), this.isMounted && ((h = s.mounted) == null || h.call(s, this.player)), s.initialized = !0);
   }
   /** 访问已安装插件实例 */
   get(t) {
@@ -219,14 +219,14 @@ class Ni {
   }
   /** 初始化插件实例 */
   build(t, e = {}) {
-    var n, a, l, o;
+    var n, a, l, h;
     const s = typeof t == "function" ? new t(this.player) : t;
     return s.initialized || ((n = s.init) == null || n.call(s, this.player), (a = s.apply) == null || a.call(s, this.player, e), this.isReady ? (l = s.ready) == null || l.call(s, this.player) : this.player.once("ready", () => {
-      var h;
-      return (h = s.mounted) == null ? void 0 : h.call(s, this.player);
-    }), this.isMounted ? (o = s.mounted) == null || o.call(s, this.player) : this.player.once("mounted", () => {
-      var h;
-      return (h = s.mounted) == null ? void 0 : h.call(s, this.player);
+      var o;
+      return (o = s.mounted) == null ? void 0 : o.call(s, this.player);
+    }), this.isMounted ? (h = s.mounted) == null || h.call(s, this.player) : this.player.once("mounted", () => {
+      var o;
+      return (o = s.mounted) == null ? void 0 : o.call(s, this.player);
     }), s.initialized = !0), s;
   }
   /** 所有插件注册完毕后执行 @internal */
@@ -313,7 +313,7 @@ class zi {
   }
   /** 常规方式创建实例 */
   createDefault(t, e) {
-    const { type: s, url: n, live: a, play: l, time: o } = t, h = {
+    const { type: s, url: n, live: a, play: l, time: h } = t, o = {
       type: s || "",
       url: n,
       live: a || !1,
@@ -321,14 +321,14 @@ class zi {
       destroy() {
         this.mediaElement.src = "";
       }
-    }, c = o === !0 ? this.player.currentTime : o;
+    }, c = h === !0 ? this.player.currentTime : h;
     return e.src = n, e.addEventListener(
       "loadeddata",
       () => {
         c && this.player.seek(c), l && this.player.play();
       },
       { once: !0 }
-    ), h;
+    ), o;
   }
 }
 class Oi {
@@ -362,12 +362,12 @@ class Oi {
     }
   }
 }
-var G;
-let ht = (G = class {
+var K;
+let ot = (K = class {
   constructor(t) {
-    this.hook = new Ii(), this.plugins = {}, this._eventEmitter = new Oi(), this.Player = G, this.container = t.container, this.$el = p("div", { class: `${r} mpui` }), this.$main = this.$el.appendChild(p("div", { class: `${r}-main` })), this.$area = this.$main.appendChild(p("div", { class: `${r}-area` })), this.$content = this.$area.appendChild(
-      p("div", { class: `${r}-content` })
-    ), this.plugin = new Ni(this), this._videoController = new Ri(this, t), this.loader = new zi(this), this.init(t);
+    this.hook = new Ii(), this.plugins = {}, this.invokes = {}, this._eventEmitter = new Oi(), this.Player = K, this.container = t.container, this.$el = u("div", { class: `${r} mpui` }), this.$main = this.$el.appendChild(u("div", { class: `${r}-main` })), this.$area = this.$main.appendChild(u("div", { class: `${r}-area` })), this.$content = this.$area.appendChild(
+      u("div", { class: `${r}-content` })
+    ), this.invokes = t.invokes ?? {}, this.plugin = new Ni(this), this._videoController = new Di(this, t), this.loader = new zi(this), this.init(t);
   }
   /** 初始化播放器 */
   async init(t) {
@@ -524,13 +524,13 @@ let ht = (G = class {
   destroy() {
     this.plugin.destroy();
   }
-}, G.version = Mi, G.gitHash = Fi, G);
+}, K.version = Mi, K.gitHash = Fi, K);
 class w {
   constructor(t) {
     this.player = t, this.plugins = t.plugins, this.throw = t.throw;
   }
 }
-class Et extends w {
+class Lt extends w {
   $(t) {
     return this.$el.querySelector(t);
   }
@@ -538,20 +538,20 @@ class Et extends w {
     super(t), this.$el = e;
   }
 }
-var tt;
-class pi extends Et {
+var Q;
+class pi extends Lt {
   constructor() {
     super(...arguments);
-    I(this, tt, void 0);
+    D(this, Q, void 0);
   }
   /** 挂载 */
   mount(e, s) {
-    e.appendChild(this.$el), this.unmount(), T(this, tt, s == null ? void 0 : s.onUnmount);
+    e.appendChild(this.$el), this.unmount(), T(this, Q, s == null ? void 0 : s.onUnmount);
   }
   /** 卸载 */
   unmount() {
     var e;
-    (e = D(this, tt)) == null || e.call(this), T(this, tt, void 0);
+    (e = P(this, Q)) == null || e.call(this), T(this, Q, void 0);
   }
   show() {
     this.$el.style.display = "";
@@ -560,328 +560,70 @@ class pi extends Et {
     this.$el.style.display = "none";
   }
 }
-tt = new WeakMap();
-class F extends pi {
+Q = new WeakMap();
+class M extends pi {
 }
-var et;
-class gt extends pi {
+var tt;
+class $t extends pi {
   constructor(e, s) {
     super(e, s);
-    I(this, et, void 0);
+    D(this, tt, void 0);
     this.shown = !1;
   }
   /** 挂载 */
   mount(e, s) {
-    super.mount(e, { onUnmount: s == null ? void 0 : s.onUnmount }), T(this, et, s == null ? void 0 : s.onToggle);
+    super.mount(e, { onUnmount: s == null ? void 0 : s.onUnmount }), T(this, tt, s == null ? void 0 : s.onToggle);
   }
   /** 卸载 */
   unmount() {
-    this.toggle(!1), super.unmount(), T(this, et, void 0);
+    this.toggle(!1), super.unmount(), T(this, tt, void 0);
   }
   /** 切换显示隐藏状态 */
   toggle(e) {
     var s;
-    this.shown = e ?? !this.shown, (s = D(this, et)) == null || s.call(this, this.shown);
+    this.shown = e ?? !this.shown, (s = P(this, tt)) == null || s.call(this, this.shown);
   }
 }
-et = new WeakMap();
-class Tr extends w {
+tt = new WeakMap();
+class Lr extends w {
 }
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var At;
-const Lt = window, it = Lt.trustedTypes, js = it ? it.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, Rt = "$lit$", B = `lit$${(Math.random() + "").slice(9)}$`, mi = "?" + B, qi = `<${mi}>`, Z = document, ct = () => Z.createComment(""), dt = (i) => i === null || typeof i != "object" && typeof i != "function", vi = Array.isArray, Bi = (i) => vi(i) || typeof (i == null ? void 0 : i[Symbol.iterator]) == "function", Ht = `[ 	
-\f\r]`, at = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Cs = /-->/g, Ws = />/g, j = RegExp(`>|${Ht}(?:([^\\s"'>=/]+)(${Ht}*=${Ht}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), Us = /'/g, Xs = /"/g, $i = /^(?:script|style|textarea|title)$/i, Vi = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), E = Vi(1), ut = Symbol.for("lit-noChange"), P = Symbol.for("lit-nothing"), Ys = /* @__PURE__ */ new WeakMap(), W = Z.createTreeWalker(Z, 129, null, !1);
-function gi(i, t) {
-  if (!Array.isArray(i) || !i.hasOwnProperty("raw"))
-    throw Error("invalid template strings array");
-  return js !== void 0 ? js.createHTML(t) : t;
-}
-const ji = (i, t) => {
-  const e = i.length - 1, s = [];
-  let n, a = t === 2 ? "<svg>" : "", l = at;
-  for (let o = 0; o < e; o++) {
-    const h = i[o];
-    let c, u, g = -1, k = 0;
-    for (; k < h.length && (l.lastIndex = k, u = l.exec(h), u !== null); )
-      k = l.lastIndex, l === at ? u[1] === "!--" ? l = Cs : u[1] !== void 0 ? l = Ws : u[2] !== void 0 ? ($i.test(u[2]) && (n = RegExp("</" + u[2], "g")), l = j) : u[3] !== void 0 && (l = j) : l === j ? u[0] === ">" ? (l = n ?? at, g = -1) : u[1] === void 0 ? g = -2 : (g = l.lastIndex - u[2].length, c = u[1], l = u[3] === void 0 ? j : u[3] === '"' ? Xs : Us) : l === Xs || l === Us ? l = j : l === Cs || l === Ws ? l = at : (l = j, n = void 0);
-    const A = l === j && i[o + 1].startsWith("/>") ? " " : "";
-    a += l === at ? h + qi : g >= 0 ? (s.push(c), h.slice(0, g) + Rt + h.slice(g) + B + A) : h + B + (g === -2 ? (s.push(void 0), o) : A);
-  }
-  return [gi(i, a + (i[e] || "<?>") + (t === 2 ? "</svg>" : "")), s];
-};
-class pt {
-  constructor({ strings: t, _$litType$: e }, s) {
-    let n;
-    this.parts = [];
-    let a = 0, l = 0;
-    const o = t.length - 1, h = this.parts, [c, u] = ji(t, e);
-    if (this.el = pt.createElement(c, s), W.currentNode = this.el.content, e === 2) {
-      const g = this.el.content, k = g.firstChild;
-      k.remove(), g.append(...k.childNodes);
-    }
-    for (; (n = W.nextNode()) !== null && h.length < o; ) {
-      if (n.nodeType === 1) {
-        if (n.hasAttributes()) {
-          const g = [];
-          for (const k of n.getAttributeNames())
-            if (k.endsWith(Rt) || k.startsWith(B)) {
-              const A = u[l++];
-              if (g.push(k), A !== void 0) {
-                const S = n.getAttribute(A.toLowerCase() + Rt).split(B), v = /([.?@])?(.*)/.exec(A);
-                h.push({ type: 1, index: a, name: v[2], strings: S, ctor: v[1] === "." ? Wi : v[1] === "?" ? Xi : v[1] === "@" ? Yi : St });
-              } else
-                h.push({ type: 6, index: a });
-            }
-          for (const k of g)
-            n.removeAttribute(k);
-        }
-        if ($i.test(n.tagName)) {
-          const g = n.textContent.split(B), k = g.length - 1;
-          if (k > 0) {
-            n.textContent = it ? it.emptyScript : "";
-            for (let A = 0; A < k; A++)
-              n.append(g[A], ct()), W.nextNode(), h.push({ type: 2, index: ++a });
-            n.append(g[k], ct());
-          }
-        }
-      } else if (n.nodeType === 8)
-        if (n.data === mi)
-          h.push({ type: 2, index: a });
-        else {
-          let g = -1;
-          for (; (g = n.data.indexOf(B, g + 1)) !== -1; )
-            h.push({ type: 7, index: a }), g += B.length - 1;
-        }
-      a++;
-    }
-  }
-  static createElement(t, e) {
-    const s = Z.createElement("template");
-    return s.innerHTML = t, s;
-  }
-}
-function nt(i, t, e = i, s) {
-  var n, a, l, o;
-  if (t === ut)
-    return t;
-  let h = s !== void 0 ? (n = e._$Co) === null || n === void 0 ? void 0 : n[s] : e._$Cl;
-  const c = dt(t) ? void 0 : t._$litDirective$;
-  return (h == null ? void 0 : h.constructor) !== c && ((a = h == null ? void 0 : h._$AO) === null || a === void 0 || a.call(h, !1), c === void 0 ? h = void 0 : (h = new c(i), h._$AT(i, e, s)), s !== void 0 ? ((l = (o = e)._$Co) !== null && l !== void 0 ? l : o._$Co = [])[s] = h : e._$Cl = h), h !== void 0 && (t = nt(i, h._$AS(i, t.values), h, s)), t;
-}
-class Ci {
-  constructor(t, e) {
-    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
-  }
-  get parentNode() {
-    return this._$AM.parentNode;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  u(t) {
-    var e;
-    const { el: { content: s }, parts: n } = this._$AD, a = ((e = t == null ? void 0 : t.creationScope) !== null && e !== void 0 ? e : Z).importNode(s, !0);
-    W.currentNode = a;
-    let l = W.nextNode(), o = 0, h = 0, c = n[0];
-    for (; c !== void 0; ) {
-      if (o === c.index) {
-        let u;
-        c.type === 2 ? u = new ft(l, l.nextSibling, this, t) : c.type === 1 ? u = new c.ctor(l, c.name, c.strings, this, t) : c.type === 6 && (u = new Ki(l, this, t)), this._$AV.push(u), c = n[++h];
-      }
-      o !== (c == null ? void 0 : c.index) && (l = W.nextNode(), o++);
-    }
-    return W.currentNode = Z, a;
-  }
-  v(t) {
-    let e = 0;
-    for (const s of this._$AV)
-      s !== void 0 && (s.strings !== void 0 ? (s._$AI(t, s, e), e += s.strings.length - 2) : s._$AI(t[e])), e++;
-  }
-}
-class ft {
-  constructor(t, e, s, n) {
-    var a;
-    this.type = 2, this._$AH = P, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = s, this.options = n, this._$Cp = (a = n == null ? void 0 : n.isConnected) === null || a === void 0 || a;
-  }
-  get _$AU() {
-    var t, e;
-    return (e = (t = this._$AM) === null || t === void 0 ? void 0 : t._$AU) !== null && e !== void 0 ? e : this._$Cp;
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode;
-    const e = this._$AM;
-    return e !== void 0 && (t == null ? void 0 : t.nodeType) === 11 && (t = e.parentNode), t;
-  }
-  get startNode() {
-    return this._$AA;
-  }
-  get endNode() {
-    return this._$AB;
-  }
-  _$AI(t, e = this) {
-    t = nt(this, t, e), dt(t) ? t === P || t == null || t === "" ? (this._$AH !== P && this._$AR(), this._$AH = P) : t !== this._$AH && t !== ut && this._(t) : t._$litType$ !== void 0 ? this.g(t) : t.nodeType !== void 0 ? this.$(t) : Bi(t) ? this.T(t) : this._(t);
-  }
-  k(t) {
-    return this._$AA.parentNode.insertBefore(t, this._$AB);
-  }
-  $(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
-  }
-  _(t) {
-    this._$AH !== P && dt(this._$AH) ? this._$AA.nextSibling.data = t : this.$(Z.createTextNode(t)), this._$AH = t;
-  }
-  g(t) {
-    var e;
-    const { values: s, _$litType$: n } = t, a = typeof n == "number" ? this._$AC(t) : (n.el === void 0 && (n.el = pt.createElement(gi(n.h, n.h[0]), this.options)), n);
-    if (((e = this._$AH) === null || e === void 0 ? void 0 : e._$AD) === a)
-      this._$AH.v(s);
-    else {
-      const l = new Ci(a, this), o = l.u(this.options);
-      l.v(s), this.$(o), this._$AH = l;
-    }
-  }
-  _$AC(t) {
-    let e = Ys.get(t.strings);
-    return e === void 0 && Ys.set(t.strings, e = new pt(t)), e;
-  }
-  T(t) {
-    vi(this._$AH) || (this._$AH = [], this._$AR());
-    const e = this._$AH;
-    let s, n = 0;
-    for (const a of t)
-      n === e.length ? e.push(s = new ft(this.k(ct()), this.k(ct()), this, this.options)) : s = e[n], s._$AI(a), n++;
-    n < e.length && (this._$AR(s && s._$AB.nextSibling, n), e.length = n);
-  }
-  _$AR(t = this._$AA.nextSibling, e) {
-    var s;
-    for ((s = this._$AP) === null || s === void 0 || s.call(this, !1, !0, e); t && t !== this._$AB; ) {
-      const n = t.nextSibling;
-      t.remove(), t = n;
-    }
-  }
-  setConnected(t) {
-    var e;
-    this._$AM === void 0 && (this._$Cp = t, (e = this._$AP) === null || e === void 0 || e.call(this, t));
-  }
-}
-class St {
-  constructor(t, e, s, n, a) {
-    this.type = 1, this._$AH = P, this._$AN = void 0, this.element = t, this.name = e, this._$AM = n, this.options = a, s.length > 2 || s[0] !== "" || s[1] !== "" ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = P;
-  }
-  get tagName() {
-    return this.element.tagName;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t, e = this, s, n) {
-    const a = this.strings;
-    let l = !1;
-    if (a === void 0)
-      t = nt(this, t, e, 0), l = !dt(t) || t !== this._$AH && t !== ut, l && (this._$AH = t);
-    else {
-      const o = t;
-      let h, c;
-      for (t = a[0], h = 0; h < a.length - 1; h++)
-        c = nt(this, o[s + h], e, h), c === ut && (c = this._$AH[h]), l || (l = !dt(c) || c !== this._$AH[h]), c === P ? t = P : t !== P && (t += (c ?? "") + a[h + 1]), this._$AH[h] = c;
-    }
-    l && !n && this.j(t);
-  }
-  j(t) {
-    t === P ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
-  }
-}
-class Wi extends St {
-  constructor() {
-    super(...arguments), this.type = 3;
-  }
-  j(t) {
-    this.element[this.name] = t === P ? void 0 : t;
-  }
-}
-const Ui = it ? it.emptyScript : "";
-class Xi extends St {
-  constructor() {
-    super(...arguments), this.type = 4;
-  }
-  j(t) {
-    t && t !== P ? this.element.setAttribute(this.name, Ui) : this.element.removeAttribute(this.name);
-  }
-}
-class Yi extends St {
-  constructor(t, e, s, n, a) {
-    super(t, e, s, n, a), this.type = 5;
-  }
-  _$AI(t, e = this) {
-    var s;
-    if ((t = (s = nt(this, t, e, 0)) !== null && s !== void 0 ? s : P) === ut)
-      return;
-    const n = this._$AH, a = t === P && n !== P || t.capture !== n.capture || t.once !== n.once || t.passive !== n.passive, l = t !== P && (n === P || a);
-    a && this.element.removeEventListener(this.name, this, n), l && this.element.addEventListener(this.name, this, t), this._$AH = t;
-  }
-  handleEvent(t) {
-    var e, s;
-    typeof this._$AH == "function" ? this._$AH.call((s = (e = this.options) === null || e === void 0 ? void 0 : e.host) !== null && s !== void 0 ? s : this.element, t) : this._$AH.handleEvent(t);
-  }
-}
-class Ki {
-  constructor(t, e, s) {
-    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = s;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t) {
-    nt(this, t);
-  }
-}
-const Ks = Lt.litHtmlPolyfillSupport;
-Ks == null || Ks(pt, ft), ((At = Lt.litHtmlVersions) !== null && At !== void 0 ? At : Lt.litHtmlVersions = []).push("2.8.0");
-const R = (i, t, e) => {
-  var s, n;
-  const a = (s = e == null ? void 0 : e.renderBefore) !== null && s !== void 0 ? s : t;
-  let l = a._$litPart$;
-  if (l === void 0) {
-    const o = (n = e == null ? void 0 : e.renderBefore) !== null && n !== void 0 ? n : null;
-    a._$litPart$ = l = new ft(t.insertBefore(ct(), o), o, void 0, e ?? {});
-  }
-  return l._$AI(i), l;
-}, Gi = ({ divider: i }) => E` <div
-    class="mpui-slider mpui-slider-horizontal"
-    style="position: relative; width: 100%; height: 100%"
+const Bi = ({ divider: i }) => (
+  /*html*/
+  `
+  <div
+    class="mpui-slider-track"
+    style="
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
   >
-    <div
-      class="mpui-slider-track"
-      style="
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-    >
-      <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
-      <div class="mpui-slider-thumb-track" style="height: 0px">
-        <div
-          class="mpui-slider-thumb"
-          style="position: absolute; transform: translate(-50%, -50%)"
-        ></div>
-        ${i ? E`
-              <div class="mpui-slider-divider">
-                ${new Array(i).fill(E`<div class="mpui-slider-divider-dot"></div>`)}
-              </div>
-            ` : ""}
-      </div>
+    <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
+    <div class="mpui-slider-thumb-track" style="height: 0px">
+      <div
+        class="mpui-slider-thumb"
+        style="position: absolute; transform: translate(-50%, -50%)"
+      ></div>
+      ${i ? (
+    /*html*/
+    `
+            <div class="mpui-slider-divider">
+              ${new Array(i).fill(
+      /*html*/
+      '<div class="mpui-slider-divider-dot"></div>'
+    ).join("")}
+            </div>
+          `
+  ) : ""}
     </div>
-  </div>`;
-class lt {
+  </div>
+`
+);
+class at {
   constructor({
     container: t,
     min: e,
@@ -889,34 +631,43 @@ class lt {
     step: n,
     divider: a = 0,
     value: l = 0,
-    onChange: o,
-    onDragStart: h,
+    onChange: h,
+    onDragStart: o,
     onDragEnd: c,
-    onDrag: u
+    onDrag: p
   }) {
-    this.container = t, this.min = e, this.max = s, this.step = n || 0, this.divider = a ? typeof a == "boolean" ? this.step : a : 0, this.value = isNaN(l) ? l : Number(l), this.onChange = o, this.onDragStart = h, this.onDragEnd = c, this.onDrag = u, R(Gi({ divider: this.divider }), t), this.$el = this.container.querySelector(".mpui-slider"), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.$el.addEventListener("mousedown", (g) => {
+    this.container = t, this.min = e, this.max = s, this.step = n || 0, this.divider = a ? typeof a == "boolean" ? this.step : a : 0, this.value = isNaN(l) ? l : Number(l), this.onChange = h, this.onDragStart = o, this.onDragEnd = c, this.onDrag = p, this.$el = this.container.appendChild(
+      u(
+        "div",
+        {
+          class: "mpui-slider mpui-slider-horizontal",
+          style: "position: relative; width: 100%; height: 100%"
+        },
+        Bi({ divider: this.divider })
+      )
+    ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.$el.addEventListener("mousedown", (g) => {
       var b;
-      const k = g, { clientX: A } = k, S = this.$track.offsetWidth;
-      let v = this.$thumbTrack.offsetWidth;
-      v = v || S;
-      const m = (S - v) / 2, d = this.$el.getBoundingClientRect().left;
-      let $ = A - d - m;
-      $ = $ >= v ? v : $ <= 0 ? 0 : $;
-      const L = this.step ? Math.round($ / v * (this.max - this.min) / this.step) * this.step + this.min : $ / v * (this.max - this.min) + this.min;
+      const k = g, { clientX: S } = k, E = this.$track.offsetWidth;
+      let m = this.$thumbTrack.offsetWidth;
+      m = m || E;
+      const v = (E - m) / 2, d = this.$el.getBoundingClientRect().left;
+      let $ = S - d - v;
+      $ = $ >= m ? m : $ <= 0 ? 0 : $;
+      const L = this.step ? Math.round($ / m * (this.max - this.min) / this.step) * this.step + this.min : $ / m * (this.max - this.min) + this.min;
       (b = this.onDragStart) == null || b.call(this, L), this.value != L && this.drag(L);
       const y = (x) => {
-        var rt;
-        const _ = x, { clientX: f } = _;
-        _.preventDefault(), _.stopPropagation();
-        let M = f - d - m;
-        M = M >= v ? v : M <= 0 ? 0 : M;
-        const N = this.step ? Math.round(M / v * (this.max - this.min) / this.step) * this.step + this.min : M / v * (this.max - this.min) + this.min;
-        this.value != N && this.drag(N), (rt = window.getSelection()) == null || rt.removeAllRanges();
-      }, H = (x) => {
-        var f, M;
-        x.stopPropagation(), (f = window.getSelection()) == null || f.removeAllRanges(), document.removeEventListener("mousemove", y), document.removeEventListener("mouseup", H), (M = this.onDragEnd) == null || M.call(this, L);
+        var nt;
+        const H = x, { clientX: f } = H;
+        H.preventDefault(), H.stopPropagation();
+        let _ = f - d - v;
+        _ = _ >= m ? m : _ <= 0 ? 0 : _;
+        const R = this.step ? Math.round(_ / m * (this.max - this.min) / this.step) * this.step + this.min : _ / m * (this.max - this.min) + this.min;
+        this.value != R && this.drag(R), (nt = window.getSelection()) == null || nt.removeAllRanges();
+      }, A = (x) => {
+        var f, _;
+        x.stopPropagation(), (f = window.getSelection()) == null || f.removeAllRanges(), document.removeEventListener("mousemove", y), document.removeEventListener("mouseup", A), (_ = this.onDragEnd) == null || _.call(this, L);
       };
-      document.addEventListener("mousemove", y), document.addEventListener("mouseup", H);
+      document.addEventListener("mousemove", y), document.addEventListener("mouseup", A);
     }), this.setValue(this.value);
   }
   /** 设置滑动条值 */
@@ -932,7 +683,7 @@ class lt {
     this.setValue(t), (e = this.onDrag) == null || e.call(this, this.value);
   }
 }
-const Zi = (
+const qi = (
   /*html*/
   `
   <div
@@ -957,7 +708,7 @@ const Zi = (
   </div>
 `
 );
-class fi {
+class mi {
   constructor({
     container: t,
     min: e,
@@ -965,38 +716,38 @@ class fi {
     step: n,
     value: a = 0,
     onChange: l,
-    onDragStart: o,
-    onDragEnd: h,
+    onDragStart: h,
+    onDragEnd: o,
     onDrag: c
   }) {
-    this.container = t, this.min = e, this.max = s, this.step = n || 0, this.value = isNaN(a) ? a : Number(a), this.onChange = l, this.onDragStart = o, this.onDragEnd = h, this.onDrag = c, this.$el = p(
+    this.container = t, this.min = e, this.max = s, this.step = n || 0, this.value = isNaN(a) ? a : Number(a), this.onChange = l, this.onDragStart = h, this.onDragEnd = o, this.onDrag = c, this.$el = u(
       "div",
       {
         class: "mpui-slider mpui-slider-vertical",
         style: "position: relative; width: 100%; height: 100%"
       },
-      Zi
-    ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.container.appendChild(this.$el), this.$el.addEventListener("mousedown", (u) => {
-      var H;
-      const g = u, { clientY: k } = g, A = this.$track.offsetHeight;
-      let S = this.$thumbTrack.offsetHeight;
-      S = S || A;
-      const v = (A - S) / 2, m = this.$el.getBoundingClientRect().top;
-      let d = S - (k - m - v);
-      d = d >= S ? S : d <= 0 ? 0 : d;
-      const $ = this.step ? Math.round(d / S * (this.max - this.min) / this.step) * this.step + this.min : d / S * (this.max - this.min) + this.min;
-      (H = this.onDragStart) == null || H.call(this, $), this.value != $ && this.drag($);
+      qi
+    ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.container.appendChild(this.$el), this.$el.addEventListener("mousedown", (p) => {
+      var A;
+      const g = p, { clientY: k } = g, S = this.$track.offsetHeight;
+      let E = this.$thumbTrack.offsetHeight;
+      E = E || S;
+      const m = (S - E) / 2, v = this.$el.getBoundingClientRect().top;
+      let d = E - (k - v - m);
+      d = d >= E ? E : d <= 0 ? 0 : d;
+      const $ = this.step ? Math.round(d / E * (this.max - this.min) / this.step) * this.step + this.min : d / E * (this.max - this.min) + this.min;
+      (A = this.onDragStart) == null || A.call(this, $), this.value != $ && this.drag($);
       const L = (b) => {
-        var N;
-        const x = b, { clientY: _ } = x;
+        var R;
+        const x = b, { clientY: H } = x;
         x.preventDefault(), x.stopPropagation();
-        let f = S - (_ - m - v);
-        f = f >= S ? S : f <= 0 ? 0 : f;
-        const M = this.step ? Math.round(f / S * (this.max - this.min) / this.step) * this.step + this.min : f / S * (this.max - this.min) + this.min;
-        this.value != M && this.drag(M), (N = window.getSelection()) == null || N.removeAllRanges();
+        let f = E - (H - v - m);
+        f = f >= E ? E : f <= 0 ? 0 : f;
+        const _ = this.step ? Math.round(f / E * (this.max - this.min) / this.step) * this.step + this.min : f / E * (this.max - this.min) + this.min;
+        this.value != _ && this.drag(_), (R = window.getSelection()) == null || R.removeAllRanges();
       }, y = (b) => {
-        var _, f;
-        b.stopPropagation(), (_ = window.getSelection()) == null || _.removeAllRanges(), document.removeEventListener("mousemove", L), document.removeEventListener("mouseup", y), (f = this.onDragEnd) == null || f.call(this, $);
+        var H, f;
+        b.stopPropagation(), (H = window.getSelection()) == null || H.removeAllRanges(), document.removeEventListener("mousemove", L), document.removeEventListener("mouseup", y), (f = this.onDragEnd) == null || f.call(this, $);
       };
       document.addEventListener("mousemove", L), document.addEventListener("mouseup", y);
     }), this.setValue(this.value);
@@ -1014,13 +765,277 @@ class fi {
     this.setValue(t), (e = this.onDrag) == null || e.call(this, this.value);
   }
 }
-const Ji = ({
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var At;
+const xt = window, st = xt.trustedTypes, js = st ? st.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, Dt = "$lit$", B = `lit$${(Math.random() + "").slice(9)}$`, vi = "?" + B, Vi = `<${vi}>`, G = document, ht = () => G.createComment(""), ct = (i) => i === null || typeof i != "object" && typeof i != "function", $i = Array.isArray, ji = (i) => $i(i) || typeof (i == null ? void 0 : i[Symbol.iterator]) == "function", Ht = `[ 	
+\f\r]`, rt = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Cs = /-->/g, Ws = />/g, V = RegExp(`>|${Ht}(?:([^\\s"'>=/]+)(${Ht}*=${Ht}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), Us = /'/g, Xs = /"/g, gi = /^(?:script|style|textarea|title)$/i, Ci = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), O = Ci(1), dt = Symbol.for("lit-noChange"), F = Symbol.for("lit-nothing"), Ys = /* @__PURE__ */ new WeakMap(), C = G.createTreeWalker(G, 129, null, !1);
+function fi(i, t) {
+  if (!Array.isArray(i) || !i.hasOwnProperty("raw"))
+    throw Error("invalid template strings array");
+  return js !== void 0 ? js.createHTML(t) : t;
+}
+const Wi = (i, t) => {
+  const e = i.length - 1, s = [];
+  let n, a = t === 2 ? "<svg>" : "", l = rt;
+  for (let h = 0; h < e; h++) {
+    const o = i[h];
+    let c, p, g = -1, k = 0;
+    for (; k < o.length && (l.lastIndex = k, p = l.exec(o), p !== null); )
+      k = l.lastIndex, l === rt ? p[1] === "!--" ? l = Cs : p[1] !== void 0 ? l = Ws : p[2] !== void 0 ? (gi.test(p[2]) && (n = RegExp("</" + p[2], "g")), l = V) : p[3] !== void 0 && (l = V) : l === V ? p[0] === ">" ? (l = n ?? rt, g = -1) : p[1] === void 0 ? g = -2 : (g = l.lastIndex - p[2].length, c = p[1], l = p[3] === void 0 ? V : p[3] === '"' ? Xs : Us) : l === Xs || l === Us ? l = V : l === Cs || l === Ws ? l = rt : (l = V, n = void 0);
+    const S = l === V && i[h + 1].startsWith("/>") ? " " : "";
+    a += l === rt ? o + Vi : g >= 0 ? (s.push(c), o.slice(0, g) + Dt + o.slice(g) + B + S) : o + B + (g === -2 ? (s.push(void 0), h) : S);
+  }
+  return [fi(i, a + (i[e] || "<?>") + (t === 2 ? "</svg>" : "")), s];
+};
+class ut {
+  constructor({ strings: t, _$litType$: e }, s) {
+    let n;
+    this.parts = [];
+    let a = 0, l = 0;
+    const h = t.length - 1, o = this.parts, [c, p] = Wi(t, e);
+    if (this.el = ut.createElement(c, s), C.currentNode = this.el.content, e === 2) {
+      const g = this.el.content, k = g.firstChild;
+      k.remove(), g.append(...k.childNodes);
+    }
+    for (; (n = C.nextNode()) !== null && o.length < h; ) {
+      if (n.nodeType === 1) {
+        if (n.hasAttributes()) {
+          const g = [];
+          for (const k of n.getAttributeNames())
+            if (k.endsWith(Dt) || k.startsWith(B)) {
+              const S = p[l++];
+              if (g.push(k), S !== void 0) {
+                const E = n.getAttribute(S.toLowerCase() + Dt).split(B), m = /([.?@])?(.*)/.exec(S);
+                o.push({ type: 1, index: a, name: m[2], strings: E, ctor: m[1] === "." ? Xi : m[1] === "?" ? Ki : m[1] === "@" ? Gi : Et });
+              } else
+                o.push({ type: 6, index: a });
+            }
+          for (const k of g)
+            n.removeAttribute(k);
+        }
+        if (gi.test(n.tagName)) {
+          const g = n.textContent.split(B), k = g.length - 1;
+          if (k > 0) {
+            n.textContent = st ? st.emptyScript : "";
+            for (let S = 0; S < k; S++)
+              n.append(g[S], ht()), C.nextNode(), o.push({ type: 2, index: ++a });
+            n.append(g[k], ht());
+          }
+        }
+      } else if (n.nodeType === 8)
+        if (n.data === vi)
+          o.push({ type: 2, index: a });
+        else {
+          let g = -1;
+          for (; (g = n.data.indexOf(B, g + 1)) !== -1; )
+            o.push({ type: 7, index: a }), g += B.length - 1;
+        }
+      a++;
+    }
+  }
+  static createElement(t, e) {
+    const s = G.createElement("template");
+    return s.innerHTML = t, s;
+  }
+}
+function it(i, t, e = i, s) {
+  var n, a, l, h;
+  if (t === dt)
+    return t;
+  let o = s !== void 0 ? (n = e._$Co) === null || n === void 0 ? void 0 : n[s] : e._$Cl;
+  const c = ct(t) ? void 0 : t._$litDirective$;
+  return (o == null ? void 0 : o.constructor) !== c && ((a = o == null ? void 0 : o._$AO) === null || a === void 0 || a.call(o, !1), c === void 0 ? o = void 0 : (o = new c(i), o._$AT(i, e, s)), s !== void 0 ? ((l = (h = e)._$Co) !== null && l !== void 0 ? l : h._$Co = [])[s] = o : e._$Cl = o), o !== void 0 && (t = it(i, o._$AS(i, t.values), o, s)), t;
+}
+class Ui {
+  constructor(t, e) {
+    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
+  }
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  u(t) {
+    var e;
+    const { el: { content: s }, parts: n } = this._$AD, a = ((e = t == null ? void 0 : t.creationScope) !== null && e !== void 0 ? e : G).importNode(s, !0);
+    C.currentNode = a;
+    let l = C.nextNode(), h = 0, o = 0, c = n[0];
+    for (; c !== void 0; ) {
+      if (h === c.index) {
+        let p;
+        c.type === 2 ? p = new gt(l, l.nextSibling, this, t) : c.type === 1 ? p = new c.ctor(l, c.name, c.strings, this, t) : c.type === 6 && (p = new Zi(l, this, t)), this._$AV.push(p), c = n[++o];
+      }
+      h !== (c == null ? void 0 : c.index) && (l = C.nextNode(), h++);
+    }
+    return C.currentNode = G, a;
+  }
+  v(t) {
+    let e = 0;
+    for (const s of this._$AV)
+      s !== void 0 && (s.strings !== void 0 ? (s._$AI(t, s, e), e += s.strings.length - 2) : s._$AI(t[e])), e++;
+  }
+}
+class gt {
+  constructor(t, e, s, n) {
+    var a;
+    this.type = 2, this._$AH = F, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = s, this.options = n, this._$Cp = (a = n == null ? void 0 : n.isConnected) === null || a === void 0 || a;
+  }
+  get _$AU() {
+    var t, e;
+    return (e = (t = this._$AM) === null || t === void 0 ? void 0 : t._$AU) !== null && e !== void 0 ? e : this._$Cp;
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode;
+    const e = this._$AM;
+    return e !== void 0 && (t == null ? void 0 : t.nodeType) === 11 && (t = e.parentNode), t;
+  }
+  get startNode() {
+    return this._$AA;
+  }
+  get endNode() {
+    return this._$AB;
+  }
+  _$AI(t, e = this) {
+    t = it(this, t, e), ct(t) ? t === F || t == null || t === "" ? (this._$AH !== F && this._$AR(), this._$AH = F) : t !== this._$AH && t !== dt && this._(t) : t._$litType$ !== void 0 ? this.g(t) : t.nodeType !== void 0 ? this.$(t) : ji(t) ? this.T(t) : this._(t);
+  }
+  k(t) {
+    return this._$AA.parentNode.insertBefore(t, this._$AB);
+  }
+  $(t) {
+    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
+  }
+  _(t) {
+    this._$AH !== F && ct(this._$AH) ? this._$AA.nextSibling.data = t : this.$(G.createTextNode(t)), this._$AH = t;
+  }
+  g(t) {
+    var e;
+    const { values: s, _$litType$: n } = t, a = typeof n == "number" ? this._$AC(t) : (n.el === void 0 && (n.el = ut.createElement(fi(n.h, n.h[0]), this.options)), n);
+    if (((e = this._$AH) === null || e === void 0 ? void 0 : e._$AD) === a)
+      this._$AH.v(s);
+    else {
+      const l = new Ui(a, this), h = l.u(this.options);
+      l.v(s), this.$(h), this._$AH = l;
+    }
+  }
+  _$AC(t) {
+    let e = Ys.get(t.strings);
+    return e === void 0 && Ys.set(t.strings, e = new ut(t)), e;
+  }
+  T(t) {
+    $i(this._$AH) || (this._$AH = [], this._$AR());
+    const e = this._$AH;
+    let s, n = 0;
+    for (const a of t)
+      n === e.length ? e.push(s = new gt(this.k(ht()), this.k(ht()), this, this.options)) : s = e[n], s._$AI(a), n++;
+    n < e.length && (this._$AR(s && s._$AB.nextSibling, n), e.length = n);
+  }
+  _$AR(t = this._$AA.nextSibling, e) {
+    var s;
+    for ((s = this._$AP) === null || s === void 0 || s.call(this, !1, !0, e); t && t !== this._$AB; ) {
+      const n = t.nextSibling;
+      t.remove(), t = n;
+    }
+  }
+  setConnected(t) {
+    var e;
+    this._$AM === void 0 && (this._$Cp = t, (e = this._$AP) === null || e === void 0 || e.call(this, t));
+  }
+}
+class Et {
+  constructor(t, e, s, n, a) {
+    this.type = 1, this._$AH = F, this._$AN = void 0, this.element = t, this.name = e, this._$AM = n, this.options = a, s.length > 2 || s[0] !== "" || s[1] !== "" ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = F;
+  }
+  get tagName() {
+    return this.element.tagName;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t, e = this, s, n) {
+    const a = this.strings;
+    let l = !1;
+    if (a === void 0)
+      t = it(this, t, e, 0), l = !ct(t) || t !== this._$AH && t !== dt, l && (this._$AH = t);
+    else {
+      const h = t;
+      let o, c;
+      for (t = a[0], o = 0; o < a.length - 1; o++)
+        c = it(this, h[s + o], e, o), c === dt && (c = this._$AH[o]), l || (l = !ct(c) || c !== this._$AH[o]), c === F ? t = F : t !== F && (t += (c ?? "") + a[o + 1]), this._$AH[o] = c;
+    }
+    l && !n && this.j(t);
+  }
+  j(t) {
+    t === F ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
+  }
+}
+class Xi extends Et {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+  j(t) {
+    this.element[this.name] = t === F ? void 0 : t;
+  }
+}
+const Yi = st ? st.emptyScript : "";
+class Ki extends Et {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+  j(t) {
+    t && t !== F ? this.element.setAttribute(this.name, Yi) : this.element.removeAttribute(this.name);
+  }
+}
+class Gi extends Et {
+  constructor(t, e, s, n, a) {
+    super(t, e, s, n, a), this.type = 5;
+  }
+  _$AI(t, e = this) {
+    var s;
+    if ((t = (s = it(this, t, e, 0)) !== null && s !== void 0 ? s : F) === dt)
+      return;
+    const n = this._$AH, a = t === F && n !== F || t.capture !== n.capture || t.once !== n.once || t.passive !== n.passive, l = t !== F && (n === F || a);
+    a && this.element.removeEventListener(this.name, this, n), l && this.element.addEventListener(this.name, this, t), this._$AH = t;
+  }
+  handleEvent(t) {
+    var e, s;
+    typeof this._$AH == "function" ? this._$AH.call((s = (e = this.options) === null || e === void 0 ? void 0 : e.host) !== null && s !== void 0 ? s : this.element, t) : this._$AH.handleEvent(t);
+  }
+}
+class Zi {
+  constructor(t, e, s) {
+    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = s;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t) {
+    it(this, t);
+  }
+}
+const Ks = xt.litHtmlPolyfillSupport;
+Ks == null || Ks(ut, gt), ((At = xt.litHtmlVersions) !== null && At !== void 0 ? At : xt.litHtmlVersions = []).push("2.8.0");
+const St = (i, t, e) => {
+  var s, n;
+  const a = (s = e == null ? void 0 : e.renderBefore) !== null && s !== void 0 ? s : t;
+  let l = a._$litPart$;
+  if (l === void 0) {
+    const h = (n = e == null ? void 0 : e.renderBefore) !== null && n !== void 0 ? n : null;
+    a._$litPart$ = l = new gt(t.insertBefore(ht(), h), h, void 0, e ?? {});
+  }
+  return l._$AI(i), l;
+}, Ji = ({
   list: i,
   template: t
-}) => E`
+}) => O`
   <ul class="mpui-picker">
     ${i.map(
-  (e, s) => E`
+  (e, s) => O`
         <li class="mpui-picker-item" data-value="${e.value}">
           ${(t == null ? void 0 : t(e, s)) || e.label || e.value}
         </li>
@@ -1028,13 +1043,13 @@ const Ji = ({
 )}
   </ul>
 `;
-class J {
-  constructor({ container: t, value: e, onChange: s, onPick: n, list: a, template: l, condition: o }) {
-    this.container = t, this.list = a, this.value = e, this.onChange = s, this.onPick = n, this.template = l, this.condition = o, this.reload();
+class Z {
+  constructor({ container: t, value: e, onChange: s, onPick: n, list: a, template: l, condition: h }) {
+    this.container = t, this.list = a, this.value = e, this.onChange = s, this.onPick = n, this.template = l, this.condition = h, this.reload();
   }
   /** 重载，一般用于列表项更改 */
   reload(t) {
-    R(Ji({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
+    St(Ji({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
       e.addEventListener("click", () => {
         this.pick(e.getAttribute("data-value") || void 0);
       });
@@ -1056,10 +1071,10 @@ class J {
 const Qi = ({
   list: i,
   template: t
-}) => E`
+}) => O`
   <ul class="mpui-picker">
     ${i.map(
-  (e, s) => E`
+  (e, s) => O`
         <li class="mpui-picker-item" data-value="${e.value}">
           ${(t == null ? void 0 : t(e, s)) || e.label || e.value}
         </li>
@@ -1077,7 +1092,7 @@ class yi {
   }
   /** 重载，一般用于列表项更改 */
   reload(t) {
-    R(Qi({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
+    St(Qi({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
       e.addEventListener("click", () => {
         this.toggle(e.getAttribute("data-value"));
       });
@@ -1094,15 +1109,14 @@ class yi {
   toggle(t, e) {
     var n, a;
     const s = e ?? !this.valueSet.has(t);
-    s ? this.valueSet.add(t) : this.valueSet.delete(t), this.$items.forEach((l, o) => {
+    s ? this.valueSet.add(t) : this.valueSet.delete(t), this.$items.forEach((l, h) => {
       l.getAttribute("data-value") == t && l.classList.toggle("is-checked", s);
     }), (n = this.onChange) == null || n.call(this, this.value), (a = this.onToggle) == null || a.call(this, t, s);
   }
 }
-const tn = ({ label: i }) => E` <div class="mpui-switch">${i}</div> `;
-class en {
+class tn {
   constructor({ container: t, value: e = !1, onChange: s, onToggle: n }) {
-    this.container = t, this.value = e, this.onChange = s, this.onToggle = n, R(tn({ label: this.label }), this.container), this.$el = this.container.querySelector(".mpui-switch"), this.$el.addEventListener("click", () => {
+    this.container = t, this.value = e, this.onChange = s, this.onToggle = n, this.$el = u("div", { class: "mpui-switch" }, this.label), this.$el = this.container.querySelector(".mpui-switch"), this.$el.addEventListener("click", () => {
       this.toggle(!this.value);
     }), this.setValue(this.value);
   }
@@ -1117,15 +1131,19 @@ class en {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const sn = ({ label: i }) => E`
-  <div class="mpui-checkbox">
-    <div class="mpui-checkbox-icon"></div>
-    <div class="mpui-checkbox-label">${i}</div>
-  </div>
-`;
 class ze {
   constructor({ container: t, value: e = !1, onChange: s, onToggle: n, label: a }) {
-    this.container = t, this.value = e, this.onChange = s, this.onToggle = n, this.label = a, R(sn({ label: this.label }), this.container), this.$el = this.container.querySelector(".mpui-checkbox"), this.$el.addEventListener("click", () => {
+    this.container = t, this.value = e, this.onChange = s, this.onToggle = n, this.label = a, this.$el = this.container.appendChild(
+      u(
+        "div",
+        { class: "mpui-checkbox" },
+        /*html*/
+        `
+          <div class="mpui-checkbox-icon"></div>
+          <div class="mpui-checkbox-label">${a}</div>
+        `
+      )
+    ), this.$el.addEventListener("click", () => {
       this.toggle();
     }), this.setValue(this.value);
   }
@@ -1140,24 +1158,24 @@ class ze {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const Ar = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Er = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   Checkbox: ze,
   MultiPicker: yi,
-  Picker: J,
-  Slider: lt,
-  SliderVertical: fi,
-  Switch: en
+  Picker: Z,
+  Slider: at,
+  SliderVertical: mi,
+  Switch: tn
 }, Symbol.toStringTag, { value: "Module" }));
 console.log(
   `
- %c mfunsPlayer v${ht.version} ${ht.gitHash} %c https://github.com/Mfuns-cn 
+ %c mfunsPlayer v${ot.version} ${ot.gitHash} %c https://github.com/Mfuns-cn 
 
 `,
   "color: #fff; background: #7b7ff7; padding:5px 0;",
   "background: #f5f5f5; padding:5px 0;"
 );
-class nn {
+class en {
   constructor({
     el: t,
     getData: e,
@@ -1186,27 +1204,27 @@ class nn {
   render(t, e) {
     const s = this.renderStart, n = this.renderEnd;
     if (this.renderStart = this.getViewStart(e) - this.overflow, this.renderEnd = this.getViewEnd(e, t) + this.overflow, this.renderStart < s) {
-      const a = document.createDocumentFragment(), l = Math.max(this.renderStart, 0), o = Math.min(s - 1, this.renderEnd, this.data.length - 1);
-      for (let h = l; h <= o; h++)
-        a.appendChild(this.createItem(this.data[h], h, this.data));
+      const a = document.createDocumentFragment(), l = Math.max(this.renderStart, 0), h = Math.min(s - 1, this.renderEnd, this.data.length - 1);
+      for (let o = l; o <= h; o++)
+        a.appendChild(this.createItem(this.data[o], o, this.data));
       this.$content.insertBefore(a, this.$content.firstElementChild);
     } else {
       const a = Math.max(s, 0), l = Math.min(this.renderStart - 1, n);
-      for (let o = a; o <= l; o++) {
-        const h = this.$content.firstElementChild;
-        h && this.$content.removeChild(h);
+      for (let h = a; h <= l; h++) {
+        const o = this.$content.firstElementChild;
+        o && this.$content.removeChild(o);
       }
     }
     if (this.renderEnd > n) {
-      const a = document.createDocumentFragment(), l = Math.max(n + 1, this.renderStart), o = Math.min(this.renderEnd, this.data.length - 1);
-      for (let h = l; h <= o; h++)
-        a.appendChild(this.createItem(this.data[h], h, this.data));
+      const a = document.createDocumentFragment(), l = Math.max(n + 1, this.renderStart), h = Math.min(this.renderEnd, this.data.length - 1);
+      for (let o = l; o <= h; o++)
+        a.appendChild(this.createItem(this.data[o], o, this.data));
       this.$content.appendChild(a);
     } else {
       const a = Math.min(n, this.data.length - 1), l = Math.max(this.renderEnd + 1, s);
-      for (let o = a; o >= l; o--) {
-        const h = this.$content.lastElementChild;
-        h && this.$content.removeChild(h);
+      for (let h = a; h >= l; h--) {
+        const o = this.$content.lastElementChild;
+        o && this.$content.removeChild(o);
       }
     }
     this.$content.style.paddingTop = `${this.renderStart > 0 ? this.renderStart * this.itemHeight : 0}px`, this.$content.style.paddingBottom = `${this.renderEnd < this.data.length - 1 ? (this.data.length - this.renderEnd - 1) * this.itemHeight : 0}px`;
@@ -1217,16 +1235,19 @@ class nn {
   getViewEnd(t, e) {
     return Math.ceil((t + e) / this.itemHeight) - 1;
   }
-  // 清空列表
+  /** 清空列表 */
   clear() {
     this.data = [], this.$content.innerHTML = "", this.$content.style.paddingTop = "0px", this.$content.style.paddingBottom = "0px", this.cleared = !0;
   }
+  /** 开头定位到某项 */
   locateStart(t) {
     this.scrollTo(t * this.itemHeight);
   }
+  /** 末尾定位到某项 */
   locateEnd(t) {
     this.scrollTo(t * this.itemHeight - this.$el.clientHeight);
   }
+  /** 滚动到高度 */
   scrollTo(t) {
     this.$el.scrollTo({
       top: t,
@@ -1234,82 +1255,79 @@ class nn {
     });
   }
 }
-const rn = (i) => E`
-  <div class="${r}-danmakulist">
-    <div class="${r}-danmakulist-main">
-      <div class="${r}-danmakulist-head">
-        <div class="list-column col-time">时间</div>
-        <div class="list-column col-content">弹幕内容</div>
-        <div class="list-column col-date">发送时间</div>
-      </div>
-      <div class="${r}-danmakulist-select">
-        <div class="${r}-danmakulist-select-info"></div>
-        <div class="${r}-danmakulist-select-operate">
-          <div class="list-operate-btn" @click=${i}>取消选择</div>
-        </div>
-      </div>
-      <div class="${r}-danmakulist-container"></div>
-      <div class="${r}-danmakulist-status">
-        <div class="status-loading-text">弹幕列表装填中……</div>
-        <div class="status-failed-text">弹幕加载失败 X_X</div>
-        <div class="status-empty-text">还没有弹幕哦，快来发弹幕^_^</div>
+const sn = (
+  /*html*/
+  `
+  <div class="${r}-danmakulist-main">
+    <div class="${r}-danmakulist-head">
+      <div class="list-column col-time">时间</div>
+      <div class="list-column col-content">弹幕内容</div>
+      <div class="list-column col-date">发送时间</div>
+    </div>
+    <div class="${r}-danmakulist-select">
+      <div class="${r}-danmakulist-select-info"></div>
+      <div class="${r}-danmakulist-select-operate">
+        <div class="list-operate-btn" data-action="clearSelect">取消选择</div>
       </div>
     </div>
-    <div class="${r}-danmakulist-foot">
-      <div class="${r}-danmakulist-foot-left">
-        <span class="${r}-danmakulist-autoscroll">列表滚动[关]</span>
-      </div>
-      <div class="${r}-danmakulist-foot-right"></div>
+    <div class="${r}-danmakulist-container"></div>
+    <div class="${r}-danmakulist-status">
+      <div class="status-loading-text">弹幕列表装填中……</div>
+      <div class="status-failed-text">弹幕加载失败 X_X</div>
+      <div class="status-empty-text">还没有弹幕哦，快来发弹幕^_^</div>
     </div>
   </div>
-`, an = (i, t, {
+  <div class="${r}-danmakulist-foot">
+    <div class="${r}-danmakulist-foot-left">
+      <span class="${r}-danmakulist-autoscroll">列表滚动[关]</span>
+    </div>
+    <div class="${r}-danmakulist-foot-right"></div>
+  </div>
+`
+), nn = (i, t, {
   operation: e,
   onClick: s,
   onDblclick: n,
   selected: a,
   focused: l,
-  title: o
+  title: h
 }) => {
-  const h = E`
-    <div
-      class="${`list-row ${a(i) ? "is-selected" : ""} ${l(i) ? "is-focused" : ""}`.trim()}"
-      data-index="${t}"
-      data-mode="${i.mode}"
-      @dblclick=${(u) => {
-    n(u, i);
-  }}
-      @click=${(u) => {
-    s(u, i);
-  }}
-      title="${o(i)}"
-    >
-      <div class="list-cell col-time">${$t(i.time)}</div>
+  const o = u(
+    "div",
+    {
+      class: "list-row",
+      "data-index": t.toString(),
+      "data-mode": i.mode.toString(),
+      title: h
+    },
+    /* html */
+    `
+      <div class="list-cell col-time">${vt(i.time)}</div>
       <div class="list-cell col-content">${i.content}</div>
       <div class="list-cell col-date">
         ${i.date ? Ie(new Date(i.date * 1e3), "yy-MM-dd HH:mm") : "-"}
       </div>
-      ${e.length ? E`<div class="list-operate" title="">
-            ${e(i).map(
-    ([u, g]) => E`<div
-                  class="list-operate-btn"
-                  @click=${(k) => {
-      k.stopPropagation(), g(i);
-    }}
-                >
-                  ${u}
-                </div>`
-  )}
-          </div>` : ""}
-    </div>
-  `, c = new DocumentFragment();
-  return R(h, c), c.firstElementChild;
-}, qe = class qe extends gt {
+    `
+  );
+  a && o.classList.add("is-selected"), l && o.classList.add("is-focused"), o.ondblclick = n, o.onclick = s;
+  const c = e;
+  if (c.length) {
+    const p = u("div", { class: "list-operate" });
+    c.forEach(([g, k, S]) => {
+      if (!S)
+        return;
+      const E = u("div", { class: "list-operate-btn" }, g);
+      E.onclick = (m) => {
+        m.stopPropagation(), k(i);
+      }, p.appendChild(E);
+    }), o.appendChild(p);
+  }
+  return o;
+}, Be = class Be extends $t {
   constructor(t) {
-    const e = new DocumentFragment();
-    R(
-      rn(() => this.select([])),
-      e
-    ), super(t, e.querySelector(`.${r}-danmakulist`)), this.title = "弹幕列表", this.data = [], this.selected = [], this.focused = null, this.sortedBy = "time", this.sortOrder = -1, this.autoScroll = !0, this.frozen = !1, this.player = t, this.danmaku = t.plugins.danmaku, this.$main = this.$(`.${r}-danmakulist-main`), this.$container = this.$(`.${r}-danmakulist-container`), this.$status = this.$(`.${r}-danmakulist-status`), this.$colTime = this.$(".col-time"), this.$colDate = this.$(".col-date"), this.$colContent = this.$(".col-content"), this.$autoscroll = this.$(`.${r}-danmakulist-autoscroll`), this.$select = this.$(`.${r}-danmakulist-select`), this.$selectInfo = this.$(`.${r}-danmakulist-select-info`), this.$colTime.onclick = () => {
+    super(t, u("div", { class: `${r}-danmakulist` }, sn)), this.title = "弹幕列表", this.data = [], this.selected = [], this.focused = null, this.sortedBy = "time", this.sortOrder = -1, this.autoScroll = !0, this.frozen = !1, this.danmaku = t.plugins.danmaku, this.$main = this.$(`.${r}-danmakulist-main`), this.$container = this.$(`.${r}-danmakulist-container`), this.$status = this.$(`.${r}-danmakulist-status`), this.$colTime = this.$(".col-time"), this.$colDate = this.$(".col-date"), this.$colContent = this.$(".col-content"), this.$autoscroll = this.$(`.${r}-danmakulist-autoscroll`), this.$select = this.$(`.${r}-danmakulist-select`), this.$selectInfo = this.$(`.${r}-danmakulist-select-info`), this.$clearSelect = this.$('.list-operate-btn[data-action="clearSelect"]'), this.$clearSelect.onclick = () => {
+      this.select([]);
+    }, this.$colTime.onclick = () => {
       this.setAutoScroll(!1), this.sortedBy == "time" ? this.sort("time", -this.sortOrder) : this.sort("time", 1);
     }, this.$colDate.onclick = () => {
       this.setAutoScroll(!1), this.sortedBy == "date" ? this.sort("date", -this.sortOrder) : this.sort("date", 1);
@@ -1317,11 +1335,11 @@ const rn = (i) => E`
       this.setAutoScroll(!1), this.sortedBy == "content" ? this.sort("content", -this.sortOrder) : this.sort("content", 1);
     }, this.$autoscroll.onclick = () => {
       this.setAutoScroll(!this.autoScroll);
-    }, this.player.on("danmakuList:autoScrollChange", (s) => {
-      s ? this.$autoscroll.innerText = "列表滚动[开]" : this.$autoscroll.innerText = "列表滚动[关]";
-    }), this.autoScroll && this.player.emit("danmakuList:autoScrollChange", !0), this.player.on("danmakuList:select", (s) => {
-      const n = s.length;
-      this.$selectInfo.innerText = n ? `已选择${n}条弹幕` : "", this.$select.classList.toggle("is-show", n > 1);
+    }, this.player.on("danmakuList:autoScrollChange", (e) => {
+      e ? this.$autoscroll.innerText = "列表滚动[开]" : this.$autoscroll.innerText = "列表滚动[关]";
+    }), this.autoScroll && this.player.emit("danmakuList:autoScrollChange", !0), this.player.on("danmakuList:select", (e) => {
+      const s = e.length;
+      this.$selectInfo.innerText = s ? `已选择${s}条弹幕` : "", this.$select.classList.toggle("is-show", s > 1);
     });
   }
   mount(t, e) {
@@ -1341,49 +1359,48 @@ const rn = (i) => E`
     }
   }
   init() {
-    var n;
-    const t = (n = this.plugins.danmaku) == null ? void 0 : n.invoke, e = this.plugins.danmakuOperate;
-    this.list = new nn({
+    const t = this.player.invokes, e = this.plugins.danmakuOperate;
+    this.list = new en({
       el: this.$container,
       getData: () => this.data,
       itemHeight: 24,
-      createItem: (a, l) => an(a, l, {
-        operation: (o) => {
-          const h = this.player.userId && o.user == this.player.userId;
+      createItem: (n, a) => nn(n, a, {
+        operation: ((l) => {
+          const h = this.player.userId && l.user == this.player.userId;
           return [
             [
               "举报",
-              (c) => {
-                e == null || e.report(c);
+              () => {
+                e == null || e.report(l);
               },
-              !h && (t == null ? void 0 : t.report)
+              !h && (t == null ? void 0 : t.danmakuReport)
             ],
             [
               "屏蔽",
-              (c) => {
-                e == null || e.blockUser(c.user, !0);
+              (o) => {
+                e == null || e.blockUser(o.user, !0);
               },
-              !h && (t == null ? void 0 : t.blockUser)
+              !h && (t == null ? void 0 : t.danmakuBlockUser)
             ],
             [
               "撤回",
-              (c) => {
-                e == null || e.recall(c);
+              (o) => {
+                e == null || e.recall(o);
               },
-              h && (t == null ? void 0 : t.recall)
+              h && (t == null ? void 0 : t.danmakuRecall)
             ]
-          ].filter((c) => c[2]);
+          ].filter((o) => o[2]);
+        })(n),
+        onClick: (l) => {
+          this.clickSelect(n, l.shiftKey, l.ctrlKey);
         },
-        onClick: (o, h) => {
-          this.clickSelect(h, o.shiftKey, o.ctrlKey);
+        onDblclick: () => {
+          this.player.seek(n.time);
         },
-        onDblclick: (o, h) => {
-          this.player.seek(h.time);
-        },
-        selected: (o) => this.selected.includes(o),
-        focused: (o) => this.focused == o,
-        title: (o) => `${o.content}
-${a.date ? Ie(new Date(a.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${$t(a.time, 16)}`
+        selected: this.selected.includes(n),
+        focused: this.focused == n,
+        title: `${n.content}
+${n.date ? Ie(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${vt(n.time, 16)}`
       }),
       overflow: 5
     });
@@ -1398,12 +1415,12 @@ ${a.date ? Ie(new Date(a.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${$t(a.tim
       this.frozen = !1;
     }), this.player.on("videoChange", () => {
       this.clear();
-    }), this.player.on("danmaku:add", (a) => {
-      this.fill(a), this.autoScroll && this.sort("time");
-    }), this.player.on("timeupdate", (a) => {
-      this.autoScroll && !this.frozen && this.locateByTime(a);
-    }), this.player.on("danmaku:select", (a) => {
-      this.locateByDanmaku(a), this.select([a]);
+    }), this.player.on("danmaku:add", (n) => {
+      this.fill(n), this.autoScroll && this.sort("time");
+    }), this.player.on("timeupdate", (n) => {
+      this.autoScroll && !this.frozen && this.locateByTime(n);
+    }), this.player.on("danmaku:select", (n) => {
+      this.locateByDanmaku(n), this.select([n]);
     });
   }
   /** 弹幕列表排序 */
@@ -1488,8 +1505,8 @@ ${a.date ? Ie(new Date(a.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${$t(a.tim
         if (n == -1 || a == -1)
           this.select([t]);
         else {
-          const l = n < a ? n : a, o = (n < a ? a : n) + 1;
-          this.select(this.data.slice(l, o), this.focused);
+          const l = n < a ? n : a, h = (n < a ? a : n) + 1;
+          this.select(this.data.slice(l, h), this.focused);
         }
       } else
         this.select([t]);
@@ -1497,22 +1514,26 @@ ${a.date ? Ie(new Date(a.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${$t(a.tim
       s ? this.toggleSelect(t, !this.selected.includes(t)) : this.selected.length == 1 && this.selected[0] == t ? this.select([]) : this.select([t]);
   }
 };
-qe.pluginName = "danmakuList";
-let Nt = qe;
-const ln = (i) => E`
-  <div class="${r}-hotkeys">
-    <div class="${r}-hotkeys-list">
-      ${i.map(
-  ({ key: t, description: e }) => E`
-          <div class="${r}-hotkeys-list-item">
-            <div class="${r}-hotkeys-list-key">${t}</div>
-            <div class="${r}-hotkeys-list-description">${e}</div>
-          </div>
-        `
-)}
-    </div>
+Be.pluginName = "danmakuList";
+let Nt = Be;
+const rn = (i) => (
+  /*html*/
+  `
+  <div class="${r}-hotkeys-list">
+    ${i.map(
+    ({ key: t, description: e }) => (
+      /*html*/
+      `
+        <div class="${r}-hotkeys-list-item">
+          <div class="${r}-hotkeys-list-key">${t}</div>
+          <div class="${r}-hotkeys-list-description">${e}</div>
+        </div>
+      `
+    )
+  ).join("")}
   </div>
-`, Be = class Be extends gt {
+`
+), qe = class qe extends $t {
   constructor(t) {
     const e = [
       { key: "Space", description: "播放/暂停" },
@@ -1520,44 +1541,55 @@ const ln = (i) => E`
       { key: "←", description: "快退5秒" },
       { key: "↑", description: "音量增加10%" },
       { key: "↓", description: "音量降低10%" }
-    ], s = new DocumentFragment();
-    R(ln(e), s), super(t, s.querySelector(`.${r}-hotkeys`)), this.title = "快捷键说明";
+    ];
+    super(
+      t,
+      u("div", { class: `${r}-hotkeys` }, rn(e))
+    ), this.title = "快捷键说明";
   }
 };
-Be.pluginName = "hotkeyInfo";
-let It = Be;
-const on = () => E`
-  <div class="${r}-about">
-    <div class="${r}-about-logo"></div>
-    <div class="${r}-about-version">version ${ht.version}-${ht.gitHash}</div>
-    <div>github：<a href="${Pi}" target="_blank">mfuns-cn/mfunsPlayer</a></div>
-    <div>开发者：</div>
-    <ul class="${r}-about-developers">
-      ${Di.map(
-  ({ name: i, link: t }) => E`
-          <li>
-            <a href="${t}" target="_blank">${i}</a>
-          </li>
-        `
-)}
-      <li></li>
-    </ul>
-  </div>
-`, Ve = class Ve extends gt {
+qe.pluginName = "hotkeyInfo";
+let It = qe;
+const an = (
+  /*html*/
+  `
+  <div class="${r}-about-logo"></div>
+  <div class="${r}-about-version">version ${ot.version}-${ot.gitHash}</div>
+  <div>github：<a href="${Pi}" target="_blank">mfuns-cn/mfunsPlayer</a></div>
+  <div>开发者：</div>
+  <ul class="${r}-about-developers">
+    ${Ri.map(
+    ({ name: i, link: t }) => (
+      /*html*/
+      `
+        <li>
+          <a href="${t}" target="_blank">${i}</a>
+        </li>
+      `
+    )
+  ).join("")}
+    <li></li>
+  </ul>
+`
+), Ve = class Ve extends $t {
   constructor(t) {
-    const e = new DocumentFragment();
-    R(on(), e), super(t, e.querySelector(`.${r}-about`)), this.title = "关于";
+    super(t, u("div", { class: `${r}-about` }, an)), this.title = "关于";
   }
 };
 Ve.pluginName = "about";
 let zt = Ve;
-const hn = () => E`
-  <div class="${r}-contextmenu">
-    <ul class="${r}-contextmenu-list mpui-black"></ul>
-  </div>
-`, je = class je extends w {
+const je = class je extends w {
   constructor(t) {
-    super(t), this.list = [], this.isShow = !1, this.player = t, this.container = p("div", { class: `${r}-contextmenu-wrap` }), R(hn(), this.container), this.$el = this.container.querySelector(`.${r}-contextmenu`), this.$list = this.$el.querySelector(`.${r}-contextmenu-list`), this.player.$main.appendChild(this.container);
+    super(t), this.list = [], this.isShow = !1, this.player = t, this.container = u(
+      "div",
+      { class: `${r}-contextmenu-wrap` },
+      /*html*/
+      `
+      <div class="${r}-contextmenu">
+        <ul class="${r}-contextmenu-list mpui-black"></ul>
+      </div>
+      `
+    ), this.$el = this.container.querySelector(`.${r}-contextmenu`), this.$list = this.$el.querySelector(`.${r}-contextmenu-list`), this.player.$main.appendChild(this.container);
   }
   apply(t, e) {
     var s;
@@ -1567,7 +1599,7 @@ const hn = () => E`
     this.$list.innerHTML = "";
     const e = new DocumentFragment();
     t.forEach((s) => {
-      const n = p("li", { class: `${r}-contextmenu-item` });
+      const n = u("li", { class: `${r}-contextmenu-item` });
       s.onClick && (n.onclick = () => {
         var l;
         (l = s.onClick) == null || l.call(s, this.player);
@@ -1600,7 +1632,7 @@ const hn = () => E`
 };
 je.pluginName = "contextMenu";
 let Ot = je;
-const cn = (
+const ln = (
   /*html*/
   `
   <div class="${r}-controller-mask"></div>
@@ -1615,10 +1647,10 @@ const cn = (
 `
 ), Ce = class Ce extends w {
   constructor(t) {
-    super(t), this.isHover = !1, this.controls = {}, this.player = t, this.container = p(
+    super(t), this.isHover = !1, this.controls = {}, this.player = t, this.container = u(
       "div",
       { class: `${r}-controller-wrap` },
-      cn
+      ln
     ), this.$el = this.container.querySelector(`.${r}-controller`), this.$top = this.$el.querySelector(`.${r}-controller-top`), this.$content = this.$el.querySelector(`.${r}-controller-content`), this.$left = this.$el.querySelector(`.${r}-controller-left`), this.$center = this.$el.querySelector(`.${r}-controller-center`), this.$right = this.$el.querySelector(`.${r}-controller-right`), this.player.$main.append(this.container), this.inactiveHook = () => !this.isHover && void 0, this.mouseEnterHandler = () => {
       this.isHover = !0;
     }, this.mouseLeaveHandler = () => {
@@ -1655,8 +1687,8 @@ const cn = (
   }
 };
 Ce.pluginName = "controller";
-let qt = Ce;
-const dn = (
+let Bt = Ce;
+const on = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1665,14 +1697,14 @@ const dn = (
   </div>
   <div class="mpui-tooltip">播放</div>
 `
-), We = class We extends F {
+), We = class We extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-play is-paused` },
-        dn
+        on
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1693,8 +1725,8 @@ const dn = (
   }
 };
 We.pluginName = "buttonPlay";
-let Bt = We;
-const un = (
+let qt = We;
+const hn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1702,16 +1734,16 @@ const un = (
   </div>
   <div class="mpui-tooltip">上一P</div>
 `
-), Ue = class Ue extends F {
+), Ue = class Ue extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         {
           class: `${r}-controls-button ${r}-button-prev is-autohide is-disabled`
         },
-        un
+        hn
       )
     ), this.singleHide = !0, this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1740,7 +1772,7 @@ const un = (
 };
 Ue.pluginName = "buttonPrev";
 let Vt = Ue;
-const pn = (
+const cn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1748,14 +1780,14 @@ const pn = (
   </div>
   <div class="mpui-tooltip">下一P</div>
 `
-), Xe = class Xe extends F {
+), Xe = class Xe extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-next` },
-        pn
+        cn
       )
     ), this.singleHide = !0, this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1784,7 +1816,7 @@ const pn = (
 };
 Xe.pluginName = "buttonNext";
 let jt = Xe;
-const mn = (
+const dn = (
   /*html*/
   `
   <div class="${r}-videotime-label">
@@ -1794,9 +1826,9 @@ const mn = (
   </div>
   <input class="${r}-videotime-input mpui-input" />
 `
-), Ye = class Ye extends F {
+), Ye = class Ye extends M {
   constructor(t) {
-    super(t, p("div", { class: `${r}-videotime` }, mn)), this.valueBeforeEdited = "", this.timeFormat = 2, this.$label = this.$(`.${r}-videotime-label`), this.$current = this.$(`.${r}-videotime-current`), this.$total = this.$(`.${r}-videotime-total`), this.$input = this.$(`.${r}-videotime-input`);
+    super(t, u("div", { class: `${r}-videotime` }, dn)), this.valueBeforeEdited = "", this.timeFormat = 2, this.$label = this.$(`.${r}-videotime-label`), this.$current = this.$(`.${r}-videotime-current`), this.$total = this.$(`.${r}-videotime-total`), this.$input = this.$(`.${r}-videotime-input`);
   }
   init() {
     this.player.on("timeupdate", (t) => {
@@ -1809,10 +1841,10 @@ const mn = (
       this.$el.classList.add("is-input"), this.$input.value = this.format(this.player.currentTime), this.valueBeforeEdited = this.$input.value, this.$input.focus();
     }), this.$input.addEventListener("blur", () => {
       const t = this.$input.value;
-      t != this.valueBeforeEdited && (this.player.seek(Dt(t)), this.player.play()), this.exitInput();
+      t != this.valueBeforeEdited && (this.player.seek(Rt(t)), this.player.play()), this.exitInput();
     }), this.$input.addEventListener("keydown", (t) => {
       const e = t || window.event;
-      e.keyCode == 13 && (this.player.seek(Dt(this.$input.value)), this.player.play(), this.exitInput()), e.keyCode == 27 && this.exitInput();
+      e.keyCode == 13 && (this.player.seek(Rt(this.$input.value)), this.player.play(), this.exitInput()), e.keyCode == 27 && this.exitInput();
     });
   }
   /** 退出输入模式 */
@@ -1821,12 +1853,12 @@ const mn = (
   }
   /** 格式化时间 */
   format(t) {
-    return $t(t, this.timeFormat);
+    return vt(t, this.timeFormat);
   }
 };
 Ye.pluginName = "videoTime";
 let Ct = Ye;
-const vn = (
+const un = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1835,14 +1867,14 @@ const vn = (
   </div>
   <div class="mpui-tooltip">洗脑循环</div>
 `
-), Ke = class Ke extends F {
+), Ke = class Ke extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-loop` },
-        vn
+        un
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1856,7 +1888,7 @@ const vn = (
 };
 Ke.pluginName = "buttonLoop";
 let Wt = Ke;
-const $n = (
+const pn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1864,14 +1896,14 @@ const $n = (
   </div>
   <div class="mpui-tooltip">分P列表</div>
 `
-), Ge = class Ge extends F {
+), Ge = class Ge extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-part` },
-        $n
+        pn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$text = this.$(`.${r}-controls-button-text`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1887,7 +1919,7 @@ const $n = (
 };
 Ge.pluginName = "buttonPart";
 let Ut = Ge;
-const gn = (
+const mn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1902,19 +1934,19 @@ const gn = (
     </div>
   </div>
 `
-), Ze = class Ze extends F {
+), Ze = class Ze extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-volume` },
-        gn
+        mn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$slider = this.$(`.${r}-button-volume-slider`), this.$value = this.$(`.${r}-button-volume-value`);
   }
   init() {
-    this.slider = new fi({
+    this.slider = new mi({
       container: this.$slider,
       min: 0,
       max: 100,
@@ -1941,25 +1973,24 @@ const gn = (
 };
 Ze.pluginName = "buttonVolume";
 let Xt = Ze;
-const fn = (
+const vn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
     <i class="mpicon-settings"></i>
   </div>
   <div class="${r}-controls-panel-wrap">
-    <div class="${r}-controls-panel">
+    <div class="${r}-controls-panel"></div>
   </div>
-    
 `
-), Je = class Je extends F {
+), Je = class Je extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-settings` },
-        fn
+        vn
       )
     ), this.controls = [], this.$icon = this.$(`.${r}-controls-button-icon`), this.$panel = this.$(`.${r}-controls-panel`);
   }
@@ -1968,7 +1999,8 @@ const fn = (
     this.controls = ((s = e.buttonSettings) == null ? void 0 : s.controls) || [];
   }
   ready() {
-    this.build(this.$panel, this.controls);
+    var t;
+    this.build(this.$panel, this.controls), (t = this.player.plugins.settings) == null || t.mount(this.$panel);
   }
   setControls(t) {
     this.controls = t, this.build(this.$panel, t);
@@ -1985,7 +2017,7 @@ const fn = (
 };
 Je.pluginName = "buttonSettings";
 let Yt = Je;
-const yn = (
+const $n = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -1994,14 +2026,14 @@ const yn = (
   </div>
   <div class="mpui-tooltip">画中画</div>
 `
-), Qe = class Qe extends F {
+), Qe = class Qe extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-pip` },
-        yn
+        $n
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -2021,7 +2053,7 @@ const yn = (
 };
 Qe.pluginName = "buttonPip";
 let Kt = Qe;
-const bn = (
+const gn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -2030,14 +2062,14 @@ const bn = (
   </div>
   <div class="mpui-tooltip">宽屏模式</div>
 `
-), ts = class ts extends F {
+), ts = class ts extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-widescreen` },
-        bn
+        gn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -2057,7 +2089,7 @@ const bn = (
 };
 ts.pluginName = "buttonWidescreen";
 let Gs = ts;
-const wn = (
+const fn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -2066,14 +2098,14 @@ const wn = (
   </div>
   <div class="mpui-tooltip">网页全屏</div>
 `
-), es = class es extends F {
+), es = class es extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-webscreen` },
-        wn
+        fn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -2093,7 +2125,7 @@ const wn = (
 };
 es.pluginName = "buttonWebscreen";
 let Zs = es;
-const kn = (
+const yn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -2102,14 +2134,14 @@ const kn = (
   </div>
   <div class="mpui-tooltip">进入全屏</div>
 `
-), ss = class ss extends F {
+), ss = class ss extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-fullscreen` },
-        kn
+        yn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -2129,7 +2161,7 @@ const kn = (
 };
 ss.pluginName = "buttonFullscreen";
 let Gt = ss;
-var C = /* @__PURE__ */ ((i) => (i[i.Backspace = 8] = "Backspace", i[i.Tab = 9] = "Tab", i[i.Enter = 13] = "Enter", i[i.Shift = 16] = "Shift", i[i.Ctrl = 17] = "Ctrl", i[i.Alt = 18] = "Alt", i[i.PauseBreak = 19] = "PauseBreak", i[i.CapsLock = 20] = "CapsLock", i[i.Escape = 27] = "Escape", i[i.Space = 32] = "Space", i[i.PageUp = 33] = "PageUp", i[i.PageDown = 34] = "PageDown", i[i.End = 35] = "End", i[i.Home = 36] = "Home", i[i.LeftArrow = 37] = "LeftArrow", i[i.UpArrow = 38] = "UpArrow", i[i.RightArrow = 39] = "RightArrow", i[i.DownArrow = 40] = "DownArrow", i[i.Insert = 45] = "Insert", i[i.Delete = 46] = "Delete", i[i.Zero = 48] = "Zero", i[
+var j = /* @__PURE__ */ ((i) => (i[i.Backspace = 8] = "Backspace", i[i.Tab = 9] = "Tab", i[i.Enter = 13] = "Enter", i[i.Shift = 16] = "Shift", i[i.Ctrl = 17] = "Ctrl", i[i.Alt = 18] = "Alt", i[i.PauseBreak = 19] = "PauseBreak", i[i.CapsLock = 20] = "CapsLock", i[i.Escape = 27] = "Escape", i[i.Space = 32] = "Space", i[i.PageUp = 33] = "PageUp", i[i.PageDown = 34] = "PageDown", i[i.End = 35] = "End", i[i.Home = 36] = "Home", i[i.LeftArrow = 37] = "LeftArrow", i[i.UpArrow = 38] = "UpArrow", i[i.RightArrow = 39] = "RightArrow", i[i.DownArrow = 40] = "DownArrow", i[i.Insert = 45] = "Insert", i[i.Delete = 46] = "Delete", i[i.Zero = 48] = "Zero", i[
   i.ClosedParen = 48
   /* Zero */
 ] = "ClosedParen", i[i.One = 49] = "One", i[
@@ -2177,7 +2209,7 @@ var C = /* @__PURE__ */ ((i) => (i[i.Backspace = 8] = "Backspace", i[i.Tab = 9] 
 ] = "PlusSign", i[i.ForwardSlash = 191] = "ForwardSlash", i[i.Tilde = 192] = "Tilde", i[
   i.GraveAccent = 192
   /* Tilde */
-] = "GraveAccent", i[i.OpenBracket = 219] = "OpenBracket", i[i.ClosedBracket = 221] = "ClosedBracket", i[i.Quote = 222] = "Quote", i))(C || {});
+] = "GraveAccent", i[i.OpenBracket = 219] = "OpenBracket", i[i.ClosedBracket = 221] = "ClosedBracket", i[i.Quote = 222] = "Quote", i))(j || {});
 const is = class is {
   constructor(t) {
     this.player = t, this.controlMask = this.player.$area;
@@ -2193,19 +2225,19 @@ const is = class is {
         if (e == "INPUT" || e == "TEXTAREA" || s == "" || s == "true")
           return;
         switch (t.keyCode) {
-          case C.Space:
+          case j.Space:
             t.preventDefault(), this.player.paused ? this.player.play() : this.player.pause();
             break;
-          case C.LeftArrow:
+          case j.LeftArrow:
             t.preventDefault(), this.player.seek(this.player.currentTime - 5);
             break;
-          case C.RightArrow:
+          case j.RightArrow:
             t.preventDefault(), this.player.seek(this.player.currentTime + 5);
             break;
-          case C.UpArrow:
+          case j.UpArrow:
             t.preventDefault(), this.player.setVolume(this.player.volume + 0.1);
             break;
-          case C.DownArrow:
+          case j.DownArrow:
             t.preventDefault(), this.player.setVolume(this.player.volume - 0.1);
             break;
         }
@@ -2220,7 +2252,7 @@ const is = class is {
 };
 is.pluginName = "hotkey";
 let Zt = is;
-const xn = (
+const bn = (
   /*html*/
   `
   <div class="${r}-modal-mask"></div>
@@ -2235,12 +2267,12 @@ const xn = (
   </div>
 `
 );
-var U;
+var W;
 const ns = class ns extends w {
   constructor(e) {
     super(e);
-    I(this, U, void 0);
-    this.current = null, T(this, U, []), this.container = p("div", { class: `${r}-modal-wrap` }, xn), this.$el = this.container.querySelector(`.${r}-modal`), this.$mask = this.container.querySelector(`.${r}-modal-mask`), this.$content = this.$el.querySelector(`.${r}-modal-content`), this.$title = this.$el.querySelector(`.${r}-modal-title`), this.$close = this.$el.querySelector(`.${r}-modal-close`), this.player.$main.appendChild(this.container);
+    D(this, W, void 0);
+    this.current = null, T(this, W, []), this.container = u("div", { class: `${r}-modal-wrap` }, bn), this.$el = this.container.querySelector(`.${r}-modal`), this.$mask = this.container.querySelector(`.${r}-modal-mask`), this.$content = this.$el.querySelector(`.${r}-modal-content`), this.$title = this.$el.querySelector(`.${r}-modal-title`), this.$close = this.$el.querySelector(`.${r}-modal-close`), this.player.$main.appendChild(this.container);
   }
   get isShow() {
     return this.container.classList.contains("is-show");
@@ -2254,21 +2286,21 @@ const ns = class ns extends w {
   }
   apply(e, s) {
     var n;
-    T(this, U, ((n = s.modal) == null ? void 0 : n.panels) || []);
+    T(this, W, ((n = s.modal) == null ? void 0 : n.panels) || []);
   }
   ready() {
-    D(this, U).forEach((e) => {
+    P(this, W).forEach((e) => {
       const s = this.player.plugin.from(e);
-      s && this.mount(s);
-    }), T(this, U, []);
+      s && this.append(s);
+    }), T(this, W, []);
   }
   /** 关闭模态框 */
   hide() {
-    var e;
-    (e = this.current) == null || e.toggle(!1);
+    var e, s;
+    (s = (e = this.current) == null ? void 0 : e.toggle) == null || s.call(e, !1);
   }
   /** 挂载一个面板 */
-  mount(e) {
+  append(e) {
     e.mount(this.$content, {
       onToggle: (s) => {
         if (s) {
@@ -2281,9 +2313,9 @@ const ns = class ns extends w {
     });
   }
 };
-U = new WeakMap(), ns.pluginName = "modal";
+W = new WeakMap(), ns.pluginName = "modal";
 let Jt = ns;
-const Ln = (
+const wn = (
   /*html*/
   `
   <div class="${r}-progress-bar">
@@ -2299,9 +2331,9 @@ const Ln = (
     <div class="${r}-progress-tip"></div>
   </div>
 `
-), rs = class rs extends F {
+), rs = class rs extends M {
   constructor(t) {
-    super(t, p("div", { class: `${r}-progress` }, Ln)), this.trackLength = 0, this.distance = 0, this.nMax = 0, this.nLeft = 0, this.isDragging = !1, this.isHover = !1, this.isActive = !1, this.$bar = this.$(`.${r}-progress-bar`), this.$buffered = this.$(`.${r}-progress-buffered`), this.$played = this.$(`.${r}-progress-played`), this.$thumbTrack = this.$(`.${r}-progress-thumb-track`), this.$thumb = this.$(`.${r}-progress-thumb`), this.$preview = this.$(`.${r}-progress-preview`), this.$thumbnail = this.$(`.${r}-progress-thumbnail`), this.$time = this.$(`.${r}-progress-time`), this.$tip = this.$(`.${r}-progress-tip`), this.$el.addEventListener("mousedown", (n) => {
+    super(t, u("div", { class: `${r}-progress` }, wn)), this.trackLength = 0, this.distance = 0, this.nMax = 0, this.nLeft = 0, this.isDragging = !1, this.isHover = !1, this.isActive = !1, this.$bar = this.$(`.${r}-progress-bar`), this.$buffered = this.$(`.${r}-progress-buffered`), this.$played = this.$(`.${r}-progress-played`), this.$thumbTrack = this.$(`.${r}-progress-thumb-track`), this.$thumb = this.$(`.${r}-progress-thumb`), this.$preview = this.$(`.${r}-progress-preview`), this.$thumbnail = this.$(`.${r}-progress-thumbnail`), this.$time = this.$(`.${r}-progress-time`), this.$tip = this.$(`.${r}-progress-tip`), this.$el.addEventListener("mousedown", (n) => {
       const { clientX: a } = n;
       this.trackLength = this.$el.offsetWidth, this.nMax = this.$thumbTrack.offsetWidth || this.trackLength, this.nLeft = this.$el.getBoundingClientRect().left, this.distance = a - this.nLeft, this.setPlayed(this.nValue), this.$el.classList.add(`${r}-progress-dragging`), this.isDragging = !0, document.addEventListener("mousemove", e), document.addEventListener("mouseup", s);
     });
@@ -2359,12 +2391,12 @@ const Ln = (
   updateTip() {
     this.isActive || this.setActive(!0);
     let t = this.distance / this.trackLength;
-    t = t >= 1 ? 1 : t <= 0 ? 0 : t, this.$tip.style.left = `${t * 100}%`, this.$preview.style.left = `${t * 100}%`, this.$time.innerText = $t(this.nValue);
+    t = t >= 1 ? 1 : t <= 0 ? 0 : t, this.$tip.style.left = `${t * 100}%`, this.$preview.style.left = `${t * 100}%`, this.$time.innerText = vt(this.nValue);
   }
 };
 rs.pluginName = "progress";
 let Qt = rs;
-const En = (
+const kn = (
   /*html*/
   `
   <div class="${r}-settings-slot">
@@ -2386,12 +2418,12 @@ const En = (
     <div class="${r}-settings-others"></div>
   </div>
 `
-), as = class as extends gt {
+), as = class as extends $t {
   constructor(t) {
-    super(t, p("div", { class: `${r}-settings` }, En)), this.title = "设置", this.$slot = this.$(`.${r}-settings-slot`), this.$play = this.$(`.${r}-settings-play`), this.$others = this.$(`.${r}-settings-others`), this.$ratePicker = this.$(`.${r}-settings-rate-picker`), this.$ratioPicker = this.$(`.${r}-settings-ratio-picker`);
+    super(t, u("div", { class: `${r}-settings` }, kn)), this.title = "设置", this.$slot = this.$(`.${r}-settings-slot`), this.$play = this.$(`.${r}-settings-play`), this.$others = this.$(`.${r}-settings-others`), this.$ratePicker = this.$(`.${r}-settings-rate-picker`), this.$ratioPicker = this.$(`.${r}-settings-ratio-picker`);
   }
   init() {
-    this.pickerRate = new J({
+    this.pickerRate = new Z({
       container: this.$ratePicker,
       list: [
         { value: 0.5, label: "0.5" },
@@ -2407,7 +2439,7 @@ const En = (
       }
     }), this.player.on("ratechange", (t) => {
       this.pickerRate.setValue(t);
-    }), this.pickerRatio = new J({
+    }), this.pickerRatio = new Z({
       container: this.$ratioPicker,
       list: [
         { value: "", label: "自动" },
@@ -2426,7 +2458,7 @@ const En = (
 };
 as.pluginName = "settings";
 let te = as;
-const Sn = (
+const xn = (
   /*html*/
   `
   <div class="${r}-side-mask"></div>
@@ -2441,12 +2473,12 @@ const Sn = (
   </div>
 `
 );
-var X;
+var U;
 const ls = class ls extends w {
   constructor(e) {
     super(e);
-    I(this, X, void 0);
-    this.current = null, T(this, X, []), this.container = p("div", { class: `${r}-side-wrap` }, Sn), this.$el = this.container.querySelector(`.${r}-side`), this.$mask = this.container.querySelector(`.${r}-side-mask`), this.$content = this.$el.querySelector(`.${r}-side-content`), this.$title = this.$el.querySelector(`.${r}-side-title`), this.$close = this.$el.querySelector(`.${r}-side-close`), this.player.$main.appendChild(this.container);
+    D(this, U, void 0);
+    this.current = null, T(this, U, []), this.container = u("div", { class: `${r}-side-wrap` }, xn), this.$el = this.container.querySelector(`.${r}-side`), this.$mask = this.container.querySelector(`.${r}-side-mask`), this.$content = this.$el.querySelector(`.${r}-side-content`), this.$title = this.$el.querySelector(`.${r}-side-title`), this.$close = this.$el.querySelector(`.${r}-side-close`), this.player.$main.appendChild(this.container);
   }
   get isShow() {
     return this.container.classList.contains("is-show");
@@ -2460,26 +2492,26 @@ const ls = class ls extends w {
   }
   apply(e, s) {
     var n;
-    T(this, X, ((n = s.side) == null ? void 0 : n.panels) || []);
+    T(this, U, ((n = s.side) == null ? void 0 : n.panels) || []);
   }
   ready() {
-    D(this, X).forEach((e) => {
+    P(this, U).forEach((e) => {
       const s = this.player.plugin.from(e);
-      s && this.mount(s);
-    }), T(this, X, []);
+      s && this.append(s);
+    }), T(this, U, []);
   }
   hide() {
-    var e;
-    (e = this.current) == null || e.toggle(!1);
+    var e, s;
+    (s = (e = this.current) == null ? void 0 : e.toggle) == null || s.call(e, !1);
   }
-  mount(e) {
+  append(e) {
     e.mount(this.$content, {
       onToggle: (s) => {
-        var n;
+        var n, a;
         if (s) {
-          (n = this.current) == null || n.toggle(!1);
-          for (const a of this.$content.children)
-            a.classList.toggle("is-show", a == e.$el);
+          (a = (n = this.current) == null ? void 0 : n.toggle) == null || a.call(n, !1);
+          for (const l of this.$content.children)
+            l.classList.toggle("is-show", l == e.$el);
           this.container.classList.add("is-show"), this.$title.innerText = e.title || "", this.current = e;
         } else
           this.current == e && (this.container.classList.remove("is-show"), e.$el.classList.remove("is-show"), this.$title.innerText = "", this.current = null);
@@ -2487,7 +2519,7 @@ const ls = class ls extends w {
     });
   }
 };
-X = new WeakMap(), ls.pluginName = "side";
+U = new WeakMap(), ls.pluginName = "side";
 let ee = ls;
 const os = class os extends w {
   constructor(t) {
@@ -2544,21 +2576,23 @@ const hs = class hs extends w {
 };
 hs.pluginName = "fullscreen";
 let ie = hs;
-var st, vt;
+var et, mt;
 const cs = class cs extends w {
   constructor() {
     super(...arguments);
-    I(this, st, 0);
-    I(this, vt, 0);
+    D(this, et, 0);
+    D(this, mt, 0);
+  }
+  get invokeLogin() {
+    return this.player.invokes.login;
   }
   init() {
-    this.player.define("userId", { get: () => D(this, st) }), this.player.define("authorId", { get: () => D(this, vt) }), this.player.define("login", () => this.login()), this.player.on("videoChange", ({ author: e }) => {
-      (e == null ? void 0 : e.id) != null && T(this, vt, e.id || 0);
+    this.player.define("userId", { get: () => P(this, et) }), this.player.define("authorId", { get: () => P(this, mt) }), this.player.define("login", () => this.login()), this.player.on("videoChange", ({ author: e }) => {
+      (e == null ? void 0 : e.id) != null && T(this, mt, e.id || 0);
     });
   }
   apply(e, s) {
-    var n;
-    T(this, st, s.userId || 0), this.invokeLogin = (n = s.invoke) == null ? void 0 : n.login;
+    T(this, et, s.userId || 0);
   }
   /** 调用页面登录 */
   async login() {
@@ -2569,27 +2603,27 @@ const cs = class cs extends w {
   }
   /** 设置用户 */
   async setUser(e) {
-    T(this, st, e), this.player.emit("login", e);
+    T(this, et, e), this.player.emit("login", e);
   }
 };
-st = new WeakMap(), vt = new WeakMap(), cs.pluginName = "user";
+et = new WeakMap(), mt = new WeakMap(), cs.pluginName = "user";
 let ne = cs;
-var O, V;
+var I, q;
 const ds = class ds extends w {
   constructor(e) {
     super(e);
-    I(this, O, void 0);
-    I(this, V, void 0);
-    T(this, O, !1), T(this, V, !1), this.activeDuration = 3e3, this.player.define("isActive", {
-      get: () => D(this, O)
+    D(this, I, void 0);
+    D(this, q, void 0);
+    T(this, I, !1), T(this, q, !1), this.activeDuration = 3e3, this.player.define("isActive", {
+      get: () => P(this, I)
     });
     const s = Ne(() => {
-      T(this, V, !1), this.remove();
+      T(this, q, !1), this.remove();
     }, this.activeDuration);
     this.player.$main.addEventListener("mousemove", () => {
-      T(this, V, !0), this.set(), s();
+      T(this, q, !0), this.set(), s();
     }), this.player.$main.addEventListener("mouseleave", () => {
-      T(this, V, !1), this.remove();
+      T(this, q, !1), this.remove();
     });
   }
   apply(e, s) {
@@ -2597,16 +2631,16 @@ const ds = class ds extends w {
   }
   /** 设置播放器活跃状态 */
   set() {
-    D(this, O) || (this.player.$el.classList.add("is-active"), T(this, O, !0), this.player.emit("active"));
+    P(this, I) || (this.player.$el.classList.add("is-active"), T(this, I, !0), this.player.emit("active"));
   }
   /** 移除播放器活跃状态 */
   remove() {
-    !D(this, O) || D(this, V) || this.player.isControlled || this.player.hook.call("inactive").then((e) => {
-      e && (this.player.$el.classList.remove("is-active"), T(this, O, !1), this.player.emit("inactive"));
+    !P(this, I) || P(this, q) || this.player.isControlled || this.player.hook.call("inactive").then((e) => {
+      e && (this.player.$el.classList.remove("is-active"), T(this, I, !1), this.player.emit("inactive"));
     });
   }
 };
-O = new WeakMap(), V = new WeakMap(), ds.pluginName = "stateActive";
+I = new WeakMap(), q = new WeakMap(), ds.pluginName = "stateActive";
 let re = ds;
 const us = class us extends w {
   constructor(t) {
@@ -2636,37 +2670,37 @@ const us = class us extends w {
 };
 us.pluginName = "stateFocus";
 let ae = us;
-var Y = [], Tn = function() {
-  return Y.some(function(i) {
+var X = [], Ln = function() {
+  return X.some(function(i) {
     return i.activeTargets.length > 0;
   });
-}, An = function() {
-  return Y.some(function(i) {
+}, En = function() {
+  return X.some(function(i) {
     return i.skippedTargets.length > 0;
   });
-}, Js = "ResizeObserver loop completed with undelivered notifications.", Hn = function() {
+}, Js = "ResizeObserver loop completed with undelivered notifications.", Sn = function() {
   var i;
   typeof ErrorEvent == "function" ? i = new ErrorEvent("error", {
     message: Js
   }) : (i = document.createEvent("Event"), i.initEvent("error", !1, !1), i.message = Js), window.dispatchEvent(i);
-}, mt;
+}, pt;
 (function(i) {
   i.BORDER_BOX = "border-box", i.CONTENT_BOX = "content-box", i.DEVICE_PIXEL_CONTENT_BOX = "device-pixel-content-box";
-})(mt || (mt = {}));
-var K = function(i) {
+})(pt || (pt = {}));
+var Y = function(i) {
   return Object.freeze(i);
-}, _n = /* @__PURE__ */ function() {
+}, Tn = /* @__PURE__ */ function() {
   function i(t, e) {
-    this.inlineSize = t, this.blockSize = e, K(this);
+    this.inlineSize = t, this.blockSize = e, Y(this);
   }
   return i;
 }(), bi = function() {
   function i(t, e, s, n) {
-    return this.x = t, this.y = e, this.width = s, this.height = n, this.top = this.y, this.left = this.x, this.bottom = this.top + this.height, this.right = this.left + this.width, K(this);
+    return this.x = t, this.y = e, this.width = s, this.height = n, this.top = this.y, this.left = this.x, this.bottom = this.top + this.height, this.right = this.left + this.width, Y(this);
   }
   return i.prototype.toJSON = function() {
-    var t = this, e = t.x, s = t.y, n = t.top, a = t.right, l = t.bottom, o = t.left, h = t.width, c = t.height;
-    return { x: e, y: s, top: n, right: a, bottom: l, left: o, width: h, height: c };
+    var t = this, e = t.x, s = t.y, n = t.top, a = t.right, l = t.bottom, h = t.left, o = t.width, c = t.height;
+    return { x: e, y: s, top: n, right: a, bottom: l, left: h, width: o, height: c };
   }, i.fromRect = function(t) {
     return new i(t.x, t.y, t.width, t.height);
   }, i;
@@ -2685,7 +2719,7 @@ var K = function(i) {
     return !0;
   var e = (t = i == null ? void 0 : i.ownerDocument) === null || t === void 0 ? void 0 : t.defaultView;
   return !!(e && i instanceof e.Element);
-}, Mn = function(i) {
+}, An = function(i) {
   switch (i.tagName) {
     case "INPUT":
       if (i.type !== "image")
@@ -2700,41 +2734,41 @@ var K = function(i) {
       return !0;
   }
   return !1;
-}, ot = typeof window < "u" ? window : {}, yt = /* @__PURE__ */ new WeakMap(), ti = /auto|scroll/, Fn = /^tb|vertical/, Pn = /msie|trident/i.test(ot.navigator && ot.navigator.userAgent), z = function(i) {
+}, lt = typeof window < "u" ? window : {}, ft = /* @__PURE__ */ new WeakMap(), ti = /auto|scroll/, Hn = /^tb|vertical/, _n = /msie|trident/i.test(lt.navigator && lt.navigator.userAgent), N = function(i) {
   return parseFloat(i || "0");
-}, Q = function(i, t, e) {
-  return i === void 0 && (i = 0), t === void 0 && (t = 0), e === void 0 && (e = !1), new _n((e ? t : i) || 0, (e ? i : t) || 0);
-}, ei = K({
-  devicePixelContentBoxSize: Q(),
-  borderBoxSize: Q(),
-  contentBoxSize: Q(),
+}, J = function(i, t, e) {
+  return i === void 0 && (i = 0), t === void 0 && (t = 0), e === void 0 && (e = !1), new Tn((e ? t : i) || 0, (e ? i : t) || 0);
+}, ei = Y({
+  devicePixelContentBoxSize: J(),
+  borderBoxSize: J(),
+  contentBoxSize: J(),
   contentRect: new bi(0, 0, 0, 0)
 }), ki = function(i, t) {
-  if (t === void 0 && (t = !1), yt.has(i) && !t)
-    return yt.get(i);
+  if (t === void 0 && (t = !1), ft.has(i) && !t)
+    return ft.get(i);
   if (wi(i))
-    return yt.set(i, ei), ei;
-  var e = getComputedStyle(i), s = Oe(i) && i.ownerSVGElement && i.getBBox(), n = !Pn && e.boxSizing === "border-box", a = Fn.test(e.writingMode || ""), l = !s && ti.test(e.overflowY || ""), o = !s && ti.test(e.overflowX || ""), h = s ? 0 : z(e.paddingTop), c = s ? 0 : z(e.paddingRight), u = s ? 0 : z(e.paddingBottom), g = s ? 0 : z(e.paddingLeft), k = s ? 0 : z(e.borderTopWidth), A = s ? 0 : z(e.borderRightWidth), S = s ? 0 : z(e.borderBottomWidth), v = s ? 0 : z(e.borderLeftWidth), m = g + c, d = h + u, $ = v + A, L = k + S, y = o ? i.offsetHeight - L - i.clientHeight : 0, H = l ? i.offsetWidth - $ - i.clientWidth : 0, b = n ? m + $ : 0, x = n ? d + L : 0, _ = s ? s.width : z(e.width) - b - H, f = s ? s.height : z(e.height) - x - y, M = _ + m + H + $, N = f + d + y + L, rt = K({
-    devicePixelContentBoxSize: Q(Math.round(_ * devicePixelRatio), Math.round(f * devicePixelRatio), a),
-    borderBoxSize: Q(M, N, a),
-    contentBoxSize: Q(_, f, a),
-    contentRect: new bi(g, h, _, f)
+    return ft.set(i, ei), ei;
+  var e = getComputedStyle(i), s = Oe(i) && i.ownerSVGElement && i.getBBox(), n = !_n && e.boxSizing === "border-box", a = Hn.test(e.writingMode || ""), l = !s && ti.test(e.overflowY || ""), h = !s && ti.test(e.overflowX || ""), o = s ? 0 : N(e.paddingTop), c = s ? 0 : N(e.paddingRight), p = s ? 0 : N(e.paddingBottom), g = s ? 0 : N(e.paddingLeft), k = s ? 0 : N(e.borderTopWidth), S = s ? 0 : N(e.borderRightWidth), E = s ? 0 : N(e.borderBottomWidth), m = s ? 0 : N(e.borderLeftWidth), v = g + c, d = o + p, $ = m + S, L = k + E, y = h ? i.offsetHeight - L - i.clientHeight : 0, A = l ? i.offsetWidth - $ - i.clientWidth : 0, b = n ? v + $ : 0, x = n ? d + L : 0, H = s ? s.width : N(e.width) - b - A, f = s ? s.height : N(e.height) - x - y, _ = H + v + A + $, R = f + d + y + L, nt = Y({
+    devicePixelContentBoxSize: J(Math.round(H * devicePixelRatio), Math.round(f * devicePixelRatio), a),
+    borderBoxSize: J(_, R, a),
+    contentBoxSize: J(H, f, a),
+    contentRect: new bi(g, o, H, f)
   });
-  return yt.set(i, rt), rt;
+  return ft.set(i, nt), nt;
 }, xi = function(i, t, e) {
   var s = ki(i, e), n = s.borderBoxSize, a = s.contentBoxSize, l = s.devicePixelContentBoxSize;
   switch (t) {
-    case mt.DEVICE_PIXEL_CONTENT_BOX:
+    case pt.DEVICE_PIXEL_CONTENT_BOX:
       return l;
-    case mt.BORDER_BOX:
+    case pt.BORDER_BOX:
       return n;
     default:
       return a;
   }
-}, Dn = /* @__PURE__ */ function() {
+}, Mn = /* @__PURE__ */ function() {
   function i(t) {
     var e = ki(t);
-    this.target = t, this.contentRect = e.contentRect, this.borderBoxSize = K([e.borderBoxSize]), this.contentBoxSize = K([e.contentBoxSize]), this.devicePixelContentBoxSize = K([e.devicePixelContentBoxSize]);
+    this.target = t, this.contentRect = e.contentRect, this.borderBoxSize = Y([e.borderBoxSize]), this.contentBoxSize = Y([e.contentBoxSize]), this.devicePixelContentBoxSize = Y([e.devicePixelContentBoxSize]);
   }
   return i;
 }(), Li = function(i) {
@@ -2743,16 +2777,16 @@ var K = function(i) {
   for (var t = 0, e = i.parentNode; e; )
     t += 1, e = e.parentNode;
   return t;
-}, Rn = function() {
+}, Fn = function() {
   var i = 1 / 0, t = [];
-  Y.forEach(function(l) {
+  X.forEach(function(l) {
     if (l.activeTargets.length !== 0) {
-      var o = [];
+      var h = [];
       l.activeTargets.forEach(function(c) {
-        var u = new Dn(c.target), g = Li(c.target);
-        o.push(u), c.lastReportedSize = xi(c.target, c.observedBox), g < i && (i = g);
+        var p = new Mn(c.target), g = Li(c.target);
+        h.push(p), c.lastReportedSize = xi(c.target, c.observedBox), g < i && (i = g);
       }), t.push(function() {
-        l.callback.call(l.observer, o, l.observer);
+        l.callback.call(l.observer, h, l.observer);
       }), l.activeTargets.splice(0, l.activeTargets.length);
     }
   });
@@ -2762,37 +2796,37 @@ var K = function(i) {
   }
   return i;
 }, si = function(i) {
-  Y.forEach(function(e) {
+  X.forEach(function(e) {
     e.activeTargets.splice(0, e.activeTargets.length), e.skippedTargets.splice(0, e.skippedTargets.length), e.observationTargets.forEach(function(n) {
       n.isActive() && (Li(n.target) > i ? e.activeTargets.push(n) : e.skippedTargets.push(n));
     });
   });
-}, Nn = function() {
+}, Pn = function() {
   var i = 0;
-  for (si(i); Tn(); )
-    i = Rn(), si(i);
-  return An() && Hn(), i > 0;
-}, _t, Ei = [], In = function() {
+  for (si(i); Ln(); )
+    i = Fn(), si(i);
+  return En() && Sn(), i > 0;
+}, _t, Ei = [], Rn = function() {
   return Ei.splice(0).forEach(function(i) {
     return i();
   });
-}, zn = function(i) {
+}, Dn = function(i) {
   if (!_t) {
     var t = 0, e = document.createTextNode(""), s = { characterData: !0 };
     new MutationObserver(function() {
-      return In();
+      return Rn();
     }).observe(e, s), _t = function() {
       e.textContent = "".concat(t ? t-- : t++);
     };
   }
   Ei.push(i), _t();
-}, On = function(i) {
-  zn(function() {
+}, Nn = function(i) {
+  Dn(function() {
     requestAnimationFrame(i);
   });
-}, kt = 0, qn = function() {
-  return !!kt;
-}, Bn = 250, Vn = { attributes: !0, characterData: !0, childList: !0, subtree: !0 }, ii = [
+}, wt = 0, In = function() {
+  return !!wt;
+}, zn = 250, On = { attributes: !0, characterData: !0, childList: !0, subtree: !0 }, ii = [
   "resize",
   "load",
   "transitionend",
@@ -2809,7 +2843,7 @@ var K = function(i) {
   "focus"
 ], ni = function(i) {
   return i === void 0 && (i = 0), Date.now() + i;
-}, Mt = !1, jn = function() {
+}, Mt = !1, Bn = function() {
   function i() {
     var t = this;
     this.stopped = !0, this.listener = function() {
@@ -2818,15 +2852,15 @@ var K = function(i) {
   }
   return i.prototype.run = function(t) {
     var e = this;
-    if (t === void 0 && (t = Bn), !Mt) {
+    if (t === void 0 && (t = zn), !Mt) {
       Mt = !0;
       var s = ni(t);
-      On(function() {
+      Nn(function() {
         var n = !1;
         try {
-          n = Nn();
+          n = Pn();
         } finally {
-          if (Mt = !1, t = s - ni(), !qn())
+          if (Mt = !1, t = s - ni(), !In())
             return;
           n ? e.run(1e3) : t > 0 ? e.run(t) : e.start();
         }
@@ -2836,59 +2870,59 @@ var K = function(i) {
     this.stop(), this.run();
   }, i.prototype.observe = function() {
     var t = this, e = function() {
-      return t.observer && t.observer.observe(document.body, Vn);
+      return t.observer && t.observer.observe(document.body, On);
     };
-    document.body ? e() : ot.addEventListener("DOMContentLoaded", e);
+    document.body ? e() : lt.addEventListener("DOMContentLoaded", e);
   }, i.prototype.start = function() {
     var t = this;
     this.stopped && (this.stopped = !1, this.observer = new MutationObserver(this.listener), this.observe(), ii.forEach(function(e) {
-      return ot.addEventListener(e, t.listener, !0);
+      return lt.addEventListener(e, t.listener, !0);
     }));
   }, i.prototype.stop = function() {
     var t = this;
     this.stopped || (this.observer && this.observer.disconnect(), ii.forEach(function(e) {
-      return ot.removeEventListener(e, t.listener, !0);
+      return lt.removeEventListener(e, t.listener, !0);
     }), this.stopped = !0);
   }, i;
-}(), le = new jn(), ri = function(i) {
-  !kt && i > 0 && le.start(), kt += i, !kt && le.stop();
-}, Cn = function(i) {
-  return !Oe(i) && !Mn(i) && getComputedStyle(i).display === "inline";
-}, Wn = function() {
+}(), le = new Bn(), ri = function(i) {
+  !wt && i > 0 && le.start(), wt += i, !wt && le.stop();
+}, qn = function(i) {
+  return !Oe(i) && !An(i) && getComputedStyle(i).display === "inline";
+}, Vn = function() {
   function i(t, e) {
-    this.target = t, this.observedBox = e || mt.CONTENT_BOX, this.lastReportedSize = {
+    this.target = t, this.observedBox = e || pt.CONTENT_BOX, this.lastReportedSize = {
       inlineSize: 0,
       blockSize: 0
     };
   }
   return i.prototype.isActive = function() {
     var t = xi(this.target, this.observedBox, !0);
-    return Cn(this.target) && (this.lastReportedSize = t), this.lastReportedSize.inlineSize !== t.inlineSize || this.lastReportedSize.blockSize !== t.blockSize;
+    return qn(this.target) && (this.lastReportedSize = t), this.lastReportedSize.inlineSize !== t.inlineSize || this.lastReportedSize.blockSize !== t.blockSize;
   }, i;
-}(), Un = /* @__PURE__ */ function() {
+}(), jn = /* @__PURE__ */ function() {
   function i(t, e) {
     this.activeTargets = [], this.skippedTargets = [], this.observationTargets = [], this.observer = t, this.callback = e;
   }
   return i;
-}(), bt = /* @__PURE__ */ new WeakMap(), ai = function(i, t) {
+}(), yt = /* @__PURE__ */ new WeakMap(), ai = function(i, t) {
   for (var e = 0; e < i.length; e += 1)
     if (i[e].target === t)
       return e;
   return -1;
-}, wt = function() {
+}, bt = function() {
   function i() {
   }
   return i.connect = function(t, e) {
-    var s = new Un(t, e);
-    bt.set(t, s);
+    var s = new jn(t, e);
+    yt.set(t, s);
   }, i.observe = function(t, e, s) {
-    var n = bt.get(t), a = n.observationTargets.length === 0;
-    ai(n.observationTargets, e) < 0 && (a && Y.push(n), n.observationTargets.push(new Wn(e, s && s.box)), ri(1), le.schedule());
+    var n = yt.get(t), a = n.observationTargets.length === 0;
+    ai(n.observationTargets, e) < 0 && (a && X.push(n), n.observationTargets.push(new Vn(e, s && s.box)), ri(1), le.schedule());
   }, i.unobserve = function(t, e) {
-    var s = bt.get(t), n = ai(s.observationTargets, e), a = s.observationTargets.length === 1;
-    n >= 0 && (a && Y.splice(Y.indexOf(s), 1), s.observationTargets.splice(n, 1), ri(-1));
+    var s = yt.get(t), n = ai(s.observationTargets, e), a = s.observationTargets.length === 1;
+    n >= 0 && (a && X.splice(X.indexOf(s), 1), s.observationTargets.splice(n, 1), ri(-1));
   }, i.disconnect = function(t) {
-    var e = this, s = bt.get(t);
+    var e = this, s = yt.get(t);
     s.observationTargets.slice().forEach(function(n) {
       return e.unobserve(t, n.target);
     }), s.activeTargets.splice(0, s.activeTargets.length);
@@ -2899,22 +2933,22 @@ var K = function(i) {
       throw new TypeError("Failed to construct 'ResizeObserver': 1 argument required, but only 0 present.");
     if (typeof t != "function")
       throw new TypeError("Failed to construct 'ResizeObserver': The callback provided as parameter 1 is not a function.");
-    wt.connect(this, t);
+    bt.connect(this, t);
   }
   return i.prototype.observe = function(t, e) {
     if (arguments.length === 0)
       throw new TypeError("Failed to execute 'observe' on 'ResizeObserver': 1 argument required, but only 0 present.");
     if (!Qs(t))
       throw new TypeError("Failed to execute 'observe' on 'ResizeObserver': parameter 1 is not of type 'Element");
-    wt.observe(this, t, e);
+    bt.observe(this, t, e);
   }, i.prototype.unobserve = function(t) {
     if (arguments.length === 0)
       throw new TypeError("Failed to execute 'unobserve' on 'ResizeObserver': 1 argument required, but only 0 present.");
     if (!Qs(t))
       throw new TypeError("Failed to execute 'unobserve' on 'ResizeObserver': parameter 1 is not of type 'Element");
-    wt.unobserve(this, t);
+    bt.unobserve(this, t);
   }, i.prototype.disconnect = function() {
-    wt.disconnect(this);
+    bt.disconnect(this);
   }, i.toString = function() {
     return "function ResizeObserver () { [polyfill code] }";
   }, i;
@@ -2950,9 +2984,9 @@ const ms = class ms extends w {
 };
 ms.pluginName = "stateIntersecting";
 let he = ms;
-class Xn extends Et {
+class Cn extends Lt {
   constructor(t) {
-    super(t, p("div", { class: `${r}-toast` })), this.defaultDuration = 5e3, this.player.$area.appendChild(this.$el);
+    super(t, u("div", { class: `${r}-toast` })), this.defaultDuration = 5e3, this.player.$area.appendChild(this.$el);
   }
   init() {
     this.player.define(
@@ -2971,9 +3005,9 @@ class Xn extends Et {
   }
   /** 创建一个toast元素 */
   createToastItem(t) {
-    const e = p("div", { class: `${r}-toast-item` });
+    const e = u("div", { class: `${r}-toast-item` });
     e.appendChild(
-      p("div", { class: `${r}-toast-item-content` })
+      u("div", { class: `${r}-toast-item-content` })
     ).appendChild(typeof t.content == "object" ? t.content : new Text(t.content));
     const n = {
       el: e,
@@ -2982,12 +3016,12 @@ class Xn extends Et {
       }
     };
     if (t.close) {
-      const o = e.appendChild(
-        p("div", {
+      const h = e.appendChild(
+        u("div", {
           class: `${r}-toast-item-close`
         })
       );
-      o.onclick = () => {
+      h.onclick = () => {
         n.close();
       };
     }
@@ -3002,16 +3036,16 @@ class Xn extends Et {
     t.close();
   }
 }
-const Yn = [
+const Wn = [
   re,
   ae,
   oe,
   he,
   se,
   ie
-], Kn = [Jt, ee, qt, Xn, te, Zt, Ot, ne], Gn = [
+], Un = [Jt, ee, Bt, Cn, te, Zt, Ot, ne], Xn = [
   Qt,
-  Bt,
+  qt,
   Vt,
   jt,
   Ct,
@@ -3021,7 +3055,7 @@ const Yn = [
   Yt,
   Kt,
   Gt
-], Zn = [...Yn, ...Kn, ...Gn], vs = class vs extends w {
+], Yn = [...Wn, ...Un, ...Xn], vs = class vs extends w {
   constructor() {
     super(...arguments), this._status = !1;
   }
@@ -3188,16 +3222,16 @@ const ys = class ys extends w {
   /** 无缝加载视频 */
   load(t) {
     this.player.emit("videoLoad", t);
-    const { url: e, type: s, play: n, time: a } = t, l = this.player.$video, o = l.cloneNode(), h = this.player.loader.create(t, o);
-    o.addEventListener(
+    const { url: e, type: s, play: n, time: a } = t, l = this.player.$video, h = l.cloneNode(), o = this.player.loader.create(t, h);
+    h.addEventListener(
       "loadedmetadata",
       () => {
-        this.player.$content.insertBefore(o, l);
+        this.player.$content.insertBefore(h, l);
         const c = a === !0 ? this.player.currentTime : a || 0;
-        o.currentTime = c, !this.player.paused && o.play(), o.addEventListener(
+        h.currentTime = c, !this.player.paused && h.play(), h.addEventListener(
           "canplay",
           () => {
-            this.player.emit("videoLoad", t), this.player.isPip && o.requestPictureInPicture(), this.player.attachMediaController(h), l.remove(), n == !0 && this.player.paused && this.player.play(), n == !1 && !this.player.paused && this.player.pause();
+            this.player.emit("videoLoad", t), this.player.isPip && h.requestPictureInPicture(), this.player.attachMediaController(o), l.remove(), n == !0 && this.player.paused && this.player.play(), n == !1 && !this.player.paused && this.player.pause();
           },
           { once: !0 }
         );
@@ -3214,8 +3248,8 @@ const ys = class ys extends w {
 };
 ys.pluginName = "seamless";
 let me = ys;
-const Jn = (i, t) => i.map(
-  ({ title: e }, s) => E`
+const Kn = (i, t) => i.map(
+  ({ title: e }, s) => O`
       <li
         class="${r}-partlist-item"
         @click=${() => {
@@ -3227,10 +3261,10 @@ const Jn = (i, t) => i.map(
         <div class="${r}-partlist-item-title">${e}</div>
       </li>
     `
-), bs = class bs extends gt {
+), bs = class bs extends $t {
   constructor(t) {
-    super(t, p("div", { class: `${r}-partlist` })), this.title = "分P列表", this._part = 0, this._list = [], this.$list = this.$el.appendChild(
-      p("ul", { class: `${r}-partlist-list mpui-list` })
+    super(t, u("div", { class: `${r}-partlist` })), this.title = "分P列表", this._part = 0, this._list = [], this.$list = this.$el.appendChild(
+      u("ul", { class: `${r}-partlist-list mpui-list` })
     );
   }
   init() {
@@ -3239,8 +3273,8 @@ const Jn = (i, t) => i.map(
     });
   }
   _update(t) {
-    t != this._list && (this._list = t, R(
-      Jn(t || [], (e) => {
+    t != this._list && (this._list = t, St(
+      Kn(t || [], (e) => {
         var s;
         (s = this.plugins.part) == null || s.set(e);
       }),
@@ -3254,7 +3288,7 @@ const Jn = (i, t) => i.map(
 };
 bs.pluginName = "partList";
 let ve = bs;
-const Qn = (
+const Gn = (
   /*html*/
   `
   <div class="">
@@ -3264,14 +3298,14 @@ const Qn = (
     <div class="mpui-tooltip">弹幕列表</div>
   </div>
 `
-), ws = class ws extends F {
+), ws = class ws extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-danmakulist` },
-        Qn
+        Gn
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$text = this.$(`.${r}-controls-button-text`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -3284,7 +3318,7 @@ const Qn = (
 };
 ws.pluginName = "buttonDanmakuList";
 let $e = ws;
-const tr = (
+const Zn = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -3296,14 +3330,14 @@ const tr = (
     </div>
   </div>
 `
-), ks = class ks extends F {
+), ks = class ks extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-quality` },
-        tr
+        Zn
       )
     ), this._itemMap = /* @__PURE__ */ new Map(), this.$icon = this.$(`.${r}-controls-button-icon`), this.$text = this.$(`.${r}-controls-button-text`), this.$panel = this.$(`.${r}-controls-panel`), this.$list = this.$(`.${r}-button-quality-list`);
   }
@@ -3325,7 +3359,7 @@ const tr = (
       var a;
       const n = s.label || ((a = this.getLabel) == null ? void 0 : a.call(this, s)) || s.quality;
       if (n) {
-        const l = p(
+        const l = u(
           "li",
           {
             class: `${r}-button-quality-item`,
@@ -3334,8 +3368,8 @@ const tr = (
           typeof n == "string" ? new Text(n) : n
         );
         l.onclick = () => {
-          var o;
-          (o = this.player.quality) == null || o.set(s);
+          var h;
+          (h = this.player.quality) == null || h.set(s);
         }, this._itemMap.set(s, l), e.appendChild(l);
       }
     }), this.$list.appendChild(e);
@@ -3402,7 +3436,7 @@ const xs = class xs extends w {
 };
 xs.pluginName = "quality";
 let fe = xs;
-const er = (
+const Jn = (
   /*html*/
   `
   <div class="${r}-videostatus-paused"></div>
@@ -3421,14 +3455,14 @@ const er = (
   </div>
   <div class="${r}-videostatus-volume"></div>
 `
-), Ls = class Ls extends Et {
+), Ls = class Ls extends Lt {
   constructor(t) {
-    super(t, p("div", { class: `${r}-videostatus` }, er)), this.$paused = this.$(`.${r}-videostatus-paused`), this.$loading = this.$(`.${r}-videostatus-loading`), this.$volume = this.$(`.${r}-videostatus-volume`), this.player.$area.appendChild(this.$el);
+    super(t, u("div", { class: `${r}-videostatus` }, Jn)), this.$paused = this.$(`.${r}-videostatus-paused`), this.$loading = this.$(`.${r}-videostatus-loading`), this.$volume = this.$(`.${r}-videostatus-volume`), this.player.$area.appendChild(this.$el);
   }
 };
 Ls.pluginName = "videoStatus";
 let ye = Ls;
-const sr = (
+const Qn = (
   /*html*/
   `
   <div class="${r}-loadingmask-icon">
@@ -3437,9 +3471,9 @@ const sr = (
   <div class="${r}-loadingmask-info"></div>
   <div class="${r}-loadingmask-tips">Loading...</div>
 `
-), Es = class Es extends Et {
+), Es = class Es extends Lt {
   constructor(t) {
-    super(t, p("div", { class: `${r}-loadingmask` }, sr)), this.delay = 0, this.$info = this.$(`.${r}-loadingmask-info`), this.$tips = this.$(`.${r}-loadingmask-tips`), this.player.$main.appendChild(this.$el);
+    super(t, u("div", { class: `${r}-loadingmask` }, Qn)), this.delay = 0, this.$info = this.$(`.${r}-loadingmask-info`), this.$tips = this.$(`.${r}-loadingmask-tips`), this.player.$main.appendChild(this.$el);
   }
   apply(t, e) {
     var s, n;
@@ -3487,7 +3521,7 @@ const sr = (
     this.$info.innerHTML = "";
   }
   _add(t, e) {
-    const s = p("div", { class: `${r}-loadingmask-info-item` });
+    const s = u("div", { class: `${r}-loadingmask-info-item` });
     s.dataset.id = t, s.append(e), this.$info.appendChild(s);
   }
   _change(t, e) {
@@ -3503,9 +3537,9 @@ const sr = (
 };
 Es.pluginName = "loadingMask";
 let be = Es;
-const Ss = class Ss extends F {
+const Ss = class Ss extends M {
   constructor(t) {
-    super(t, p("div", { class: `${r}-videotitle` }));
+    super(t, u("div", { class: `${r}-videotitle` }));
   }
   init() {
     this.player.on("videoChange", (t) => {
@@ -3515,7 +3549,7 @@ const Ss = class Ss extends F {
 };
 Ss.pluginName = "videoTitle";
 let we = Ss;
-const ir = (
+const tr = (
   /*html*/
   `
   <div class="${r}-header-mask"></div>
@@ -3527,7 +3561,7 @@ const ir = (
 `
 ), Ts = class Ts extends w {
   constructor(t) {
-    super(t), this.isHover = !1, this.player = t, this.$el = p("div", { class: `${r}-header` }, ir), this.$main = this.$el.querySelector(`.${r}-header-main`), this.$left = this.$el.querySelector(`.${r}-header-left`), this.$center = this.$el.querySelector(`.${r}-header-center`), this.$right = this.$el.querySelector(`.${r}-header-right`), this.player.$main.append(this.$el), this.inactiveHook = () => !this.isHover, this.mouseEnterHandler = () => {
+    super(t), this.isHover = !1, this.player = t, this.$el = u("div", { class: `${r}-header` }, tr), this.$main = this.$el.querySelector(`.${r}-header-main`), this.$left = this.$el.querySelector(`.${r}-header-left`), this.$center = this.$el.querySelector(`.${r}-header-center`), this.$right = this.$el.querySelector(`.${r}-header-right`), this.player.$main.append(this.$el), this.inactiveHook = () => !this.isHover, this.mouseEnterHandler = () => {
       this.isHover = !0;
     }, this.mouseLeaveHandler = () => {
       this.isHover = !1;
@@ -3544,16 +3578,13 @@ Ts.pluginName = "header";
 let ke = Ts;
 const As = class As extends w {
   constructor(t) {
-    super(t), this.handler = {}, this._status = !0, this.invoke = {}, this.$el = p("div", { class: `${r}-danmaku-wrap` }), this.player.$content.after(this.$el);
+    super(t), this.handler = {}, this._status = !0, this.$el = u("div", { class: `${r}-danmaku-wrap` }), this.player.$content.after(this.$el);
   }
   get status() {
     return this._status;
   }
   init() {
     this.player.define("danmaku", { value: this });
-  }
-  apply(t, e) {
-    this.invoke = e.danmakuInvoke || {};
   }
   /**
    * 添加弹幕到弹幕池
@@ -3597,8 +3628,8 @@ const As = class As extends w {
 };
 As.pluginName = "danmaku";
 let xe = As;
-var xt = /* @__PURE__ */ ((i) => (i[i.roll = 1] = "roll", i[i.bottom = 4] = "bottom", i[i.top = 5] = "top", i[i.reverse = 6] = "reverse", i[i.special = 7] = "special", i[i.advanced = 9] = "advanced", i))(xt || {});
-class nr {
+var kt = /* @__PURE__ */ ((i) => (i[i.roll = 1] = "roll", i[i.bottom = 4] = "bottom", i[i.top = 5] = "top", i[i.reverse = 6] = "reverse", i[i.special = 7] = "special", i[i.advanced = 9] = "advanced", i))(kt || {});
+class er {
   constructor(t, e) {
     this.paused = !1, this.hidden = !1, this.time = 0, this.list = [], this.currentIndex = 0, this.measureContext = null, this.startDistance = 2, this.timeOffset = 0, this.baseSpeed = 100, this.baseDuration = 5, this.deltaSpeed = 2e-3, this.trackHeights = {
       roll: [],
@@ -3702,7 +3733,7 @@ class nr {
   }
   /** 检查弹幕类型过滤 */
   checkTrackFilter(t) {
-    return !this.trackFilter[xt[t.mode]];
+    return !this.trackFilter[kt[t.mode]];
   }
   /** 设置弹幕颜色过滤 */
   setColorFilter(t) {
@@ -3764,112 +3795,112 @@ class nr {
   }
   /** 绘制弹幕 */
   draw(t) {
-    var k, A, S;
+    var k, S, E;
     const e = this.baseTrackHeight * this.fontScale, s = this.container.offsetWidth, n = this.container.offsetHeight * this.limitArea, a = Math.floor(n / e);
     this.trackHeights.roll.length !== a && (this.trackHeights.roll = new Array(a).fill(e)), this.trackHeights.reverse.length !== a && (this.trackHeights.reverse = new Array(a).fill(e)), this.trackHeights.top.length !== a && (this.trackHeights.top = new Array(a).fill(e)), this.trackHeights.bottom.length !== a && (this.trackHeights.bottom = new Array(a).fill(e));
-    const l = (v) => {
-      const m = this.container.getBoundingClientRect().right, d = v.getBoundingClientRect().right;
-      return m - d;
-    }, o = (v) => {
-      const m = this.container.getBoundingClientRect().left;
-      return v.getBoundingClientRect().left - m;
-    }, h = (v) => this.baseSpeed * (1 + this.deltaSpeed * v) * this.speed, c = (v, m) => [
-      ...this.container.querySelectorAll(`.${this.classPrefix}-danmaku-${v}`)
-    ].filter((d) => d.dataset.track === `${m}`), u = (v, m, d) => {
+    const l = (m) => {
+      const v = this.container.getBoundingClientRect().right, d = m.getBoundingClientRect().right;
+      return v - d;
+    }, h = (m) => {
+      const v = this.container.getBoundingClientRect().left;
+      return m.getBoundingClientRect().left - v;
+    }, o = (m) => this.baseSpeed * (1 + this.deltaSpeed * m) * this.speed, c = (m, v) => [
+      ...this.container.querySelectorAll(`.${this.classPrefix}-danmaku-${m}`)
+    ].filter((d) => d.dataset.track === `${v}`), p = (m, v, d) => {
       t:
         for (let $ = 0; this.overlap || $ < a; $++) {
-          const L = c(m, $);
-          let y = this.danmakuTracks[m][$];
-          if (this.danmakuTracks[m][$] = L, y && y.length) {
-            if (m === "roll") {
-              const H = s / h(d);
+          const L = c(v, $);
+          let y = this.danmakuTracks[v][$];
+          if (this.danmakuTracks[v][$] = L, y && y.length) {
+            if (v === "roll") {
+              const A = s / o(d);
               y.length !== L.length && (y = L);
               for (const b of y) {
                 const x = l(b) - 10;
-                if (this.trackHeights[m][$] = parseInt(b.style.fontSize) + this.trackPadding, x <= s - H * h(b.getBoundingClientRect().width) || x <= 0)
+                if (this.trackHeights[v][$] = parseInt(b.style.fontSize) + this.trackPadding, x <= s - A * o(b.getBoundingClientRect().width) || x <= 0)
                   continue t;
               }
-            } else if (m === "reverse") {
-              const H = s / h(d);
+            } else if (v === "reverse") {
+              const A = s / o(d);
               y.length !== L.length && (y = L);
               for (const b of y) {
-                const x = o(b) - 10;
-                if (this.trackHeights[m][$] = parseInt(b.style.fontSize) + this.trackPadding, x <= s - H * h(b.getBoundingClientRect().width) || x <= 0)
+                const x = h(b) - 10;
+                if (this.trackHeights[v][$] = parseInt(b.style.fontSize) + this.trackPadding, x <= s - A * o(b.getBoundingClientRect().width) || x <= 0)
                   continue t;
               }
             } else
               continue t;
-            return this.danmakuTracks[m][$].push(v), v.addEventListener("animationend", () => {
+            return this.danmakuTracks[v][$].push(m), m.addEventListener("animationend", () => {
               var b, x;
-              const H = (b = this.danmakuTracks[m][$]) == null ? void 0 : b.indexOf(v);
-              H && ((x = this.danmakuTracks[m][$]) == null || x.splice(H, 1));
+              const A = (b = this.danmakuTracks[v][$]) == null ? void 0 : b.indexOf(m);
+              A && ((x = this.danmakuTracks[v][$]) == null || x.splice(A, 1));
             }), $;
           } else
-            return Array.isArray(this.danmakuTracks[m][$]) ? this.danmakuTracks[m][$].push(v) : this.danmakuTracks[m][$] = [v], v.addEventListener("animationend", () => {
+            return Array.isArray(this.danmakuTracks[v][$]) ? this.danmakuTracks[v][$].push(m) : this.danmakuTracks[v][$] = [m], m.addEventListener("animationend", () => {
               var b, x;
-              const H = (b = this.danmakuTracks[m][$]) == null ? void 0 : b.indexOf(v);
-              H && ((x = this.danmakuTracks[m][$]) == null || x.splice(H, 1));
+              const A = (b = this.danmakuTracks[v][$]) == null ? void 0 : b.indexOf(m);
+              A && ((x = this.danmakuTracks[v][$]) == null || x.splice(A, 1));
             }), $;
         }
       return -1;
     }, g = document.createDocumentFragment();
-    for (let v = 0; v < t.length; v++) {
-      const m = t[v];
-      if (m.mode >= 7)
+    for (let m = 0; m < t.length; m++) {
+      const v = t[m];
+      if (v.mode >= 7)
         continue;
       const d = document.createElement("div");
-      d.classList.add(`${this.classPrefix}-danmaku-item`), d.classList.add(`${this.classPrefix}-danmaku-${xt[m.mode]}`), d.innerHTML = `${m.content.replace(/(\\n)/g, `
-`)}`, typeof m.color == "number" ? d.style.color = ui(m.color) : d.style.color = m.color, d.style.opacity = this.opacity.toString(), d.style.fontSize = +m.size * this.fontScale + "px", m.fromHere && (d.style.border = "2px solid white"), d.addEventListener("animationend", () => {
+      d.classList.add(`${this.classPrefix}-danmaku-item`), d.classList.add(`${this.classPrefix}-danmaku-${kt[v.mode]}`), d.innerHTML = `${v.content.replace(/(\\n)/g, `
+`)}`, typeof v.color == "number" ? d.style.color = ui(v.color) : d.style.color = v.color, d.style.opacity = this.opacity.toString(), d.style.fontSize = +v.size * this.fontScale + "px", v.fromHere && (d.style.border = "2px solid white"), d.addEventListener("animationend", () => {
         [...this.container.children].indexOf(d) > -1 && this.container.removeChild(d);
       });
       const $ = this.measureTextWidth(
-        m.content,
-        `${this.fontWeight} ${+m.size * this.fontScale}px ${this.fontFamily}`
+        v.content,
+        `${this.fontWeight} ${+v.size * this.fontScale}px ${this.fontFamily}`
       );
-      let L = xt[m.mode], y, H;
+      let L = kt[v.mode], y, A;
       switch (L) {
         case "roll":
         case "reverse":
-          if (H = u(d, L, $), y = H % a, y >= 0) {
-            const b = this.trackHeights[L].slice(0, a).reduce((M, N) => M + N, 0), x = this.trackHeights[L].slice(0, y).reduce((M, N) => M + N, 0) % b;
+          if (A = p(d, L, $), y = A % a, y >= 0) {
+            const b = this.trackHeights[L].slice(0, a).reduce((_, R) => _ + R, 0), x = this.trackHeights[L].slice(0, y).reduce((_, R) => _ + R, 0) % b;
             if (x + parseInt(d.style.fontSize) + this.trackPadding > n) {
-              (k = this.danmakuTracks[L][v]) == null || k.pop();
+              (k = this.danmakuTracks[L][m]) == null || k.pop();
               return;
             }
-            const _ = h($), f = $ + s + this.startDistance * 2;
-            d.dataset.track = H.toString(), d.style.width = $ + 1 + "px", d.style.top = x + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${f / _}s`), d.style.setProperty("--offset", `${s + this.startDistance}px`), d.style.setProperty("--translateX", `${-f}px`);
+            const H = o($), f = $ + s + this.startDistance * 2;
+            d.dataset.track = A.toString(), d.style.width = $ + 1 + "px", d.style.top = x + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${f / H}s`), d.style.setProperty("--offset", `${s + this.startDistance}px`), d.style.setProperty("--translateX", `${-f}px`);
           }
           break;
         case "top":
-          if (y = u(d, L, 0) % a, y >= 0) {
+          if (y = p(d, L, 0) % a, y >= 0) {
             const b = [], x = this.danmakuTracks.top;
             for (const f of x)
               b.push(...f);
-            const _ = b.map((f) => parseInt(f.style.fontSize) + this.trackPadding).slice(0, y).reduce((f, M) => f + M, 0);
-            if (_ + parseInt(d.style.fontSize) + this.trackPadding > n) {
-              (A = this.danmakuTracks[L][v]) == null || A.pop();
+            const H = b.map((f) => parseInt(f.style.fontSize) + this.trackPadding).slice(0, y).reduce((f, _) => f + _, 0);
+            if (H + parseInt(d.style.fontSize) + this.trackPadding > n) {
+              (S = this.danmakuTracks[L][m]) == null || S.pop();
               return;
             }
-            d.dataset.track = y.toString(), d.style.width = $ + 1 + "px", d.style.marginLeft = `-${($ + 1) * 0.5}px`, d.style.top = _ + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
+            d.dataset.track = y.toString(), d.style.width = $ + 1 + "px", d.style.marginLeft = `-${($ + 1) * 0.5}px`, d.style.top = H + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
           }
           break;
         case "bottom":
-          if (L = "bottom", y = u(d, L, 0) % a, y >= 0) {
+          if (L = "bottom", y = p(d, L, 0) % a, y >= 0) {
             const b = [], x = this.danmakuTracks.bottom;
             for (const f of x)
               b.push(...f);
-            const _ = b.map((f) => parseInt(f.style.fontSize) + this.trackPadding).slice(0, y).reduce((f, M) => f + M, 0);
-            if (_ + parseInt(d.style.fontSize) + this.trackPadding > n) {
-              (S = this.danmakuTracks[L][v]) == null || S.pop();
+            const H = b.map((f) => parseInt(f.style.fontSize) + this.trackPadding).slice(0, y).reduce((f, _) => f + _, 0);
+            if (H + parseInt(d.style.fontSize) + this.trackPadding > n) {
+              (E = this.danmakuTracks[L][m]) == null || E.pop();
               return;
             }
-            d.dataset.track = y.toString(), d.style.width = $ + 1 + "px", d.style.marginLeft = `-${($ + 1) * 0.5}px`, d.style.bottom = _ + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
+            d.dataset.track = y.toString(), d.style.width = $ + 1 + "px", d.style.marginLeft = `-${($ + 1) * 0.5}px`, d.style.bottom = H + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
           }
           break;
         default:
-          y = -1, console.error(`无法处理的弹幕模式: ${m.mode}`);
+          y = -1, console.error(`无法处理的弹幕模式: ${v.mode}`);
       }
-      y >= 0 && (d.dataset.id = m.id.toString(), d.dataset.user = m.user.toString(), this.container.appendChild(d));
+      y >= 0 && (d.dataset.id = v.id.toString(), d.dataset.user = v.user.toString(), this.container.appendChild(d));
     }
     return g;
   }
@@ -3880,10 +3911,10 @@ class nr {
   /** 根据某一坐标捕获弹幕DOM */
   captureDanmakuDOM(t, e, s, n = !1) {
     const a = [], l = this.container.querySelectorAll(`.${this.classPrefix}-danmaku-item`);
-    for (const o of l)
-      if (o.innerHTML) {
-        const h = o.getBoundingClientRect(), c = this.container.getBoundingClientRect(), u = h.left - c.left, g = h.right - c.left, k = h.top - c.top, A = h.bottom - c.top;
-        if (t >= u - s && t <= g + s && e >= k - s && e <= A + s && (a.push(o), n))
+    for (const h of l)
+      if (h.innerHTML) {
+        const o = h.getBoundingClientRect(), c = this.container.getBoundingClientRect(), p = o.left - c.left, g = o.right - c.left, k = o.top - c.top, S = o.bottom - c.top;
+        if (t >= p - s && t <= g + s && e >= k - s && e <= S + s && (a.push(h), n))
           return a;
       }
     return a;
@@ -3891,9 +3922,9 @@ class nr {
   /** 根据某一坐标捕获弹幕 */
   captureDanmaku(t, e, s, n = !1) {
     const a = this.captureDanmakuDOM(t, e, s, n), l = [];
-    for (const o of a) {
-      const h = this.getDanmakuById(o.dataset.id);
-      h && l.push(h);
+    for (const h of a) {
+      const o = this.getDanmakuById(h.dataset.id);
+      o && l.push(o);
     }
     return l;
   }
@@ -3913,8 +3944,8 @@ class nr {
 const Hs = class Hs extends w {
   constructor(t) {
     super(t), this.$el = this.plugins.danmaku.$el.appendChild(
-      p("div", { class: `${r}-rowdanmaku` })
-    ), this.core = new nr(this.$el, {
+      u("div", { class: `${r}-rowdanmaku` })
+    ), this.core = new er(this.$el, {
       getTime: () => this.player.currentTime,
       classPrefix: r
     });
@@ -3959,8 +3990,8 @@ const Hs = class Hs extends w {
   }
   apply(t, e) {
     if (e.danmaku) {
-      const { scale: s, font: n, bold: a, speed: l, opacity: o } = e.danmaku;
-      s && this.setScale(s), n && this.setFont(n), a != null && this.setBold(a), l && this.setSpeed(l), o && this.setOpacity(o);
+      const { scale: s, font: n, bold: a, speed: l, opacity: h } = e.danmaku;
+      s && this.setScale(s), n && this.setFont(n), a != null && this.setBold(a), l && this.setSpeed(l), h && this.setOpacity(h);
     }
   }
   // 弹幕播放属性设置
@@ -4033,7 +4064,7 @@ const oi = [
   "y",
   "z"
 ];
-function rr() {
+function sr() {
   const i = [], t = oi.length;
   for (let e = 0; e < 8; e++)
     i.push(oi[Math.floor(Math.random() * t)]);
@@ -4041,10 +4072,13 @@ function rr() {
 }
 const _s = class _s extends w {
   constructor() {
-    super(...arguments), this.type = "", this.parser = ar;
+    super(...arguments), this.type = "", this.parser = ir;
   }
   get danmaku() {
     return this.player.danmaku;
+  }
+  get invokes() {
+    return this.player.invokes;
   }
   init() {
     this.player.on("videoChange", (t) => {
@@ -4066,8 +4100,8 @@ const _s = class _s extends w {
         throw "未知弹幕格式";
       try {
         return s.parse(t);
-      } catch {
-        throw "无法正确解析弹幕格式";
+      } catch (n) {
+        throw n || "无法正确解析弹幕格式";
       }
     } else
       return t;
@@ -4083,10 +4117,10 @@ const _s = class _s extends w {
   /** 加载弹幕 */
   load(t) {
     var e, s;
-    (s = (e = this.danmaku.invoke).get) == null || s.call(e, t).then((n) => this.parse(n, this.type)).then((n) => {
+    (s = (e = this.invokes).danmakuGet) == null || s.call(e, t).then((n) => this.parse(n, this.type)).then((n) => {
       n && this.add(n), this.player.emit("danmaku:loaded", n, t);
     }).catch((n) => {
-      this.player.emit("danmaku:loadFailed", n, t);
+      this.player.throw(new Error(n)), this.player.emit("danmaku:loadFailed", n, t);
     });
   }
   add(t) {
@@ -4102,19 +4136,20 @@ const _s = class _s extends w {
 };
 _s.pluginName = "danmakuLoader";
 let Ee = _s;
-const ar = {
+const ir = {
   "bilibili-xml": {
     type: "xml",
     parse: (i) => {
+      console.log(i);
       const t = [], e = i.childNodes, s = (n) => {
         var a;
         for (let l = 0; l < n.length; l++) {
-          const o = n[l];
-          if ((a = o == null ? void 0 : o.attributes) != null && a.length && l > 0) {
-            const h = o.attributes[0].nodeValue.split(","), c = o.innerHTML;
-            t.push([c, h]);
+          const h = n[l];
+          if ((a = h == null ? void 0 : h.attributes) != null && a.length && l > 0) {
+            const o = h.attributes[0].nodeValue.split(","), c = h.innerHTML;
+            t.push([c, o]);
           } else
-            o.childNodes.length > 0 && s(o.childNodes);
+            h.childNodes.length > 0 && s(h.childNodes);
         }
       };
       return s(e), t.map(([n, a]) => ({
@@ -4139,7 +4174,7 @@ const ar = {
       content: t[4],
       size: 25,
       date: 0,
-      id: rr()
+      id: sr()
     }))
   },
   mfuns: {
@@ -4159,9 +4194,8 @@ const ar = {
   get danmaku() {
     return this.player.danmaku;
   }
-  get invoke() {
-    var t;
-    return ((t = this.player.danmaku) == null ? void 0 : t.invoke) || {};
+  get invokes() {
+    return this.player.invokes || {};
   }
   /**
    * 发送弹幕
@@ -4169,9 +4203,9 @@ const ar = {
    * @return 操作结果
    * */
   async send(t) {
-    if (!this.invoke.send)
+    if (!this.invokes.danmakuSend)
       throw "发送失败";
-    return await this.invoke.send(t, this.player.getVideoInfo()).then((e) => (this.danmaku.add(
+    return await this.invokes.danmakuSend(t, this.player.getVideoInfo()).then((e) => (this.danmaku.add(
       [
         Object.assign(
           {
@@ -4194,9 +4228,9 @@ const ar = {
    * @return 操作结果
    * */
   async report(t) {
-    if (!this.invoke.report)
+    if (!this.invokes.danmakuReport)
       throw "操作失败";
-    return await this.invoke.report(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove([t]), e)).catch((e) => {
+    return await this.invokes.danmakuReport(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove([t]), e)).catch((e) => {
       throw e;
     });
   }
@@ -4206,9 +4240,9 @@ const ar = {
    * @return 操作结果
    * */
   async delete(t) {
-    if (!this.invoke.delete)
+    if (!this.invokes.danmakuDelete)
       throw "操作失败";
-    return await this.invoke.delete(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove(t), e)).catch((e) => {
+    return await this.invokes.danmakuDelete(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove(t), e)).catch((e) => {
       throw e;
     });
   }
@@ -4218,9 +4252,9 @@ const ar = {
    * @return 操作结果
    * */
   async recall(t) {
-    if (!this.invoke.recall)
+    if (!this.invokes.danmakuRecall)
       throw "操作失败";
-    return await this.invoke.recall(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove([t]), e)).catch((e) => {
+    return await this.invokes.danmakuRecall(t, this.player.getVideoInfo()).then((e) => (this.danmaku.remove([t]), e)).catch((e) => {
       throw e;
     });
   }
@@ -4231,9 +4265,9 @@ const ar = {
    * @return 操作结果
    * */
   async blockUser(t, e) {
-    if (!this.invoke.blockUser)
+    if (!this.invokes.danmakuBlockUser)
       throw "操作失败";
-    return await this.invoke.blockUser(t, e).then(() => {
+    return await this.invokes.danmakuBlockUser(t, e).then(() => {
       this.player.emit("danmaku:blockUser", t, e);
     }).catch((s) => {
       throw s;
@@ -4246,9 +4280,9 @@ const ar = {
    * @return 操作结果
    * */
   async blockContent(t, e) {
-    if (!this.invoke.blockContent)
+    if (!this.invokes.danmakuBlockContent)
       throw "操作失败";
-    return await this.invoke.blockContent(t, e).then((s) => {
+    return await this.invokes.danmakuBlockContent(t, e).then((s) => {
       this.player.emit("danmaku:blockContent", t, e);
     }).catch((s) => {
       throw s;
@@ -4257,7 +4291,7 @@ const ar = {
 };
 Ms.pluginName = "danmakuOperate";
 let Se = Ms;
-const lr = (
+const nr = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -4266,14 +4300,14 @@ const lr = (
   </div>
   <div class="mpui-tooltip">关闭弹幕</div>
 `
-), Fs = class Fs extends F {
+), Fs = class Fs extends M {
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-danmakutoggle is-on` },
-        lr
+        nr
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -4294,7 +4328,7 @@ const lr = (
 };
 Fs.pluginName = "buttonDanmakuToggle";
 let Te = Fs;
-const or = (
+const rr = (
   /*html*/
   `
   <div class="${r}-danmakubar-outer"></div>
@@ -4307,9 +4341,9 @@ const or = (
     <div class="${r}-danmakubar-send">发送</div>
   </div>
 `
-), Ps = class Ps extends F {
+), Ps = class Ps extends M {
   constructor(t) {
-    super(t, p("div", { class: `${r}-danmakubar` }, or)), this.danmakuColor = 16777215, this.danmakuMode = 1, this.danmakuSize = 25, this.coolDownTimer = 0, this.controls = {}, this.controller = this.plugins.controller, this.danmaku = this.plugins.danmaku, this.$send = this.$el.querySelector(`.${r}-danmakubar-send`), this.$input = this.$el.querySelector(`.${r}-danmakubar-input`), this.$outer = this.$el.querySelector(`.${r}-danmakubar-outer`), this.$left = this.$el.querySelector(`.${r}-danmakubar-left`), this.$right = this.$el.querySelector(`.${r}-danmakubar-right`), this.$logina = this.$el.querySelector(`.${r}-danmakubar-status-login a`), this.$logina.onclick = () => {
+    super(t, u("div", { class: `${r}-danmakubar` }, rr)), this.danmakuColor = 16777215, this.danmakuMode = 1, this.danmakuSize = 25, this.coolDownTimer = 0, this.controls = {}, this.controller = this.plugins.controller, this.danmaku = this.plugins.danmaku, this.$send = this.$el.querySelector(`.${r}-danmakubar-send`), this.$input = this.$el.querySelector(`.${r}-danmakubar-input`), this.$outer = this.$el.querySelector(`.${r}-danmakubar-outer`), this.$left = this.$el.querySelector(`.${r}-danmakubar-left`), this.$right = this.$el.querySelector(`.${r}-danmakubar-right`), this.$logina = this.$el.querySelector(`.${r}-danmakubar-status-login a`), this.$logina.onclick = () => {
       var e, s;
       return (s = (e = this.player).login) == null ? void 0 : s.call(e);
     }, this.player.on("videoChange", () => {
@@ -4317,7 +4351,7 @@ const or = (
     }), this.player.on("loadeddata", () => {
       this.setLoading(!1);
     }), this.$input.addEventListener("keydown", (e) => {
-      e.keyCode == C.Enter && this.send();
+      e.keyCode == j.Enter && this.send();
     }), this.$send.onclick = () => {
       this.send();
     };
@@ -4328,7 +4362,7 @@ const or = (
   }
   apply(t, e) {
     var s, n, a;
-    (s = e.danmakuBar) != null && s.loginRequired && this.setLoginRequired(!0), this.setPlaceHolder(((n = e.danmakuBar) == null ? void 0 : n.placeholder) || hr), this.controls = ((a = e.danmakuBar) == null ? void 0 : a.controls) || {};
+    (s = e.danmakuBar) != null && s.loginRequired && this.setLoginRequired(!0), this.setPlaceHolder(((n = e.danmakuBar) == null ? void 0 : n.placeholder) || ar), this.controls = ((a = e.danmakuBar) == null ? void 0 : a.controls) || {};
   }
   ready() {
     this.setControls(this.controls);
@@ -4384,7 +4418,7 @@ const or = (
 };
 Ps.pluginName = "danmakuBar";
 let Ae = Ps;
-const hr = "发条弹幕吧~", cr = (
+const ar = "发条弹幕吧~", lr = (
   /*html*/
   `
   <div class="${r}-controls-button-icon">
@@ -4423,7 +4457,7 @@ const hr = "发条弹幕吧~", cr = (
     </div>
   </div>
 `
-), Ds = class Ds extends F {
+), Rs = class Rs extends M {
   get danmaku() {
     return this.plugins.danmaku;
   }
@@ -4433,10 +4467,10 @@ const hr = "发条弹幕吧~", cr = (
   constructor(t) {
     super(
       t,
-      p(
+      u(
         "div",
         { class: `${r}-controls-button ${r}-button-danmakusettings` },
-        cr
+        lr
       )
     ), this.$icon = this.$(`.${r}-controls-button-icon`), this.$filterPicker = this.$(`.${r}-danmaku-settings-filter-picker`), this.$opacitySlider = this.$(`.${r}-danmaku-settings-opacity-slider`), this.$areaSlider = this.$(`.${r}-danmaku-settings-area-slider`), this.$sizeSlider = this.$(`.${r}-danmaku-settings-size-slider`), this.$speedSlider = this.$(`.${r}-danmaku-settings-speed-slider`), this.$opacityValue = this.$(`.${r}-danmaku-settings-opacity-value`), this.$areaValue = this.$(`.${r}-danmaku-settings-area-value`), this.$sizeValue = this.$(`.${r}-danmaku-settings-size-value`), this.$speedValue = this.$(`.${r}-danmaku-settings-speed-value`);
   }
@@ -4454,7 +4488,7 @@ const hr = "发条弹幕吧~", cr = (
       onToggle: (t, e) => {
         this.danmaku.filterType(t, e);
       }
-    }), this.sliderOpacity = new lt({
+    }), this.sliderOpacity = new at({
       container: this.$opacitySlider,
       min: 10,
       max: 100,
@@ -4466,7 +4500,7 @@ const hr = "发条弹幕吧~", cr = (
       onChange: (t) => {
         this.$opacityValue.innerText = `${t}%`;
       }
-    }), this.sliderArea = new lt({
+    }), this.sliderArea = new at({
       container: this.$areaSlider,
       min: 20,
       max: 105,
@@ -4479,7 +4513,7 @@ const hr = "发条弹幕吧~", cr = (
       onChange: (t) => {
         this.$areaValue.innerText = t < 100 ? `${t}%` : t == 100 ? "不重叠" : "无限";
       }
-    }), this.sliderArea.drag(25), this.sliderSize = new lt({
+    }), this.sliderArea.drag(25), this.sliderSize = new at({
       container: this.$sizeSlider,
       min: 50,
       max: 200,
@@ -4491,7 +4525,7 @@ const hr = "发条弹幕吧~", cr = (
       onChange: (t) => {
         this.$sizeValue.innerText = `${t}%`;
       }
-    }), this.sliderSpeed = new lt({
+    }), this.sliderSpeed = new at({
       container: this.$speedSlider,
       min: 20,
       max: 180,
@@ -4507,11 +4541,11 @@ const hr = "发条弹幕吧~", cr = (
     });
   }
 };
-Ds.pluginName = "buttonDanmakuSettings";
-let He = Ds;
-const dr = (i, t, e, s) => E`
+Rs.pluginName = "buttonDanmakuSettings";
+let He = Rs;
+const or = (i, t, e, s) => O`
   ${i.map(
-  (n) => E`
+  (n) => O`
       <li
         class="${r}-contextmenu-danmaku-item"
         @click=${() => {
@@ -4521,10 +4555,10 @@ const dr = (i, t, e, s) => E`
         <div class="${r}-contextmenu-danmaku-item-content">${n.content}</div>
         <div class="${r}-contextmenu-danmaku-item-operate">
           ${t(n).map(
-    ([a, l]) => E`<div
+    ([a, l]) => O`<div
                 class="${r}-contextmenu-danmaku-item-operate-btn"
-                @click=${(o) => {
-      o.stopPropagation(), l(n), s();
+                @click=${(h) => {
+      h.stopPropagation(), l(n), s();
     }}
               >
                 ${a}
@@ -4534,9 +4568,9 @@ const dr = (i, t, e, s) => E`
       </li>
     `
 )}
-`, ur = (i) => navigator.clipboard.writeText(i), Rs = class Rs extends w {
+`, hr = (i) => navigator.clipboard.writeText(i), Ds = class Ds extends w {
   constructor(t) {
-    super(t), this.$el = p("ul", { class: `${r}-contextmenu-danmaku mpui-black` });
+    super(t), this.$el = u("ul", { class: `${r}-contextmenu-danmaku mpui-black` });
   }
   init() {
     this.player.on("contextMenuShow", (t, e) => {
@@ -4550,120 +4584,129 @@ const dr = (i, t, e, s) => E`
     (t = this.plugins.contextMenu) == null || t.$list.before(this.$el);
   }
   update(t) {
-    var n;
-    const e = (n = this.plugins.danmaku) == null ? void 0 : n.invoke, s = this.plugins.danmakuOperate;
-    t != null && t.length ? this.$el.style.display = "" : this.$el.style.display = "none", R(
-      dr(
+    const e = this.player.invokes, s = this.plugins.danmakuOperate;
+    t != null && t.length ? this.$el.style.display = "" : this.$el.style.display = "none", St(
+      or(
         t,
-        (a) => {
-          const l = this.player.userId && a.user == this.player.userId;
+        (n) => {
+          const a = this.player.userId && n.user == this.player.userId;
           return [
             [
               "举报",
-              (o) => {
-                s == null || s.report(o);
+              (l) => {
+                s == null || s.report(l);
               },
-              !l && (e == null ? void 0 : e.report)
+              !a && (e == null ? void 0 : e.danmakuReport)
             ],
             [
               "屏蔽",
-              (o) => {
-                s == null || s.blockUser(o.user, !0);
+              (l) => {
+                s == null || s.blockUser(l.user, !0);
               },
-              !l && (e == null ? void 0 : e.blockUser)
+              !a && (e == null ? void 0 : e.danmakuBlockUser)
             ],
             [
               "撤回",
-              (o) => {
-                s == null || s.recall(o);
+              (l) => {
+                s == null || s.recall(l);
               },
-              l && (e == null ? void 0 : e.recall)
+              a && (e == null ? void 0 : e.danmakuRecall)
             ],
             [
               "复制",
-              (o) => {
-                ur(o.content);
+              (l) => {
+                hr(l.content);
               },
               !0
             ]
-          ].filter((o) => o[2]);
+          ].filter((l) => l[2]);
         },
-        (a) => {
-          this.player.emit("danmaku:select", a);
+        (n) => {
+          this.player.emit("danmaku:select", n);
         },
         () => {
-          var a;
-          (a = this.plugins.contextMenu) == null || a.hide();
+          var n;
+          (n = this.plugins.contextMenu) == null || n.hide();
         }
       ),
       this.$el
     );
   }
 };
-Rs.pluginName = "danmakuMenu";
-let _e = Rs;
-const pr = () => E`
-  <div class="${r}-controls-button ${r}-button-danmakustyle">
-    <div class="${r}-controls-button-icon">
-      <i class="mpicon-text"></i>
-    </div>
-    <div class="${r}-controls-panel-wrap">
-      <div class="${r}-controls-panel ${r}-controls-panel-danmaku-style">
-        <div class="${r}-panel-row">
-          <div class="${r}-row-label">字号</div>
-          <div class="${r}-danmaku-style-fontsize-picker"></div>
-        </div>
-        <div class="${r}-panel-row">
-          <div class="${r}-row-label">模式</div>
-          <div class="${r}-danmaku-style-mode-picker"></div>
-        </div>
-        <div class="${r}-panel-row">
-          <div class="${r}-row-label">颜色</div>
-          <input
-            class="${r}-danmaku-style-color-input mpui-input"
-            type="text"
-            value="#"
-          />
-          <div class="${r}-danmaku-style-color-preview"></div>
-          ${window.EyeDropper ? E`<button class="${r}-danmaku-style-color-dropper mpui-button">
-                拾取
-              </button>` : ""}
-        </div>
-        <div class="${r}-danmaku-style-color-picker"></div>
+Ds.pluginName = "danmakuMenu";
+let _e = Ds;
+const cr = (
+  /*html*/
+  `
+  <div class="${r}-controls-button-icon">
+    <i class="mpicon-text"></i>
+  </div>
+  <div class="${r}-controls-panel-wrap">
+    <div class="${r}-controls-panel ${r}-controls-panel-danmaku-style">
+      <div class="${r}-panel-row">
+        <div class="${r}-row-label">字号</div>
+        <div class="${r}-danmaku-style-fontsize-picker"></div>
       </div>
+      <div class="${r}-panel-row">
+        <div class="${r}-row-label">模式</div>
+        <div class="${r}-danmaku-style-mode-picker"></div>
+      </div>
+      <div class="${r}-panel-row">
+        <div class="${r}-row-label">颜色</div>
+        <input
+          class="${r}-danmaku-style-color-input mpui-input"
+          type="text"
+          value="#"
+        />
+        <div class="${r}-danmaku-style-color-preview"></div>
+        ${window.EyeDropper ? (
+    /*html*/
+    `<button class="${r}-danmaku-style-color-dropper mpui-button">
+              拾取
+            </button>`
+  ) : ""}
+      </div>
+      <div class="${r}-danmaku-style-color-picker"></div>
     </div>
   </div>
-`, Ns = class Ns extends F {
+`
+), Ns = class Ns extends M {
   constructor(t) {
-    const e = new DocumentFragment();
-    R(pr(), e), super(t, e.querySelector(`.${r}-controls-button`)), this.colorList = [], this.sizeList = [], this.modeList = [], this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip"), this.$sizePicker = this.$(`.${r}-danmaku-style-fontsize-picker`), this.$modePicker = this.$(`.${r}-danmaku-style-mode-picker`), this.$colorPicker = this.$(`.${r}-danmaku-style-color-picker`), this.$colorInput = this.$(`.${r}-danmaku-style-color-input`), this.$colorPreview = this.$(`.${r}-danmaku-style-color-preview`), this.$colorDropper = this.$(`.${r}-danmaku-style-color-dropper`);
+    super(
+      t,
+      u(
+        "div",
+        { class: `${r}-controls-button ${r}-button-danmakustyle` },
+        cr
+      )
+    ), this.colorList = [], this.sizeList = [], this.modeList = [], this.$icon = this.$(`.${r}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip"), this.$sizePicker = this.$(`.${r}-danmaku-style-fontsize-picker`), this.$modePicker = this.$(`.${r}-danmaku-style-mode-picker`), this.$colorPicker = this.$(`.${r}-danmaku-style-color-picker`), this.$colorInput = this.$(`.${r}-danmaku-style-color-input`), this.$colorPreview = this.$(`.${r}-danmaku-style-color-preview`), this.$colorDropper = this.$(`.${r}-danmaku-style-color-dropper`);
   }
   get danmakuBar() {
     return this.player.plugins.danmakuBar;
   }
   apply(t, e) {
     if (e.danmakuStyle) {
-      const { sizeList: s, colorList: n, modeList: a, defaultSize: l, defaultColor: o, defaultMode: h } = e.danmakuStyle;
-      s && (this.pickerSize.list = s.map(([c, u]) => ({ value: c, label: u })), this.pickerSize.reload(l)), n && (this.pickerSize.list = n.map((c) => ({ value: c })), this.pickerSize.reload(o)), a && (this.pickerMode.list = [
+      const { sizeList: s, colorList: n, modeList: a, defaultSize: l, defaultColor: h, defaultMode: o } = e.danmakuStyle;
+      s && (this.pickerSize.list = s.map(([c, p]) => ({ value: c, label: p })), this.pickerSize.reload(l)), n && (this.pickerSize.list = n.map((c) => ({ value: c })), this.pickerSize.reload(h)), a && (this.pickerMode.list = [
         { value: 1, label: "滚动" },
         { value: 5, label: "顶部" },
         { value: 4, label: "底部" },
         { value: 6, label: "逆向" }
-      ].filter((c) => a.indexOf(c.value) > -1), this.pickerMode.reload(h));
+      ].filter((c) => a.indexOf(c.value) > -1), this.pickerMode.reload(o));
     }
   }
   init(t) {
-    this.pickerSize = new J({
+    this.pickerSize = new Z({
       container: this.$sizePicker,
       value: 25,
-      list: mr.map(([e, s]) => ({
+      list: dr.map(([e, s]) => ({
         value: e,
         label: s
       })),
       onPick: (e) => {
         this.danmakuBar.danmakuSize = Number(e);
       }
-    }), this.pickerMode = new J({
+    }), this.pickerMode = new Z({
       container: this.$modePicker,
       value: 1,
       list: [
@@ -4671,21 +4714,21 @@ const pr = () => E`
         { value: 5, label: "顶部" },
         { value: 4, label: "底部" },
         { value: 6, label: "逆向" }
-      ].filter((e) => vr.indexOf(e.value) > -1),
+      ].filter((e) => ur.indexOf(e.value) > -1),
       onChange: (e) => {
         this.danmakuBar.danmakuMode = Number(e) || 1;
       }
-    }), this.pickerColor = new J({
+    }), this.pickerColor = new Z({
       container: this.$colorPicker,
       value: "#FFFFFF",
-      list: $r.map((e) => ({ value: e })),
+      list: pr.map((e) => ({ value: e })),
       onPick: (e) => {
         this.danmakuBar.danmakuColor = di(e);
       },
       onChange: (e) => {
         this.$colorInput.value = e, this.$colorPreview.style.backgroundColor = e;
       },
-      template: (e) => E` <div style="background-color: ${e.value}"></div> `,
+      template: (e) => O` <div style="background-color: ${e.value}"></div> `,
       condition: (e, s) => e.toLowerCase() == s.toLowerCase()
     }), this.$colorInput.addEventListener("input", () => {
       const e = this.$colorInput.value;
@@ -4699,11 +4742,11 @@ const pr = () => E`
 };
 Ns.pluginName = "buttonDanmakuStyle";
 let Me = Ns;
-const mr = [
+const dr = [
   [18, "小"],
   [25, "中"],
   [36, "大"]
-], vr = [1, 5, 4], $r = [
+], ur = [1, 5, 4], pr = [
   "#FE0302",
   "#FFFF00",
   "#00CD00",
@@ -4714,15 +4757,15 @@ const mr = [
   "#757575",
   "#FFFFFF",
   "#FB7229"
-], gr = [
+], mr = [
   xe,
   Le,
   Ee,
   Se,
   Ae,
   _e
-], fr = [Te, He, Me], yr = [...gr, ...fr];
-class br extends w {
+], vr = [Te, He, Me], $r = [...mr, ...vr];
+class gr extends w {
   init() {
     this.player.on("videoChange", (t) => {
       var e;
@@ -4747,7 +4790,7 @@ const Is = class Is extends w {
     return t.type == "flv";
   }
   create(t, e) {
-    const { type: s, url: n, live: a, play: l, time: o } = t, h = {
+    const { type: s, url: n, live: a, play: l, time: h } = t, o = {
       kernel: null,
       type: s || "",
       url: n,
@@ -4765,10 +4808,10 @@ const Is = class Is extends w {
         cors: !0,
         isLive: a
       });
-      h.kernel = c;
-      const u = o === !0 ? this.player.currentTime : o === !1 ? 0 : o;
-      c.attachMediaElement(e), c.load(), u && (c.currentTime = u), l && c.play();
-    }), h;
+      o.kernel = c;
+      const p = h === !0 ? this.player.currentTime : h === !1 ? 0 : h;
+      c.attachMediaElement(e), c.load(), p && (c.currentTime = p), l && c.play();
+    }), o;
   }
   /** 初始化flvjs */
   async initFlv() {
@@ -4801,7 +4844,7 @@ const zs = class zs extends w {
     return t.type == "hls" || t.type == "m3u8";
   }
   create(t, e) {
-    const { type: s, url: n, live: a, play: l, time: o } = t, h = {
+    const { type: s, url: n, live: a, play: l, time: h } = t, o = {
       kernel: null,
       type: s || "",
       url: n,
@@ -4814,14 +4857,14 @@ const zs = class zs extends w {
     };
     return this.initHls().then(() => {
       const c = new this.Hls();
-      h.kernel = c;
-      const u = o === !0 ? this.player.currentTime : o;
+      o.kernel = c;
+      const p = h === !0 ? this.player.currentTime : h;
       return c.attachMedia(e), c.on(this.Hls.Events.MEDIA_ATTACHED, () => {
         c.loadSource(n);
       }), this.player.once("loadedmetadata", () => {
-        u && this.player.seek(u), l && this.player.play();
+        p && this.player.seek(p), l && this.player.play();
       }), !0;
-    }), h;
+    }), o;
   }
   /** 初始化hls.js */
   async initHls() {
@@ -4854,7 +4897,7 @@ const Os = class Os extends w {
     return t.type == "dash" || t.type == "m3u8";
   }
   create(t, e) {
-    const { type: s, url: n, live: a, play: l, time: o } = t, h = {
+    const { type: s, url: n, live: a, play: l, time: h } = t, o = {
       kernel: null,
       type: s || "",
       url: n,
@@ -4867,10 +4910,10 @@ const Os = class Os extends w {
     };
     return this.initDash().then(() => {
       const c = this.dashjs.MediaPlayer().create();
-      h.kernel = c;
-      const u = o === !0 ? this.player.currentTime : o === !1 ? 0 : o;
-      c.initialize(e, n, l, u);
-    }), h;
+      o.kernel = c;
+      const p = h === !0 ? this.player.currentTime : h === !1 ? 0 : h;
+      c.initialize(e, n, l, p);
+    }), o;
   }
   /** 初始化dash.js */
   async initDash() {
@@ -4890,12 +4933,12 @@ const Os = class Os extends w {
   }
 };
 Os.pluginName = "dashLoader";
-let De = Os;
-var q;
-const qs = class qs extends w {
+let Re = Os;
+var z;
+const Bs = class Bs extends w {
   constructor(e) {
     super(e);
-    I(this, q, null);
+    D(this, z, null);
     const s = window.ResizeObserver || Si;
     s && (this.observer = new s(([n]) => {
       const { width: a, height: l } = n.contentRect;
@@ -4903,20 +4946,20 @@ const qs = class qs extends w {
     }));
   }
   apply(e, s) {
-    T(this, q, this._parse(s.aspectRatio || ""));
+    T(this, z, this._parse(s.aspectRatio || ""));
   }
   init() {
-    this.player.define("aspectRatio", { get: () => this._stringify(D(this, q)) }), this.player.define("setAspectRatio", (e) => {
+    this.player.define("aspectRatio", { get: () => this._stringify(P(this, z)) }), this.player.define("setAspectRatio", (e) => {
       this.set(e);
     });
   }
   mounted() {
     var e;
-    console.log("233333311111111"), (e = this.observer) == null || e.observe(this.player.$area), this._setRatio(D(this, q));
+    console.log("233333311111111"), (e = this.observer) == null || e.observe(this.player.$area), this._setRatio(P(this, z));
   }
   set(e) {
     const s = this._parse(e);
-    T(this, q, s), this._setRatio(s), this.player.emit("aspectRatioChange", this._stringify(s));
+    T(this, z, s), this._setRatio(s), this.player.emit("aspectRatioChange", this._stringify(s));
   }
   /** 设置视频比例 */
   _setRatio(e) {
@@ -4924,24 +4967,24 @@ const qs = class qs extends w {
     if (s.style.width = "", s.style.height = "", e) {
       const [n, a] = e;
       s.style.aspectRatio = `${n}/${a}`, s.style.objectFit = "fill";
-      const { width: l, height: o } = s.getBoundingClientRect(), { width: h, height: c } = this.player.$area.getBoundingClientRect();
-      l == h && o == c && this._rescale(l, o, n, a);
+      const { width: l, height: h } = s.getBoundingClientRect(), { width: o, height: c } = this.player.$area.getBoundingClientRect();
+      l == o && h == c && this._rescale(l, h, n, a);
     } else
       s.style.aspectRatio = "", s.style.objectFit = "";
   }
   /** 保持视频比例 */
   _keepRatio(e, s) {
-    if (D(this, q)) {
+    if (P(this, z)) {
       const n = this.player.$video;
       n.style.width = "", n.style.height = "";
-      const [a, l] = D(this, q), { width: o, height: h } = n.getBoundingClientRect();
-      console.log(`${o} x ${h} -- ${e} x ${s}`), Math.abs(o - e) < 1 && Math.abs(h - s) < 1 && this._rescale(e, s, a, l);
+      const [a, l] = P(this, z), { width: h, height: o } = n.getBoundingClientRect();
+      console.log(`${h} x ${o} -- ${e} x ${s}`), Math.abs(h - e) < 1 && Math.abs(o - s) < 1 && this._rescale(e, s, a, l);
     }
   }
   /** 根据当前视频宽高重新维持视频比例 */
   _rescale(e, s, n, a) {
-    const l = n * s, o = a * e, h = this.player.$video;
-    l < o ? (h.style.width = `${l / o * 100}%`, h.style.height = "100%") : (h.style.width = "100%", h.style.height = `${o / l * 100}%`);
+    const l = n * s, h = a * e, o = this.player.$video;
+    l < h ? (o.style.width = `${l / h * 100}%`, o.style.height = "100%") : (o.style.width = "100%", o.style.height = `${h / l * 100}%`);
   }
   _parse(e) {
     const [s, n] = e.split("/").map((a) => parseFloat(a));
@@ -4951,23 +4994,23 @@ const qs = class qs extends w {
     return e ? e.join("/") : "";
   }
 };
-q = new WeakMap(), qs.pluginName = "aspectRatio";
-let Re = qs;
-const wr = [
+z = new WeakMap(), Bs.pluginName = "aspectRatio";
+let De = Bs;
+const fr = [
   fe,
-  br,
+  gr,
   ke,
   pe,
   me,
   Nt,
-  Re,
+  De,
   de,
   ce,
   ue,
   ye,
   be
-], kr = [$e, ge, we], xr = [zt, It, ve], Lr = [Fe, Pe, De];
-class Hr extends ht {
+], yr = [$e, ge, we], br = [zt, It, ve], wr = [Fe, Pe, Re];
+class Sr extends ot {
   constructor(t) {
     super({
       autoPart: !0,
@@ -4997,12 +5040,12 @@ class Hr extends ht {
       },
       ...t,
       plugins: [
+        ...$r,
+        ...Yn,
+        ...fr,
+        ...br,
         ...yr,
-        ...Zn,
         ...wr,
-        ...xr,
-        ...kr,
-        ...Lr,
         ...t.plugins || []
       ]
     });
@@ -5010,16 +5053,16 @@ class Hr extends ht {
 }
 export {
   w as BasePlugin,
-  Ar as Components,
-  F as ControlsPlugin,
-  Tr as MenuPlugin,
+  Er as Components,
+  M as ControlsPlugin,
+  Lr as MenuPlugin,
   pi as MountablePlugin,
-  gt as PanelPlugin,
-  Hr as Player,
-  Et as UIPlugin,
-  Sr as Utils,
+  $t as PanelPlugin,
+  Sr as Player,
+  Lt as UIPlugin,
+  xr as Utils,
   r as classPrefix,
-  Di as developers,
+  Ri as developers,
   Fi as gitHash,
   Pi as repositoryLink,
   Mi as version

@@ -27,8 +27,8 @@ export default class ButtonLoop extends ControlsPlugin {
       )
     );
 
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$tooltip = this.$(".mpui-tooltip")!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$tooltip = this.$(".mpui-tooltip");
   }
 
   init() {

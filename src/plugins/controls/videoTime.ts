@@ -25,10 +25,10 @@ export default class VideoTime extends ControlsPlugin {
 
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-videotime` }, templateHTML));
-    this.$label = this.$(`.${classPrefix}-videotime-label`)!;
-    this.$current = this.$(`.${classPrefix}-videotime-current`)!;
-    this.$total = this.$(`.${classPrefix}-videotime-total`)!;
-    this.$input = this.$(`.${classPrefix}-videotime-input`)!;
+    this.$label = this.$(`.${classPrefix}-videotime-label`);
+    this.$current = this.$(`.${classPrefix}-videotime-current`);
+    this.$total = this.$(`.${classPrefix}-videotime-total`);
+    this.$input = this.$(`.${classPrefix}-videotime-input`);
   }
 
   init() {

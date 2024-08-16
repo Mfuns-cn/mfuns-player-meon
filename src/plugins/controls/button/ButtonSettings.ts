@@ -9,9 +9,8 @@ const templateHTML = /*html*/ `
     <i class="mpicon-settings"></i>
   </div>
   <div class="${classPrefix}-controls-panel-wrap">
-    <div class="${classPrefix}-controls-panel">
+    <div class="${classPrefix}-controls-panel"></div>
   </div>
-    
 `;
 
 declare module "@core" {
@@ -40,8 +39,8 @@ export default class ButtonSettings extends ControlsPlugin {
       )
     );
 
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$panel = this.$(`.${classPrefix}-controls-panel`)!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$panel = this.$(`.${classPrefix}-controls-panel`);
   }
 
   apply(player: Player, options: PlayerOptions) {
@@ -50,6 +49,7 @@ export default class ButtonSettings extends ControlsPlugin {
 
   ready() {
     this.build(this.$panel, this.controls);
+    this.player.plugins.settings?.mount(this.$panel);
   }
 
   setControls(controls: ControlsPlugin[]) {

@@ -63,7 +63,7 @@ export default class DanmakuMenu extends BasePlugin {
     this.plugins.contextMenu?.$list.before(this.$el);
   }
   update(danmaku: DanmakuItem[]) {
-    const api = this.plugins.danmaku?.invoke;
+    const invokes = this.player.invokes;
     const operate = this.plugins.danmakuOperate;
     if (danmaku?.length) {
       this.$el.style.display = "";
@@ -81,21 +81,21 @@ export default class DanmakuMenu extends BasePlugin {
               (dm: DanmakuItem) => {
                 operate?.report(dm);
               },
-              !myDanmaku && api?.report,
+              !myDanmaku && invokes?.danmakuReport,
             ],
             [
               "屏蔽",
               (dm: DanmakuItem) => {
                 operate?.blockUser(dm.user, true);
               },
-              !myDanmaku && api?.blockUser,
+              !myDanmaku && invokes?.danmakuBlockUser,
             ],
             [
               "撤回",
               (dm: DanmakuItem) => {
                 operate?.recall(dm);
               },
-              myDanmaku && api?.recall,
+              myDanmaku && invokes?.danmakuRecall,
             ],
             [
               "复制",

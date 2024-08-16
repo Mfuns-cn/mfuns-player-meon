@@ -1,4 +1,4 @@
-import { debounce, secondToTime } from "@/utils";
+import { createElement, debounce, secondToTime } from "@/utils";
 import { dateFormat } from "@/utils/index";
 import { DanmakuItem } from "@plugins/danmaku/types";
 import { Player } from "@/player";
@@ -19,36 +19,35 @@ declare module "@core" {
   }
 }
 
-const template = (clearSelect: () => void) => html`
-  <div class="${classPrefix}-danmakulist">
-    <div class="${classPrefix}-danmakulist-main">
-      <div class="${classPrefix}-danmakulist-head">
-        <div class="list-column col-time">时间</div>
-        <div class="list-column col-content">弹幕内容</div>
-        <div class="list-column col-date">发送时间</div>
-      </div>
-      <div class="${classPrefix}-danmakulist-select">
-        <div class="${classPrefix}-danmakulist-select-info"></div>
-        <div class="${classPrefix}-danmakulist-select-operate">
-          <div class="list-operate-btn" @click=${clearSelect}>取消选择</div>
-        </div>
-      </div>
-      <div class="${classPrefix}-danmakulist-container"></div>
-      <div class="${classPrefix}-danmakulist-status">
-        <div class="status-loading-text">弹幕列表装填中……</div>
-        <div class="status-failed-text">弹幕加载失败 X_X</div>
-        <div class="status-empty-text">还没有弹幕哦，快来发弹幕^_^</div>
+const templateHTML = /*html*/ `
+  <div class="${classPrefix}-danmakulist-main">
+    <div class="${classPrefix}-danmakulist-head">
+      <div class="list-column col-time">时间</div>
+      <div class="list-column col-content">弹幕内容</div>
+      <div class="list-column col-date">发送时间</div>
+    </div>
+    <div class="${classPrefix}-danmakulist-select">
+      <div class="${classPrefix}-danmakulist-select-info"></div>
+      <div class="${classPrefix}-danmakulist-select-operate">
+        <div class="list-operate-btn" data-action="clearSelect">取消选择</div>
       </div>
     </div>
-    <div class="${classPrefix}-danmakulist-foot">
-      <div class="${classPrefix}-danmakulist-foot-left">
-        <span class="${classPrefix}-danmakulist-autoscroll">列表滚动[关]</span>
-      </div>
-      <div class="${classPrefix}-danmakulist-foot-right"></div>
+    <div class="${classPrefix}-danmakulist-container"></div>
+    <div class="${classPrefix}-danmakulist-status">
+      <div class="status-loading-text">弹幕列表装填中……</div>
+      <div class="status-failed-text">弹幕加载失败 X_X</div>
+      <div class="status-empty-text">还没有弹幕哦，快来发弹幕^_^</div>
     </div>
+  </div>
+  <div class="${classPrefix}-danmakulist-foot">
+    <div class="${classPrefix}-danmakulist-foot-left">
+      <span class="${classPrefix}-danmakulist-autoscroll">列表滚动[关]</span>
+    </div>
+    <div class="${classPrefix}-danmakulist-foot-right"></div>
   </div>
 `;
 
+/** 获取弹幕列表项 @internal */
 const getDanmakuListItem = (
   danmaku: DanmakuItem,
   index: number,
@@ -60,62 +59,59 @@ const getDanmakuListItem = (
     focused,
     title,
   }: {
-    operation: (dm: DanmakuItem) => [string, (dm: DanmakuItem) => void, unknown][];
-    onClick: (e: MouseEvent, dm: DanmakuItem) => void;
-    onDblclick: (e: MouseEvent, dm: DanmakuItem) => void;
-    selected: (dm: DanmakuItem) => boolean;
-    focused: (dm: DanmakuItem) => boolean;
-    title: (dm: DanmakuItem) => string;
+    operation: [string, (dm: DanmakuItem) => void, unknown][];
+    onClick: (e: MouseEvent) => void;
+    onDblclick: (e: MouseEvent) => void;
+    selected: boolean;
+    focused: boolean;
+    title: string;
   }
 ) => {
-  const t = html`
-    <div
-      class="${`list-row ${selected(danmaku) ? "is-selected" : ""} ${
-        focused(danmaku) ? "is-focused" : ""
-      }`.trim()}"
-      data-index="${index}"
-      data-mode="${danmaku.mode}"
-      @dblclick=${(e: MouseEvent) => {
-        onDblclick(e, danmaku);
-      }}
-      @click=${(e: MouseEvent) => {
-        onClick(e, danmaku);
-      }}
-      title="${title(danmaku)}"
-    >
+  const item = createElement(
+    "div",
+    {
+      class: "list-row",
+      "data-index": index.toString(),
+      "data-mode": danmaku.mode.toString(),
+      title: title,
+    },
+    /* html */ `
       <div class="list-cell col-time">${secondToTime(danmaku.time)}</div>
       <div class="list-cell col-content">${danmaku.content}</div>
       <div class="list-cell col-date">
         ${danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yy-MM-dd HH:mm") : "-"}
       </div>
-      ${operation.length
-        ? html`<div class="list-operate" title="">
-            ${operation(danmaku).map(
-              ([label, onClick]) =>
-                html`<div
-                  class="list-operate-btn"
-                  @click=${(e: MouseEvent) => {
-                    e.stopPropagation();
-                    onClick(danmaku);
-                  }}
-                >
-                  ${label}
-                </div>`
-            )}
-          </div>`
-        : ""}
-    </div>
-  `;
-  const fragment = new DocumentFragment();
-  render(t, fragment);
-  return fragment.firstElementChild! as HTMLElement;
+    `
+  );
+  selected && item.classList.add("is-selected");
+  focused && item.classList.add("is-focused");
+  item.ondblclick = onDblclick;
+  item.onclick = onClick;
+
+  // 操作按钮
+  const operations = operation;
+  if (operations.length) {
+    const operationList = createElement("div", { class: "list-operate" });
+    // 添加操作按钮
+    operations.forEach(([label, onClick, available]) => {
+      if (!available) return;
+      const operationItem = createElement("div", { class: "list-operate-btn" }, label);
+      operationItem.onclick = (e) => {
+        e.stopPropagation();
+        onClick(danmaku);
+      };
+      operationList.appendChild(operationItem);
+    });
+    item.appendChild(operationList);
+  }
+
+  return item;
 };
 
 export default class DanmakuList extends PanelPlugin {
   static readonly pluginName = "danmakuList";
-
   title = "弹幕列表";
-  player: Player;
+
   danmaku: Danmaku;
   data: DanmakuItem[] = [];
   selected: DanmakuItem[] = [];
@@ -139,26 +135,26 @@ export default class DanmakuList extends PanelPlugin {
 
   $select: HTMLElement;
   $selectInfo: HTMLElement;
+  $clearSelect: HTMLElement;
 
   constructor(player: Player) {
-    const fragment = new DocumentFragment();
-    render(
-      template(() => this.select([])),
-      fragment
-    );
-    super(player, fragment.querySelector(`.${classPrefix}-danmakulist`)!);
-    this.player = player;
+    super(player, createElement("div", { class: `${classPrefix}-danmakulist` }, templateHTML));
     this.danmaku = player.plugins.danmaku!;
-    this.$main = this.$(`.${classPrefix}-danmakulist-main`)!;
-    this.$container = this.$(`.${classPrefix}-danmakulist-container`)!;
-    this.$status = this.$(`.${classPrefix}-danmakulist-status`)!;
-    this.$colTime = this.$(".col-time")!;
-    this.$colDate = this.$(".col-date")!;
-    this.$colContent = this.$(".col-content")!;
-    this.$autoscroll = this.$(`.${classPrefix}-danmakulist-autoscroll`)!;
+    this.$main = this.$(`.${classPrefix}-danmakulist-main`);
+    this.$container = this.$(`.${classPrefix}-danmakulist-container`);
+    this.$status = this.$(`.${classPrefix}-danmakulist-status`);
+    this.$colTime = this.$(".col-time");
+    this.$colDate = this.$(".col-date");
+    this.$colContent = this.$(".col-content");
+    this.$autoscroll = this.$(`.${classPrefix}-danmakulist-autoscroll`);
 
-    this.$select = this.$(`.${classPrefix}-danmakulist-select`)!;
-    this.$selectInfo = this.$(`.${classPrefix}-danmakulist-select-info`)!;
+    this.$select = this.$(`.${classPrefix}-danmakulist-select`);
+    this.$selectInfo = this.$(`.${classPrefix}-danmakulist-select-info`);
+    this.$clearSelect = this.$(`.list-operate-btn[data-action="clearSelect"]`);
+
+    this.$clearSelect.onclick = () => {
+      this.select([]);
+    };
 
     this.$colTime.onclick = () => {
       this.setAutoScroll(false);
@@ -224,7 +220,7 @@ export default class DanmakuList extends PanelPlugin {
     }
   }
   init() {
-    const api = this.plugins.danmaku?.invoke;
+    const invokes = this.player.invokes;
     const operate = this.plugins.danmakuOperate;
     this.list = new VirtualList({
       el: this.$container,
@@ -234,44 +230,43 @@ export default class DanmakuList extends PanelPlugin {
       itemHeight: 24,
       createItem: (danmaku, i) =>
         getDanmakuListItem(danmaku, i, {
-          operation: (dm) => {
+          operation: ((dm) => {
             const myDanmaku = this.player.userId && dm.user == this.player.userId;
             return [
               [
                 "举报",
-                (dm: DanmakuItem) => {
+                () => {
                   operate?.report(dm);
                 },
-                !myDanmaku && api?.report,
+                !myDanmaku && invokes?.danmakuReport,
               ],
               [
                 "屏蔽",
                 (dm: DanmakuItem) => {
                   operate?.blockUser(dm.user, true);
                 },
-                !myDanmaku && api?.blockUser,
+                !myDanmaku && invokes?.danmakuBlockUser,
               ],
               [
                 "撤回",
                 (dm: DanmakuItem) => {
                   operate?.recall(dm);
                 },
-                myDanmaku && api?.recall,
+                myDanmaku && invokes?.danmakuRecall,
               ],
             ].filter((v) => v[2]) as [string, (dm: DanmakuItem) => void, unknown][];
+          })(danmaku),
+          onClick: (e) => {
+            this.clickSelect(danmaku, e.shiftKey, e.ctrlKey);
           },
-          onClick: (e, dm) => {
-            this.clickSelect(dm, e.shiftKey, e.ctrlKey);
+          onDblclick: () => {
+            this.player.seek(danmaku.time);
           },
-          onDblclick: (e, dm) => {
-            this.player.seek(dm.time);
-          },
-          selected: (dm) => this.selected.includes(dm),
-          focused: (dm) => this.focused == dm,
-          title: (dm) =>
-            `${dm.content}\n${
-              danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yyyy-MM-dd HH:mm:ss") : "-"
-            } @ ${secondToTime(danmaku.time, 0x0010)}`,
+          selected: this.selected.includes(danmaku),
+          focused: this.focused == danmaku,
+          title: `${danmaku.content}\n${
+            danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yyyy-MM-dd HH:mm:ss") : "-"
+          } @ ${secondToTime(danmaku.time, 0x0010)}`,
         }),
       overflow: 5,
     });

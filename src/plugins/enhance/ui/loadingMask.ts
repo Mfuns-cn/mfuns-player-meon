@@ -32,8 +32,8 @@ export default class LoadingMask extends UIPlugin {
 
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-loadingmask` }, templateHTML));
-    this.$info = this.$(`.${classPrefix}-loadingmask-info`)!;
-    this.$tips = this.$(`.${classPrefix}-loadingmask-tips`)!;
+    this.$info = this.$(`.${classPrefix}-loadingmask-info`);
+    this.$tips = this.$(`.${classPrefix}-loadingmask-tips`);
 
     this.player.$main.appendChild(this.$el);
     /* if (!this.api?.loadingTips) {

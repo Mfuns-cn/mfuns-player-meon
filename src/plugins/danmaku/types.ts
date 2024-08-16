@@ -47,23 +47,6 @@ export interface DanmakuSource {
   // name?: string // 弹幕来源名称
 }
 
-export interface DanmakuInvokes {
-  /** 获取弹幕 */
-  get?: (info: VideoInfo) => Promise<unknown>;
-  /** 发送弹幕 */
-  send?: (danmaku: DanmakuSendItem, info: VideoInfo) => Promise<void>;
-  /** 举报弹幕 */
-  report?: (danmaku: DanmakuItem, info: VideoInfo) => Promise<void>;
-  /** 视频作者删除弹幕 */
-  delete?: (danmaku: DanmakuItem[], info: VideoInfo) => Promise<void>;
-  /** 撤回自己发送的弹幕 */
-  recall?: (danmaku: DanmakuItem, info: VideoInfo) => Promise<void>;
-  /** 添加内容屏蔽 */
-  blockContent?: (content: string, flag: boolean) => Promise<void>;
-  /** 添加用户屏蔽 */
-  blockUser?: (user: string | number, flag: boolean) => Promise<void>;
-}
-
 export interface XMLDanmakuParser {
   type: "xml";
   parse: (raw: XMLDocument) => DanmakuItem[];
@@ -103,9 +86,23 @@ declare module "@core" {
       /** 内容屏蔽 */
       blockContent: (string | RegExp)[];
     };
-    danmakuInvoke?: DanmakuInvokes;
   }
-
+  interface PlayerInvokes {
+    /** 获取弹幕 */
+    danmakuGet?: (info: VideoInfo) => Promise<unknown>;
+    /** 发送弹幕 */
+    danmakuSend?: (danmaku: DanmakuSendItem, info: VideoInfo) => Promise<void>;
+    /** 举报弹幕 */
+    danmakuReport?: (danmaku: DanmakuItem, info: VideoInfo) => Promise<void>;
+    /** 视频作者删除弹幕 */
+    danmakuDelete?: (danmaku: DanmakuItem[], info: VideoInfo) => Promise<void>;
+    /** 撤回自己发送的弹幕 */
+    danmakuRecall?: (danmaku: DanmakuItem, info: VideoInfo) => Promise<void>;
+    /** 添加内容屏蔽 */
+    danmakuBlockContent?: (content: string, flag: boolean) => Promise<void>;
+    /** 添加用户屏蔽 */
+    danmakuBlockUser?: (user: string | number, flag: boolean) => Promise<void>;
+  }
   interface VideoInfo {
     danmaku?: DanmakuSource[];
   }

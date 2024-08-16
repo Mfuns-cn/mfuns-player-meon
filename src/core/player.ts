@@ -1,6 +1,7 @@
 import {
   LoadInfo,
   MediaController,
+  PlayerInvokes,
   PlayerPlugins,
   PlayerPropertyDescriptor,
   VideoInfo,
@@ -37,6 +38,8 @@ export class Player {
   readonly loader: LoaderManager;
   /** 插件 */
   readonly plugins: PlayerPlugins = {};
+  /** 外部调用 */
+  readonly invokes: PlayerInvokes = {};
   /** 插件管理 */
   readonly plugin: PluginManager;
   /** 视频控制 */
@@ -55,6 +58,7 @@ export class Player {
     this.$content = this.$area.appendChild(
       createElement("div", { class: `${classPrefix}-content` })
     );
+    this.invokes = options.invokes ?? {};
 
     this.plugin = new PluginManager(this);
     this._videoController = new VideoController(this, options);

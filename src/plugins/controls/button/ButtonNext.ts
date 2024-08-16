@@ -41,8 +41,8 @@ export default class ButtonNext extends ControlsPlugin {
       )
     );
 
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$tooltip = this.$(".mpui-tooltip")!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$tooltip = this.$(".mpui-tooltip");
   }
 
   apply(player: Player, options: PlayerOptions): void {

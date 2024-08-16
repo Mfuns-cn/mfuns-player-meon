@@ -26,8 +26,8 @@ export default class ButtonPip extends ControlsPlugin {
         templateHTML
       )
     );
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$tooltip = this.$(".mpui-tooltip")!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$tooltip = this.$(".mpui-tooltip");
   }
 
   init() {

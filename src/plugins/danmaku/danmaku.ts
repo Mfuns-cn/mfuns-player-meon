@@ -1,4 +1,4 @@
-import { DanmakuInvokes, DanmakuItem } from "./types";
+import { DanmakuItem } from "./types";
 import { PlayerOptions } from "@/types";
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
@@ -48,8 +48,6 @@ export default class Danmaku extends BasePlugin {
     return this._status;
   }
 
-  invoke: DanmakuInvokes = {};
-
   constructor(player: Player) {
     super(player);
 
@@ -59,10 +57,6 @@ export default class Danmaku extends BasePlugin {
   }
   init() {
     this.player.define("danmaku", { value: this });
-  }
-
-  apply(player: Player, options: PlayerOptions): void {
-    this.invoke = options.danmakuInvoke || {};
   }
 
   /**

@@ -27,9 +27,9 @@ export default class ButtonPart extends ControlsPlugin {
       )
     );
 
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$text = this.$(`.${classPrefix}-controls-button-text`)!;
-    this.$tooltip = this.$(".mpui-tooltip")!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$text = this.$(`.${classPrefix}-controls-button-text`);
+    this.$tooltip = this.$(".mpui-tooltip");
   }
 
   init() {

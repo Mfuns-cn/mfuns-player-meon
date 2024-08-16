@@ -60,15 +60,15 @@ export default class Progress extends ControlsPlugin {
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-progress` }, templateHTML));
 
-    this.$bar = this.$(`.${classPrefix}-progress-bar`)!;
-    this.$buffered = this.$(`.${classPrefix}-progress-buffered`)!;
-    this.$played = this.$(`.${classPrefix}-progress-played`)!;
-    this.$thumbTrack = this.$(`.${classPrefix}-progress-thumb-track`)!;
-    this.$thumb = this.$(`.${classPrefix}-progress-thumb`)!;
-    this.$preview = this.$(`.${classPrefix}-progress-preview`)!;
-    this.$thumbnail = this.$(`.${classPrefix}-progress-thumbnail`)!;
-    this.$time = this.$(`.${classPrefix}-progress-time`)!;
-    this.$tip = this.$(`.${classPrefix}-progress-tip`)!;
+    this.$bar = this.$(`.${classPrefix}-progress-bar`);
+    this.$buffered = this.$(`.${classPrefix}-progress-buffered`);
+    this.$played = this.$(`.${classPrefix}-progress-played`);
+    this.$thumbTrack = this.$(`.${classPrefix}-progress-thumb-track`);
+    this.$thumb = this.$(`.${classPrefix}-progress-thumb`);
+    this.$preview = this.$(`.${classPrefix}-progress-preview`);
+    this.$thumbnail = this.$(`.${classPrefix}-progress-thumbnail`);
+    this.$time = this.$(`.${classPrefix}-progress-time`);
+    this.$tip = this.$(`.${classPrefix}-progress-tip`);
 
     // 点按进度条事件
     this.$el.addEventListener("mousedown", (e: MouseEvent) => {

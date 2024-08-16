@@ -35,9 +35,9 @@ export default class ButtonVolume extends ControlsPlugin {
         templateHTML
       )
     );
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$slider = this.$(`.${classPrefix}-button-volume-slider`)!;
-    this.$value = this.$(`.${classPrefix}-button-volume-value`)!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$slider = this.$(`.${classPrefix}-button-volume-slider`);
+    this.$value = this.$(`.${classPrefix}-button-volume-value`);
   }
 
   init() {

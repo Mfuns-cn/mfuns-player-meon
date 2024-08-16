@@ -2,7 +2,14 @@ import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { PlayerOptions } from "@/types";
 import { createElement } from "@/utils";
-import { BasePlugin, PanelItem, PanelPlugin, PluginFrom } from "@/plugin";
+import {
+  BasePlugin,
+  MountableContainer,
+  MountableItem,
+  PanelItem,
+  PanelPlugin,
+  PluginFrom,
+} from "@/plugin";
 
 const templateHTML = /*html*/ `
   <div class="${classPrefix}-modal-mask"></div>
@@ -28,7 +35,7 @@ declare module "@core" {
   }
 }
 
-export default class Modal extends BasePlugin {
+export default class Modal extends BasePlugin implements MountableContainer {
   static readonly pluginName = "modal";
   container: HTMLElement;
   $el: HTMLElement;
@@ -68,16 +75,16 @@ export default class Modal extends BasePlugin {
   ready(): void {
     this.#initPanels.forEach((item) => {
       const panel = this.player.plugin.from(item);
-      panel && this.mount(panel);
+      panel && this.append(panel);
     });
     this.#initPanels = [];
   }
   /** 关闭模态框 */
   hide() {
-    this.current?.toggle(false);
+    this.current?.toggle?.(false);
   }
   /** 挂载一个面板 */
-  mount(panel: PanelItem) {
+  append(panel: PanelItem) {
     panel.mount(this.$content, {
       onToggle: (flag) => {
         if (flag) {

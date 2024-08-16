@@ -1,7 +1,6 @@
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { BasePlugin, MenuItem, PluginFrom } from "@/plugin";
-import { html, render } from "lit-html";
 import { createElement } from "@/utils";
 import { PlayerOptions } from "@core";
 
@@ -20,12 +19,6 @@ declare module "@core" {
   }
 }
 
-const template = () => html`
-  <div class="${classPrefix}-contextmenu">
-    <ul class="${classPrefix}-contextmenu-list mpui-black"></ul>
-  </div>
-`;
-
 /** 右键菜单 */
 
 export default class ContextMenu extends BasePlugin {
@@ -40,8 +33,15 @@ export default class ContextMenu extends BasePlugin {
     super(player);
     this.player = player;
 
-    this.container = createElement("div", { class: `${classPrefix}-contextmenu-wrap` });
-    render(template(), this.container);
+    this.container = createElement(
+      "div",
+      { class: `${classPrefix}-contextmenu-wrap` },
+      /*html*/ `
+      <div class="${classPrefix}-contextmenu">
+        <ul class="${classPrefix}-contextmenu-list mpui-black"></ul>
+      </div>
+      `
+    );
     this.$el = this.container.querySelector(`.${classPrefix}-contextmenu`)!;
     this.$list = this.$el.querySelector(`.${classPrefix}-contextmenu-list`)!;
 

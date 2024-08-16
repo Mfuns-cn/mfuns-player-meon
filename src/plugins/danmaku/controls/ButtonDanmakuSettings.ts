@@ -81,18 +81,18 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       )
     );
 
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
 
-    this.$filterPicker = this.$(`.${classPrefix}-danmaku-settings-filter-picker`)!;
-    this.$opacitySlider = this.$(`.${classPrefix}-danmaku-settings-opacity-slider`)!;
-    this.$areaSlider = this.$(`.${classPrefix}-danmaku-settings-area-slider`)!;
-    this.$sizeSlider = this.$(`.${classPrefix}-danmaku-settings-size-slider`)!;
-    this.$speedSlider = this.$(`.${classPrefix}-danmaku-settings-speed-slider`)!;
+    this.$filterPicker = this.$(`.${classPrefix}-danmaku-settings-filter-picker`);
+    this.$opacitySlider = this.$(`.${classPrefix}-danmaku-settings-opacity-slider`);
+    this.$areaSlider = this.$(`.${classPrefix}-danmaku-settings-area-slider`);
+    this.$sizeSlider = this.$(`.${classPrefix}-danmaku-settings-size-slider`);
+    this.$speedSlider = this.$(`.${classPrefix}-danmaku-settings-speed-slider`);
 
-    this.$opacityValue = this.$(`.${classPrefix}-danmaku-settings-opacity-value`)!;
-    this.$areaValue = this.$(`.${classPrefix}-danmaku-settings-area-value`)!;
-    this.$sizeValue = this.$(`.${classPrefix}-danmaku-settings-size-value`)!;
-    this.$speedValue = this.$(`.${classPrefix}-danmaku-settings-speed-value`)!;
+    this.$opacityValue = this.$(`.${classPrefix}-danmaku-settings-opacity-value`);
+    this.$areaValue = this.$(`.${classPrefix}-danmaku-settings-area-value`);
+    this.$sizeValue = this.$(`.${classPrefix}-danmaku-settings-size-value`);
+    this.$speedValue = this.$(`.${classPrefix}-danmaku-settings-speed-value`);
   }
 
   init() {

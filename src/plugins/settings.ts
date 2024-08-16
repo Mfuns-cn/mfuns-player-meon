@@ -50,12 +50,12 @@ export default class Settings extends PanelPlugin {
 
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-settings` }, templateHTML));
-    this.$slot = this.$(`.${classPrefix}-settings-slot`)!;
-    this.$play = this.$(`.${classPrefix}-settings-play`)!;
-    this.$others = this.$(`.${classPrefix}-settings-others`)!;
+    this.$slot = this.$(`.${classPrefix}-settings-slot`);
+    this.$play = this.$(`.${classPrefix}-settings-play`);
+    this.$others = this.$(`.${classPrefix}-settings-others`);
 
-    this.$ratePicker = this.$(`.${classPrefix}-settings-rate-picker`)!;
-    this.$ratioPicker = this.$(`.${classPrefix}-settings-ratio-picker`)!;
+    this.$ratePicker = this.$(`.${classPrefix}-settings-rate-picker`);
+    this.$ratioPicker = this.$(`.${classPrefix}-settings-ratio-picker`);
   }
   init() {
     this.pickerRate = new Picker({

@@ -47,11 +47,11 @@ export default class ButtonQuality extends ControlsPlugin {
         templateHTML
       )
     );
-    this.$icon = this.$(`.${classPrefix}-controls-button-icon`)!;
-    this.$text = this.$(`.${classPrefix}-controls-button-text`)!;
-    this.$panel = this.$(`.${classPrefix}-controls-panel`)!;
+    this.$icon = this.$(`.${classPrefix}-controls-button-icon`);
+    this.$text = this.$(`.${classPrefix}-controls-button-text`);
+    this.$panel = this.$(`.${classPrefix}-controls-panel`);
 
-    this.$list = this.$(`.${classPrefix}-button-quality-list`)!;
+    this.$list = this.$(`.${classPrefix}-button-quality-list`);
   }
 
   init() {

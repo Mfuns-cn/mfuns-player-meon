@@ -1,14 +1,14 @@
-var rt = (s, t, e) => {
+var ot = (s, t, e) => {
   if (!t.has(s))
     throw TypeError("Cannot " + e);
 };
-var K = (s, t, e) => (rt(s, t, "read from private field"), e ? e.call(s) : t.get(s)), Q = (s, t, e) => {
+var J = (s, t, e) => (ot(s, t, "read from private field"), e ? e.call(s) : t.get(s)), K = (s, t, e) => {
   if (t.has(s))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
-}, q = (s, t, e, i) => (rt(s, t, "write to private field"), i ? i.call(s, e) : t.set(s, e), e);
+}, D = (s, t, e, i) => (ot(s, t, "write to private field"), i ? i.call(s, e) : t.set(s, e), e);
 const At = /mobile/i.test(window.navigator.userAgent), bt = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || !1, kt = document.pictureInPictureEnabled || !1;
-function E(s, t, e) {
+function _(s, t, e) {
   const i = document.createElement(s);
   if (t)
     for (const n in t)
@@ -25,7 +25,7 @@ const xt = (s, t, e = !1) => {
       s.apply(this, r), clearTimeout(i), i = null, n = !1;
     }, t);
   };
-}, St = (s, t) => {
+}, Et = (s, t) => {
   let e = null;
   return function(...i) {
     e || (e = setTimeout(() => {
@@ -33,10 +33,10 @@ const xt = (s, t, e = !1) => {
     }, t));
   };
 };
-function Et(s, t) {
+function St(s, t) {
   return s + Math.random() * (t - s);
 }
-function st(s, t, e) {
+function it(s, t, e) {
   return s > t ? s < e ? s : e : t;
 }
 function Mt(s) {
@@ -56,7 +56,7 @@ function Lt(s) {
 function Tt(s) {
   return `#${`00000${s.toString(16)}`.slice(-6)}`;
 }
-const tt = {
+const Q = {
   yyyy: (s) => s.getFullYear().toString(),
   yy: (s) => s.getFullYear().toString().slice(-2),
   MM: (s) => (s.getMonth() + 1).toString().padStart(2, "0"),
@@ -70,30 +70,30 @@ function Ht(s, t) {
     /yyyy|yy|MM|dd|HH|mm|ss/g,
     (e) => {
       var i;
-      return (i = tt[e]) == null ? void 0 : i.call(tt, s);
+      return (i = Q[e]) == null ? void 0 : i.call(Q, s);
     }
   );
 }
-const ce = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const he = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   HexColorToNumber: Lt,
-  clamp: st,
-  createElement: E,
+  clamp: it,
+  createElement: _,
   dateFormat: Ht,
   debounce: xt,
   fullScreenEnabled: bt,
   isMobile: At,
   numberToHexColor: Tt,
   pictureInPictureEnabled: kt,
-  random: Et,
+  random: St,
   replaceChildren: Ct,
   secondToTime: wt,
-  throttle: St,
+  throttle: Et,
   timeToSecond: Mt
-}, Symbol.toStringTag, { value: "Module" })), U = "mfuns-player", Nt = "3.0.0-alpha.0", Pt = "d35525d", de = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", ue = [
+}, Symbol.toStringTag, { value: "Module" })), q = "mfuns-player", Nt = "3.0.0-alpha.1", Pt = "05aa06b", ae = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", ce = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
-], lt = {
+], rt = {
   play: () => [],
   pause: () => [],
   ended: () => [],
@@ -116,7 +116,7 @@ const ce = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
 class Vt {
   constructor(t, e) {
     this.ratio = null, this.info = {}, this.mediaController = null, this.player = t, this.$el = this.player.$content.appendChild(
-      E("video", { class: `${U}-video` })
+      _("video", { class: `${q}-video` })
     ), this._attachEvent(this.$el), this.player.on("ended", () => {
       this.player.hook.call("end").then((i) => {
         i && this.player.emit("end");
@@ -146,8 +146,8 @@ class Vt {
   /** 添加视频事件 */
   _attachEvent(t) {
     this.detachEventController = new AbortController();
-    for (const e in lt) {
-      const i = lt[e];
+    for (const e in rt) {
+      const i = rt[e];
       t.addEventListener(
         e,
         () => {
@@ -331,7 +331,7 @@ class Dt {
     ), l;
   }
 }
-class qt {
+class jt {
   constructor() {
     this.listeners = {}, this.onceListeners = {}, this.customEventList = [];
   }
@@ -362,11 +362,11 @@ class qt {
     }
   }
 }
-const B = class B {
+const U = class U {
   constructor(t) {
-    this.hook = new It(), this.plugins = {}, this._eventEmitter = new qt(), this.Player = B, this.container = t.container, this.$el = E("div", { class: `${U} mpui` }), this.$main = this.$el.appendChild(E("div", { class: `${U}-main` })), this.$area = this.$main.appendChild(E("div", { class: `${U}-area` })), this.$content = this.$area.appendChild(
-      E("div", { class: `${U}-content` })
-    ), this.plugin = new Rt(this), this._videoController = new Vt(this, t), this.loader = new Dt(this), this.init(t);
+    this.hook = new It(), this.plugins = {}, this.invokes = {}, this._eventEmitter = new jt(), this.Player = U, this.container = t.container, this.$el = _("div", { class: `${q} mpui` }), this.$main = this.$el.appendChild(_("div", { class: `${q}-main` })), this.$area = this.$main.appendChild(_("div", { class: `${q}-area` })), this.$content = this.$area.appendChild(
+      _("div", { class: `${q}-content` })
+    ), this.invokes = t.invokes ?? {}, this.plugin = new Rt(this), this._videoController = new Vt(this, t), this.loader = new Dt(this), this.init(t);
   }
   /** 初始化播放器 */
   async init(t) {
@@ -474,14 +474,14 @@ const B = class B {
    */
   seek(t) {
     this.hook.call("seek").then((e) => {
-      e && (this.$video.currentTime = st(t, 0, this.$video.duration));
+      e && (this.$video.currentTime = it(t, 0, this.$video.duration));
     });
   }
   /** 设置音量
    * @param volume 音量（0-1）
    */
   setVolume(t) {
-    this.$video.volume = st(t, 0, 1);
+    this.$video.volume = it(t, 0, 1);
   }
   /** 静音 */
   setMuted(t) {
@@ -524,14 +524,14 @@ const B = class B {
     this.plugin.destroy();
   }
 };
-B.version = Nt, B.gitHash = Pt;
-let F = B;
-class vt {
+U.version = Nt, U.gitHash = Pt;
+let X = U;
+class mt {
   constructor(t) {
     this.player = t, this.plugins = t.plugins, this.throw = t.throw;
   }
 }
-class jt extends vt {
+class qt extends mt {
   $(t) {
     return this.$el.querySelector(t);
   }
@@ -539,20 +539,20 @@ class jt extends vt {
     super(t), this.$el = e;
   }
 }
-var T;
-class $t extends jt {
+var L;
+class vt extends qt {
   constructor() {
     super(...arguments);
-    Q(this, T, void 0);
+    K(this, L, void 0);
   }
   /** 挂载 */
   mount(e, i) {
-    e.appendChild(this.$el), this.unmount(), q(this, T, i == null ? void 0 : i.onUnmount);
+    e.appendChild(this.$el), this.unmount(), D(this, L, i == null ? void 0 : i.onUnmount);
   }
   /** 卸载 */
   unmount() {
     var e;
-    (e = K(this, T)) == null || e.call(this), q(this, T, void 0);
+    (e = J(this, L)) == null || e.call(this), D(this, L, void 0);
   }
   show() {
     this.$el.style.display = "";
@@ -561,328 +561,70 @@ class $t extends jt {
     this.$el.style.display = "none";
   }
 }
-T = new WeakMap();
-class pe extends $t {
+L = new WeakMap();
+class de extends vt {
 }
-var H;
-class me extends $t {
+var T;
+class ue extends vt {
   constructor(e, i) {
     super(e, i);
-    Q(this, H, void 0);
+    K(this, T, void 0);
     this.shown = !1;
   }
   /** 挂载 */
   mount(e, i) {
-    super.mount(e, { onUnmount: i == null ? void 0 : i.onUnmount }), q(this, H, i == null ? void 0 : i.onToggle);
+    super.mount(e, { onUnmount: i == null ? void 0 : i.onUnmount }), D(this, T, i == null ? void 0 : i.onToggle);
   }
   /** 卸载 */
   unmount() {
-    this.toggle(!1), super.unmount(), q(this, H, void 0);
+    this.toggle(!1), super.unmount(), D(this, T, void 0);
   }
   /** 切换显示隐藏状态 */
   toggle(e) {
     var i;
-    this.shown = e ?? !this.shown, (i = K(this, H)) == null || i.call(this, this.shown);
+    this.shown = e ?? !this.shown, (i = J(this, T)) == null || i.call(this, this.shown);
   }
 }
-H = new WeakMap();
-class ve extends vt {
+T = new WeakMap();
+class pe extends mt {
 }
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var et;
-const G = window, N = G.trustedTypes, ht = N ? N.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, nt = "$lit$", C = `lit$${(Math.random() + "").slice(9)}$`, gt = "?" + C, Ut = `<${gt}>`, w = document, z = () => w.createComment(""), W = (s) => s === null || typeof s != "object" && typeof s != "function", ft = Array.isArray, Bt = (s) => ft(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", it = `[ 	
-\f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, at = /-->/g, ct = />/g, S = RegExp(`>|${it}(?:([^\\s"'>=/]+)(${it}*=${it}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), dt = /'/g, ut = /"/g, yt = /^(?:script|style|textarea|title)$/i, zt = (s) => (t, ...e) => ({ _$litType$: s, strings: t, values: e }), b = zt(1), O = Symbol.for("lit-noChange"), v = Symbol.for("lit-nothing"), pt = /* @__PURE__ */ new WeakMap(), M = w.createTreeWalker(w, 129, null, !1);
-function _t(s, t) {
-  if (!Array.isArray(s) || !s.hasOwnProperty("raw"))
-    throw Error("invalid template strings array");
-  return ht !== void 0 ? ht.createHTML(t) : t;
-}
-const Wt = (s, t) => {
-  const e = s.length - 1, i = [];
-  let n, o = t === 2 ? "<svg>" : "", r = j;
-  for (let h = 0; h < e; h++) {
-    const l = s[h];
-    let a, c, d = -1, u = 0;
-    for (; u < l.length && (r.lastIndex = u, c = r.exec(l), c !== null); )
-      u = r.lastIndex, r === j ? c[1] === "!--" ? r = at : c[1] !== void 0 ? r = ct : c[2] !== void 0 ? (yt.test(c[2]) && (n = RegExp("</" + c[2], "g")), r = S) : c[3] !== void 0 && (r = S) : r === S ? c[0] === ">" ? (r = n ?? j, d = -1) : c[1] === void 0 ? d = -2 : (d = r.lastIndex - c[2].length, a = c[1], r = c[3] === void 0 ? S : c[3] === '"' ? ut : dt) : r === ut || r === dt ? r = S : r === at || r === ct ? r = j : (r = S, n = void 0);
-    const $ = r === S && s[h + 1].startsWith("/>") ? " " : "";
-    o += r === j ? l + Ut : d >= 0 ? (i.push(a), l.slice(0, d) + nt + l.slice(d) + C + $) : l + C + (d === -2 ? (i.push(void 0), h) : $);
-  }
-  return [_t(s, o + (s[e] || "<?>") + (t === 2 ? "</svg>" : "")), i];
-};
-class Y {
-  constructor({ strings: t, _$litType$: e }, i) {
-    let n;
-    this.parts = [];
-    let o = 0, r = 0;
-    const h = t.length - 1, l = this.parts, [a, c] = Wt(t, e);
-    if (this.el = Y.createElement(a, i), M.currentNode = this.el.content, e === 2) {
-      const d = this.el.content, u = d.firstChild;
-      u.remove(), d.append(...u.childNodes);
-    }
-    for (; (n = M.nextNode()) !== null && l.length < h; ) {
-      if (n.nodeType === 1) {
-        if (n.hasAttributes()) {
-          const d = [];
-          for (const u of n.getAttributeNames())
-            if (u.endsWith(nt) || u.startsWith(C)) {
-              const $ = c[r++];
-              if (d.push(u), $ !== void 0) {
-                const m = n.getAttribute($.toLowerCase() + nt).split(C), p = /([.?@])?(.*)/.exec($);
-                l.push({ type: 1, index: o, name: p[2], strings: m, ctor: p[1] === "." ? Yt : p[1] === "?" ? Zt : p[1] === "@" ? Ft : J });
-              } else
-                l.push({ type: 6, index: o });
-            }
-          for (const u of d)
-            n.removeAttribute(u);
-        }
-        if (yt.test(n.tagName)) {
-          const d = n.textContent.split(C), u = d.length - 1;
-          if (u > 0) {
-            n.textContent = N ? N.emptyScript : "";
-            for (let $ = 0; $ < u; $++)
-              n.append(d[$], z()), M.nextNode(), l.push({ type: 2, index: ++o });
-            n.append(d[u], z());
-          }
-        }
-      } else if (n.nodeType === 8)
-        if (n.data === gt)
-          l.push({ type: 2, index: o });
-        else {
-          let d = -1;
-          for (; (d = n.data.indexOf(C, d + 1)) !== -1; )
-            l.push({ type: 7, index: o }), d += C.length - 1;
-        }
-      o++;
-    }
-  }
-  static createElement(t, e) {
-    const i = w.createElement("template");
-    return i.innerHTML = t, i;
-  }
-}
-function P(s, t, e = s, i) {
-  var n, o, r, h;
-  if (t === O)
-    return t;
-  let l = i !== void 0 ? (n = e._$Co) === null || n === void 0 ? void 0 : n[i] : e._$Cl;
-  const a = W(t) ? void 0 : t._$litDirective$;
-  return (l == null ? void 0 : l.constructor) !== a && ((o = l == null ? void 0 : l._$AO) === null || o === void 0 || o.call(l, !1), a === void 0 ? l = void 0 : (l = new a(s), l._$AT(s, e, i)), i !== void 0 ? ((r = (h = e)._$Co) !== null && r !== void 0 ? r : h._$Co = [])[i] = l : e._$Cl = l), l !== void 0 && (t = P(s, l._$AS(s, t.values), l, i)), t;
-}
-class Ot {
-  constructor(t, e) {
-    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
-  }
-  get parentNode() {
-    return this._$AM.parentNode;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  u(t) {
-    var e;
-    const { el: { content: i }, parts: n } = this._$AD, o = ((e = t == null ? void 0 : t.creationScope) !== null && e !== void 0 ? e : w).importNode(i, !0);
-    M.currentNode = o;
-    let r = M.nextNode(), h = 0, l = 0, a = n[0];
-    for (; a !== void 0; ) {
-      if (h === a.index) {
-        let c;
-        a.type === 2 ? c = new X(r, r.nextSibling, this, t) : a.type === 1 ? c = new a.ctor(r, a.name, a.strings, this, t) : a.type === 6 && (c = new Gt(r, this, t)), this._$AV.push(c), a = n[++l];
-      }
-      h !== (a == null ? void 0 : a.index) && (r = M.nextNode(), h++);
-    }
-    return M.currentNode = w, o;
-  }
-  v(t) {
-    let e = 0;
-    for (const i of this._$AV)
-      i !== void 0 && (i.strings !== void 0 ? (i._$AI(t, i, e), e += i.strings.length - 2) : i._$AI(t[e])), e++;
-  }
-}
-class X {
-  constructor(t, e, i, n) {
-    var o;
-    this.type = 2, this._$AH = v, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = i, this.options = n, this._$Cp = (o = n == null ? void 0 : n.isConnected) === null || o === void 0 || o;
-  }
-  get _$AU() {
-    var t, e;
-    return (e = (t = this._$AM) === null || t === void 0 ? void 0 : t._$AU) !== null && e !== void 0 ? e : this._$Cp;
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode;
-    const e = this._$AM;
-    return e !== void 0 && (t == null ? void 0 : t.nodeType) === 11 && (t = e.parentNode), t;
-  }
-  get startNode() {
-    return this._$AA;
-  }
-  get endNode() {
-    return this._$AB;
-  }
-  _$AI(t, e = this) {
-    t = P(this, t, e), W(t) ? t === v || t == null || t === "" ? (this._$AH !== v && this._$AR(), this._$AH = v) : t !== this._$AH && t !== O && this._(t) : t._$litType$ !== void 0 ? this.g(t) : t.nodeType !== void 0 ? this.$(t) : Bt(t) ? this.T(t) : this._(t);
-  }
-  k(t) {
-    return this._$AA.parentNode.insertBefore(t, this._$AB);
-  }
-  $(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
-  }
-  _(t) {
-    this._$AH !== v && W(this._$AH) ? this._$AA.nextSibling.data = t : this.$(w.createTextNode(t)), this._$AH = t;
-  }
-  g(t) {
-    var e;
-    const { values: i, _$litType$: n } = t, o = typeof n == "number" ? this._$AC(t) : (n.el === void 0 && (n.el = Y.createElement(_t(n.h, n.h[0]), this.options)), n);
-    if (((e = this._$AH) === null || e === void 0 ? void 0 : e._$AD) === o)
-      this._$AH.v(i);
-    else {
-      const r = new Ot(o, this), h = r.u(this.options);
-      r.v(i), this.$(h), this._$AH = r;
-    }
-  }
-  _$AC(t) {
-    let e = pt.get(t.strings);
-    return e === void 0 && pt.set(t.strings, e = new Y(t)), e;
-  }
-  T(t) {
-    ft(this._$AH) || (this._$AH = [], this._$AR());
-    const e = this._$AH;
-    let i, n = 0;
-    for (const o of t)
-      n === e.length ? e.push(i = new X(this.k(z()), this.k(z()), this, this.options)) : i = e[n], i._$AI(o), n++;
-    n < e.length && (this._$AR(i && i._$AB.nextSibling, n), e.length = n);
-  }
-  _$AR(t = this._$AA.nextSibling, e) {
-    var i;
-    for ((i = this._$AP) === null || i === void 0 || i.call(this, !1, !0, e); t && t !== this._$AB; ) {
-      const n = t.nextSibling;
-      t.remove(), t = n;
-    }
-  }
-  setConnected(t) {
-    var e;
-    this._$AM === void 0 && (this._$Cp = t, (e = this._$AP) === null || e === void 0 || e.call(this, t));
-  }
-}
-class J {
-  constructor(t, e, i, n, o) {
-    this.type = 1, this._$AH = v, this._$AN = void 0, this.element = t, this.name = e, this._$AM = n, this.options = o, i.length > 2 || i[0] !== "" || i[1] !== "" ? (this._$AH = Array(i.length - 1).fill(new String()), this.strings = i) : this._$AH = v;
-  }
-  get tagName() {
-    return this.element.tagName;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t, e = this, i, n) {
-    const o = this.strings;
-    let r = !1;
-    if (o === void 0)
-      t = P(this, t, e, 0), r = !W(t) || t !== this._$AH && t !== O, r && (this._$AH = t);
-    else {
-      const h = t;
-      let l, a;
-      for (t = o[0], l = 0; l < o.length - 1; l++)
-        a = P(this, h[i + l], e, l), a === O && (a = this._$AH[l]), r || (r = !W(a) || a !== this._$AH[l]), a === v ? t = v : t !== v && (t += (a ?? "") + o[l + 1]), this._$AH[l] = a;
-    }
-    r && !n && this.j(t);
-  }
-  j(t) {
-    t === v ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
-  }
-}
-class Yt extends J {
-  constructor() {
-    super(...arguments), this.type = 3;
-  }
-  j(t) {
-    this.element[this.name] = t === v ? void 0 : t;
-  }
-}
-const Xt = N ? N.emptyScript : "";
-class Zt extends J {
-  constructor() {
-    super(...arguments), this.type = 4;
-  }
-  j(t) {
-    t && t !== v ? this.element.setAttribute(this.name, Xt) : this.element.removeAttribute(this.name);
-  }
-}
-class Ft extends J {
-  constructor(t, e, i, n, o) {
-    super(t, e, i, n, o), this.type = 5;
-  }
-  _$AI(t, e = this) {
-    var i;
-    if ((t = (i = P(this, t, e, 0)) !== null && i !== void 0 ? i : v) === O)
-      return;
-    const n = this._$AH, o = t === v && n !== v || t.capture !== n.capture || t.once !== n.once || t.passive !== n.passive, r = t !== v && (n === v || o);
-    o && this.element.removeEventListener(this.name, this, n), r && this.element.addEventListener(this.name, this, t), this._$AH = t;
-  }
-  handleEvent(t) {
-    var e, i;
-    typeof this._$AH == "function" ? this._$AH.call((i = (e = this.options) === null || e === void 0 ? void 0 : e.host) !== null && i !== void 0 ? i : this.element, t) : this._$AH.handleEvent(t);
-  }
-}
-class Gt {
-  constructor(t, e, i) {
-    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = i;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t) {
-    P(this, t);
-  }
-}
-const mt = G.litHtmlPolyfillSupport;
-mt == null || mt(Y, X), ((et = G.litHtmlVersions) !== null && et !== void 0 ? et : G.litHtmlVersions = []).push("2.8.0");
-const Z = (s, t, e) => {
-  var i, n;
-  const o = (i = e == null ? void 0 : e.renderBefore) !== null && i !== void 0 ? i : t;
-  let r = o._$litPart$;
-  if (r === void 0) {
-    const h = (n = e == null ? void 0 : e.renderBefore) !== null && n !== void 0 ? n : null;
-    o._$litPart$ = r = new X(t.insertBefore(z(), h), h, void 0, e ?? {});
-  }
-  return r._$AI(s), r;
-}, Jt = ({ divider: s }) => b` <div
-    class="mpui-slider mpui-slider-horizontal"
-    style="position: relative; width: 100%; height: 100%"
+const Ut = ({ divider: s }) => (
+  /*html*/
+  `
+  <div
+    class="mpui-slider-track"
+    style="
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
   >
-    <div
-      class="mpui-slider-track"
-      style="
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-    >
-      <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
-      <div class="mpui-slider-thumb-track" style="height: 0px">
-        <div
-          class="mpui-slider-thumb"
-          style="position: absolute; transform: translate(-50%, -50%)"
-        ></div>
-        ${s ? b`
-              <div class="mpui-slider-divider">
-                ${new Array(s).fill(b`<div class="mpui-slider-divider-dot"></div>`)}
-              </div>
-            ` : ""}
-      </div>
+    <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
+    <div class="mpui-slider-thumb-track" style="height: 0px">
+      <div
+        class="mpui-slider-thumb"
+        style="position: absolute; transform: translate(-50%, -50%)"
+      ></div>
+      ${s ? (
+    /*html*/
+    `
+            <div class="mpui-slider-divider">
+              ${new Array(s).fill(
+      /*html*/
+      '<div class="mpui-slider-divider-dot"></div>'
+    ).join("")}
+            </div>
+          `
+  ) : ""}
     </div>
-  </div>`;
-class Kt {
+  </div>
+`
+);
+class Bt {
   constructor({
     container: t,
     min: e,
@@ -895,29 +637,38 @@ class Kt {
     onDragEnd: a,
     onDrag: c
   }) {
-    this.container = t, this.min = e, this.max = i, this.step = n || 0, this.divider = o ? typeof o == "boolean" ? this.step : o : 0, this.value = isNaN(r) ? r : Number(r), this.onChange = h, this.onDragStart = l, this.onDragEnd = a, this.onDrag = c, Z(Jt({ divider: this.divider }), t), this.$el = this.container.querySelector(".mpui-slider"), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.$el.addEventListener("mousedown", (d) => {
-      var L;
-      const u = d, { clientX: $ } = u, m = this.$track.offsetWidth;
+    this.container = t, this.min = e, this.max = i, this.step = n || 0, this.divider = o ? typeof o == "boolean" ? this.step : o : 0, this.value = isNaN(r) ? r : Number(r), this.onChange = h, this.onDragStart = l, this.onDragEnd = a, this.onDrag = c, this.$el = this.container.appendChild(
+      _(
+        "div",
+        {
+          class: "mpui-slider mpui-slider-horizontal",
+          style: "position: relative; width: 100%; height: 100%"
+        },
+        Ut({ divider: this.divider })
+      )
+    ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.$el.addEventListener("mousedown", (d) => {
+      var w;
+      const u = d, { clientX: g } = u, m = this.$track.offsetWidth;
       let p = this.$thumbTrack.offsetWidth;
       p = p || m;
-      const V = (m - p) / 2, _ = this.$el.getBoundingClientRect().left;
-      let y = $ - _ - V;
+      const P = (m - p) / 2, A = this.$el.getBoundingClientRect().left;
+      let y = g - A - P;
       y = y >= p ? p : y <= 0 ? 0 : y;
       const x = this.step ? Math.round(y / p * (this.max - this.min) / this.step) * this.step + this.min : y / p * (this.max - this.min) + this.min;
-      (L = this.onDragStart) == null || L.call(this, x), this.value != x && this.drag(x);
-      const R = (k) => {
-        var ot;
-        const A = k, { clientX: g } = A;
-        A.preventDefault(), A.stopPropagation();
-        let f = g - _ - V;
+      (w = this.onDragStart) == null || w.call(this, x), this.value != x && this.drag(x);
+      const V = (k) => {
+        var nt;
+        const b = k, { clientX: $ } = b;
+        b.preventDefault(), b.stopPropagation();
+        let f = $ - A - P;
         f = f >= p ? p : f <= 0 ? 0 : f;
-        const D = this.step ? Math.round(f / p * (this.max - this.min) / this.step) * this.step + this.min : f / p * (this.max - this.min) + this.min;
-        this.value != D && this.drag(D), (ot = window.getSelection()) == null || ot.removeAllRanges();
-      }, I = (k) => {
-        var g, f;
-        k.stopPropagation(), (g = window.getSelection()) == null || g.removeAllRanges(), document.removeEventListener("mousemove", R), document.removeEventListener("mouseup", I), (f = this.onDragEnd) == null || f.call(this, x);
+        const I = this.step ? Math.round(f / p * (this.max - this.min) / this.step) * this.step + this.min : f / p * (this.max - this.min) + this.min;
+        this.value != I && this.drag(I), (nt = window.getSelection()) == null || nt.removeAllRanges();
+      }, R = (k) => {
+        var $, f;
+        k.stopPropagation(), ($ = window.getSelection()) == null || $.removeAllRanges(), document.removeEventListener("mousemove", V), document.removeEventListener("mouseup", R), (f = this.onDragEnd) == null || f.call(this, x);
       };
-      document.addEventListener("mousemove", R), document.addEventListener("mouseup", I);
+      document.addEventListener("mousemove", V), document.addEventListener("mouseup", R);
     }), this.setValue(this.value);
   }
   /** 设置滑动条值 */
@@ -933,7 +684,7 @@ class Kt {
     this.setValue(t), (e = this.onDrag) == null || e.call(this, this.value);
   }
 }
-const Qt = (
+const zt = (
   /*html*/
   `
   <div
@@ -958,7 +709,7 @@ const Qt = (
   </div>
 `
 );
-class te {
+class Ot {
   constructor({
     container: t,
     min: e,
@@ -970,36 +721,36 @@ class te {
     onDragEnd: l,
     onDrag: a
   }) {
-    this.container = t, this.min = e, this.max = i, this.step = n || 0, this.value = isNaN(o) ? o : Number(o), this.onChange = r, this.onDragStart = h, this.onDragEnd = l, this.onDrag = a, this.$el = E(
+    this.container = t, this.min = e, this.max = i, this.step = n || 0, this.value = isNaN(o) ? o : Number(o), this.onChange = r, this.onDragStart = h, this.onDragEnd = l, this.onDrag = a, this.$el = _(
       "div",
       {
         class: "mpui-slider mpui-slider-vertical",
         style: "position: relative; width: 100%; height: 100%"
       },
-      Qt
+      zt
     ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.container.appendChild(this.$el), this.$el.addEventListener("mousedown", (c) => {
-      var I;
-      const d = c, { clientY: u } = d, $ = this.$track.offsetHeight;
+      var R;
+      const d = c, { clientY: u } = d, g = this.$track.offsetHeight;
       let m = this.$thumbTrack.offsetHeight;
-      m = m || $;
-      const p = ($ - m) / 2, V = this.$el.getBoundingClientRect().top;
-      let _ = m - (u - V - p);
-      _ = _ >= m ? m : _ <= 0 ? 0 : _;
-      const y = this.step ? Math.round(_ / m * (this.max - this.min) / this.step) * this.step + this.min : _ / m * (this.max - this.min) + this.min;
-      (I = this.onDragStart) == null || I.call(this, y), this.value != y && this.drag(y);
-      const x = (L) => {
-        var D;
-        const k = L, { clientY: A } = k;
+      m = m || g;
+      const p = (g - m) / 2, P = this.$el.getBoundingClientRect().top;
+      let A = m - (u - P - p);
+      A = A >= m ? m : A <= 0 ? 0 : A;
+      const y = this.step ? Math.round(A / m * (this.max - this.min) / this.step) * this.step + this.min : A / m * (this.max - this.min) + this.min;
+      (R = this.onDragStart) == null || R.call(this, y), this.value != y && this.drag(y);
+      const x = (w) => {
+        var I;
+        const k = w, { clientY: b } = k;
         k.preventDefault(), k.stopPropagation();
-        let g = m - (A - V - p);
-        g = g >= m ? m : g <= 0 ? 0 : g;
-        const f = this.step ? Math.round(g / m * (this.max - this.min) / this.step) * this.step + this.min : g / m * (this.max - this.min) + this.min;
-        this.value != f && this.drag(f), (D = window.getSelection()) == null || D.removeAllRanges();
-      }, R = (L) => {
-        var A, g;
-        L.stopPropagation(), (A = window.getSelection()) == null || A.removeAllRanges(), document.removeEventListener("mousemove", x), document.removeEventListener("mouseup", R), (g = this.onDragEnd) == null || g.call(this, y);
+        let $ = m - (b - P - p);
+        $ = $ >= m ? m : $ <= 0 ? 0 : $;
+        const f = this.step ? Math.round($ / m * (this.max - this.min) / this.step) * this.step + this.min : $ / m * (this.max - this.min) + this.min;
+        this.value != f && this.drag(f), (I = window.getSelection()) == null || I.removeAllRanges();
+      }, V = (w) => {
+        var b, $;
+        w.stopPropagation(), (b = window.getSelection()) == null || b.removeAllRanges(), document.removeEventListener("mousemove", x), document.removeEventListener("mouseup", V), ($ = this.onDragEnd) == null || $.call(this, y);
       };
-      document.addEventListener("mousemove", x), document.addEventListener("mouseup", R);
+      document.addEventListener("mousemove", x), document.addEventListener("mouseup", V);
     }), this.setValue(this.value);
   }
   /** 设置滑动条值 */
@@ -1015,13 +766,277 @@ class te {
     this.setValue(t), (e = this.onDrag) == null || e.call(this, this.value);
   }
 }
-const ee = ({
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var tt;
+const Z = window, H = Z.trustedTypes, lt = H ? H.createPolicy("lit-html", { createHTML: (s) => s }) : void 0, st = "$lit$", C = `lit$${(Math.random() + "").slice(9)}$`, gt = "?" + C, Wt = `<${gt}>`, M = document, B = () => M.createComment(""), z = (s) => s === null || typeof s != "object" && typeof s != "function", $t = Array.isArray, Yt = (s) => $t(s) || typeof (s == null ? void 0 : s[Symbol.iterator]) == "function", et = `[ 	
+\f\r]`, j = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ht = /-->/g, at = />/g, E = RegExp(`>|${et}(?:([^\\s"'>=/]+)(${et}*=${et}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), ct = /'/g, dt = /"/g, ft = /^(?:script|style|textarea|title)$/i, Xt = (s) => (t, ...e) => ({ _$litType$: s, strings: t, values: e }), F = Xt(1), O = Symbol.for("lit-noChange"), v = Symbol.for("lit-nothing"), ut = /* @__PURE__ */ new WeakMap(), S = M.createTreeWalker(M, 129, null, !1);
+function yt(s, t) {
+  if (!Array.isArray(s) || !s.hasOwnProperty("raw"))
+    throw Error("invalid template strings array");
+  return lt !== void 0 ? lt.createHTML(t) : t;
+}
+const Zt = (s, t) => {
+  const e = s.length - 1, i = [];
+  let n, o = t === 2 ? "<svg>" : "", r = j;
+  for (let h = 0; h < e; h++) {
+    const l = s[h];
+    let a, c, d = -1, u = 0;
+    for (; u < l.length && (r.lastIndex = u, c = r.exec(l), c !== null); )
+      u = r.lastIndex, r === j ? c[1] === "!--" ? r = ht : c[1] !== void 0 ? r = at : c[2] !== void 0 ? (ft.test(c[2]) && (n = RegExp("</" + c[2], "g")), r = E) : c[3] !== void 0 && (r = E) : r === E ? c[0] === ">" ? (r = n ?? j, d = -1) : c[1] === void 0 ? d = -2 : (d = r.lastIndex - c[2].length, a = c[1], r = c[3] === void 0 ? E : c[3] === '"' ? dt : ct) : r === dt || r === ct ? r = E : r === ht || r === at ? r = j : (r = E, n = void 0);
+    const g = r === E && s[h + 1].startsWith("/>") ? " " : "";
+    o += r === j ? l + Wt : d >= 0 ? (i.push(a), l.slice(0, d) + st + l.slice(d) + C + g) : l + C + (d === -2 ? (i.push(void 0), h) : g);
+  }
+  return [yt(s, o + (s[e] || "<?>") + (t === 2 ? "</svg>" : "")), i];
+};
+class W {
+  constructor({ strings: t, _$litType$: e }, i) {
+    let n;
+    this.parts = [];
+    let o = 0, r = 0;
+    const h = t.length - 1, l = this.parts, [a, c] = Zt(t, e);
+    if (this.el = W.createElement(a, i), S.currentNode = this.el.content, e === 2) {
+      const d = this.el.content, u = d.firstChild;
+      u.remove(), d.append(...u.childNodes);
+    }
+    for (; (n = S.nextNode()) !== null && l.length < h; ) {
+      if (n.nodeType === 1) {
+        if (n.hasAttributes()) {
+          const d = [];
+          for (const u of n.getAttributeNames())
+            if (u.endsWith(st) || u.startsWith(C)) {
+              const g = c[r++];
+              if (d.push(u), g !== void 0) {
+                const m = n.getAttribute(g.toLowerCase() + st).split(C), p = /([.?@])?(.*)/.exec(g);
+                l.push({ type: 1, index: o, name: p[2], strings: m, ctor: p[1] === "." ? Gt : p[1] === "?" ? Kt : p[1] === "@" ? Qt : G });
+              } else
+                l.push({ type: 6, index: o });
+            }
+          for (const u of d)
+            n.removeAttribute(u);
+        }
+        if (ft.test(n.tagName)) {
+          const d = n.textContent.split(C), u = d.length - 1;
+          if (u > 0) {
+            n.textContent = H ? H.emptyScript : "";
+            for (let g = 0; g < u; g++)
+              n.append(d[g], B()), S.nextNode(), l.push({ type: 2, index: ++o });
+            n.append(d[u], B());
+          }
+        }
+      } else if (n.nodeType === 8)
+        if (n.data === gt)
+          l.push({ type: 2, index: o });
+        else {
+          let d = -1;
+          for (; (d = n.data.indexOf(C, d + 1)) !== -1; )
+            l.push({ type: 7, index: o }), d += C.length - 1;
+        }
+      o++;
+    }
+  }
+  static createElement(t, e) {
+    const i = M.createElement("template");
+    return i.innerHTML = t, i;
+  }
+}
+function N(s, t, e = s, i) {
+  var n, o, r, h;
+  if (t === O)
+    return t;
+  let l = i !== void 0 ? (n = e._$Co) === null || n === void 0 ? void 0 : n[i] : e._$Cl;
+  const a = z(t) ? void 0 : t._$litDirective$;
+  return (l == null ? void 0 : l.constructor) !== a && ((o = l == null ? void 0 : l._$AO) === null || o === void 0 || o.call(l, !1), a === void 0 ? l = void 0 : (l = new a(s), l._$AT(s, e, i)), i !== void 0 ? ((r = (h = e)._$Co) !== null && r !== void 0 ? r : h._$Co = [])[i] = l : e._$Cl = l), l !== void 0 && (t = N(s, l._$AS(s, t.values), l, i)), t;
+}
+class Ft {
+  constructor(t, e) {
+    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = e;
+  }
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  u(t) {
+    var e;
+    const { el: { content: i }, parts: n } = this._$AD, o = ((e = t == null ? void 0 : t.creationScope) !== null && e !== void 0 ? e : M).importNode(i, !0);
+    S.currentNode = o;
+    let r = S.nextNode(), h = 0, l = 0, a = n[0];
+    for (; a !== void 0; ) {
+      if (h === a.index) {
+        let c;
+        a.type === 2 ? c = new Y(r, r.nextSibling, this, t) : a.type === 1 ? c = new a.ctor(r, a.name, a.strings, this, t) : a.type === 6 && (c = new te(r, this, t)), this._$AV.push(c), a = n[++l];
+      }
+      h !== (a == null ? void 0 : a.index) && (r = S.nextNode(), h++);
+    }
+    return S.currentNode = M, o;
+  }
+  v(t) {
+    let e = 0;
+    for (const i of this._$AV)
+      i !== void 0 && (i.strings !== void 0 ? (i._$AI(t, i, e), e += i.strings.length - 2) : i._$AI(t[e])), e++;
+  }
+}
+class Y {
+  constructor(t, e, i, n) {
+    var o;
+    this.type = 2, this._$AH = v, this._$AN = void 0, this._$AA = t, this._$AB = e, this._$AM = i, this.options = n, this._$Cp = (o = n == null ? void 0 : n.isConnected) === null || o === void 0 || o;
+  }
+  get _$AU() {
+    var t, e;
+    return (e = (t = this._$AM) === null || t === void 0 ? void 0 : t._$AU) !== null && e !== void 0 ? e : this._$Cp;
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode;
+    const e = this._$AM;
+    return e !== void 0 && (t == null ? void 0 : t.nodeType) === 11 && (t = e.parentNode), t;
+  }
+  get startNode() {
+    return this._$AA;
+  }
+  get endNode() {
+    return this._$AB;
+  }
+  _$AI(t, e = this) {
+    t = N(this, t, e), z(t) ? t === v || t == null || t === "" ? (this._$AH !== v && this._$AR(), this._$AH = v) : t !== this._$AH && t !== O && this._(t) : t._$litType$ !== void 0 ? this.g(t) : t.nodeType !== void 0 ? this.$(t) : Yt(t) ? this.T(t) : this._(t);
+  }
+  k(t) {
+    return this._$AA.parentNode.insertBefore(t, this._$AB);
+  }
+  $(t) {
+    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
+  }
+  _(t) {
+    this._$AH !== v && z(this._$AH) ? this._$AA.nextSibling.data = t : this.$(M.createTextNode(t)), this._$AH = t;
+  }
+  g(t) {
+    var e;
+    const { values: i, _$litType$: n } = t, o = typeof n == "number" ? this._$AC(t) : (n.el === void 0 && (n.el = W.createElement(yt(n.h, n.h[0]), this.options)), n);
+    if (((e = this._$AH) === null || e === void 0 ? void 0 : e._$AD) === o)
+      this._$AH.v(i);
+    else {
+      const r = new Ft(o, this), h = r.u(this.options);
+      r.v(i), this.$(h), this._$AH = r;
+    }
+  }
+  _$AC(t) {
+    let e = ut.get(t.strings);
+    return e === void 0 && ut.set(t.strings, e = new W(t)), e;
+  }
+  T(t) {
+    $t(this._$AH) || (this._$AH = [], this._$AR());
+    const e = this._$AH;
+    let i, n = 0;
+    for (const o of t)
+      n === e.length ? e.push(i = new Y(this.k(B()), this.k(B()), this, this.options)) : i = e[n], i._$AI(o), n++;
+    n < e.length && (this._$AR(i && i._$AB.nextSibling, n), e.length = n);
+  }
+  _$AR(t = this._$AA.nextSibling, e) {
+    var i;
+    for ((i = this._$AP) === null || i === void 0 || i.call(this, !1, !0, e); t && t !== this._$AB; ) {
+      const n = t.nextSibling;
+      t.remove(), t = n;
+    }
+  }
+  setConnected(t) {
+    var e;
+    this._$AM === void 0 && (this._$Cp = t, (e = this._$AP) === null || e === void 0 || e.call(this, t));
+  }
+}
+class G {
+  constructor(t, e, i, n, o) {
+    this.type = 1, this._$AH = v, this._$AN = void 0, this.element = t, this.name = e, this._$AM = n, this.options = o, i.length > 2 || i[0] !== "" || i[1] !== "" ? (this._$AH = Array(i.length - 1).fill(new String()), this.strings = i) : this._$AH = v;
+  }
+  get tagName() {
+    return this.element.tagName;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t, e = this, i, n) {
+    const o = this.strings;
+    let r = !1;
+    if (o === void 0)
+      t = N(this, t, e, 0), r = !z(t) || t !== this._$AH && t !== O, r && (this._$AH = t);
+    else {
+      const h = t;
+      let l, a;
+      for (t = o[0], l = 0; l < o.length - 1; l++)
+        a = N(this, h[i + l], e, l), a === O && (a = this._$AH[l]), r || (r = !z(a) || a !== this._$AH[l]), a === v ? t = v : t !== v && (t += (a ?? "") + o[l + 1]), this._$AH[l] = a;
+    }
+    r && !n && this.j(t);
+  }
+  j(t) {
+    t === v ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
+  }
+}
+class Gt extends G {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+  j(t) {
+    this.element[this.name] = t === v ? void 0 : t;
+  }
+}
+const Jt = H ? H.emptyScript : "";
+class Kt extends G {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+  j(t) {
+    t && t !== v ? this.element.setAttribute(this.name, Jt) : this.element.removeAttribute(this.name);
+  }
+}
+class Qt extends G {
+  constructor(t, e, i, n, o) {
+    super(t, e, i, n, o), this.type = 5;
+  }
+  _$AI(t, e = this) {
+    var i;
+    if ((t = (i = N(this, t, e, 0)) !== null && i !== void 0 ? i : v) === O)
+      return;
+    const n = this._$AH, o = t === v && n !== v || t.capture !== n.capture || t.once !== n.once || t.passive !== n.passive, r = t !== v && (n === v || o);
+    o && this.element.removeEventListener(this.name, this, n), r && this.element.addEventListener(this.name, this, t), this._$AH = t;
+  }
+  handleEvent(t) {
+    var e, i;
+    typeof this._$AH == "function" ? this._$AH.call((i = (e = this.options) === null || e === void 0 ? void 0 : e.host) !== null && i !== void 0 ? i : this.element, t) : this._$AH.handleEvent(t);
+  }
+}
+class te {
+  constructor(t, e, i) {
+    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = i;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t) {
+    N(this, t);
+  }
+}
+const pt = Z.litHtmlPolyfillSupport;
+pt == null || pt(W, Y), ((tt = Z.litHtmlVersions) !== null && tt !== void 0 ? tt : Z.litHtmlVersions = []).push("2.8.0");
+const _t = (s, t, e) => {
+  var i, n;
+  const o = (i = e == null ? void 0 : e.renderBefore) !== null && i !== void 0 ? i : t;
+  let r = o._$litPart$;
+  if (r === void 0) {
+    const h = (n = e == null ? void 0 : e.renderBefore) !== null && n !== void 0 ? n : null;
+    o._$litPart$ = r = new Y(t.insertBefore(B(), h), h, void 0, e ?? {});
+  }
+  return r._$AI(s), r;
+}, ee = ({
   list: s,
   template: t
-}) => b`
+}) => F`
   <ul class="mpui-picker">
     ${s.map(
-  (e, i) => b`
+  (e, i) => F`
         <li class="mpui-picker-item" data-value="${e.value}">
           ${(t == null ? void 0 : t(e, i)) || e.label || e.value}
         </li>
@@ -1035,7 +1050,7 @@ class ie {
   }
   /** 重载，一般用于列表项更改 */
   reload(t) {
-    Z(ee({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
+    _t(ee({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
       e.addEventListener("click", () => {
         this.pick(e.getAttribute("data-value") || void 0);
       });
@@ -1057,10 +1072,10 @@ class ie {
 const se = ({
   list: s,
   template: t
-}) => b`
+}) => F`
   <ul class="mpui-picker">
     ${s.map(
-  (e, i) => b`
+  (e, i) => F`
         <li class="mpui-picker-item" data-value="${e.value}">
           ${(t == null ? void 0 : t(e, i)) || e.label || e.value}
         </li>
@@ -1078,7 +1093,7 @@ class ne {
   }
   /** 重载，一般用于列表项更改 */
   reload(t) {
-    Z(se({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
+    _t(se({ list: this.list, template: this.template }), this.container), this.$el = this.container.querySelector(".mpui-picker"), this.$items = this.$el.querySelectorAll(".mpui-picker-item"), this.$items.forEach((e) => {
       e.addEventListener("click", () => {
         this.toggle(e.getAttribute("data-value"));
       });
@@ -1100,10 +1115,9 @@ class ne {
     }), (n = this.onChange) == null || n.call(this, this.value), (o = this.onToggle) == null || o.call(this, t, i);
   }
 }
-const oe = ({ label: s }) => b` <div class="mpui-switch">${s}</div> `;
-class re {
+class oe {
   constructor({ container: t, value: e = !1, onChange: i, onToggle: n }) {
-    this.container = t, this.value = e, this.onChange = i, this.onToggle = n, Z(oe({ label: this.label }), this.container), this.$el = this.container.querySelector(".mpui-switch"), this.$el.addEventListener("click", () => {
+    this.container = t, this.value = e, this.onChange = i, this.onToggle = n, this.$el = _("div", { class: "mpui-switch" }, this.label), this.$el = this.container.querySelector(".mpui-switch"), this.$el.addEventListener("click", () => {
       this.toggle(!this.value);
     }), this.setValue(this.value);
   }
@@ -1118,15 +1132,19 @@ class re {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const le = ({ label: s }) => b`
-  <div class="mpui-checkbox">
-    <div class="mpui-checkbox-icon"></div>
-    <div class="mpui-checkbox-label">${s}</div>
-  </div>
-`;
-class he {
+class re {
   constructor({ container: t, value: e = !1, onChange: i, onToggle: n, label: o }) {
-    this.container = t, this.value = e, this.onChange = i, this.onToggle = n, this.label = o, Z(le({ label: this.label }), this.container), this.$el = this.container.querySelector(".mpui-checkbox"), this.$el.addEventListener("click", () => {
+    this.container = t, this.value = e, this.onChange = i, this.onToggle = n, this.label = o, this.$el = this.container.appendChild(
+      _(
+        "div",
+        { class: "mpui-checkbox" },
+        /*html*/
+        `
+          <div class="mpui-checkbox-icon"></div>
+          <div class="mpui-checkbox-label">${o}</div>
+        `
+      )
+    ), this.$el.addEventListener("click", () => {
       this.toggle();
     }), this.setValue(this.value);
   }
@@ -1141,37 +1159,37 @@ class he {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const $e = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const me = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  Checkbox: he,
+  Checkbox: re,
   MultiPicker: ne,
   Picker: ie,
-  Slider: Kt,
-  SliderVertical: te,
-  Switch: re
+  Slider: Bt,
+  SliderVertical: Ot,
+  Switch: oe
 }, Symbol.toStringTag, { value: "Module" }));
 console.log(
   `
- %c mfunsPlayer v${F.version} ${F.gitHash} %c https://github.com/Mfuns-cn 
+ %c mfunsPlayer v${X.version} ${X.gitHash} %c https://github.com/Mfuns-cn 
 
 `,
   "color: #fff; background: #7b7ff7; padding:5px 0;",
   "background: #f5f5f5; padding:5px 0;"
 );
 export {
-  vt as BasePlugin,
-  $e as Components,
-  pe as ControlsPlugin,
-  ve as MenuPlugin,
-  $t as MountablePlugin,
-  me as PanelPlugin,
-  F as Player,
-  jt as UIPlugin,
-  ce as Utils,
-  U as classPrefix,
-  ue as developers,
+  mt as BasePlugin,
+  me as Components,
+  de as ControlsPlugin,
+  pe as MenuPlugin,
+  vt as MountablePlugin,
+  ue as PanelPlugin,
+  X as Player,
+  qt as UIPlugin,
+  he as Utils,
+  q as classPrefix,
+  ce as developers,
   Pt as gitHash,
-  de as repositoryLink,
+  ae as repositoryLink,
   Nt as version
 };
 //# sourceMappingURL=core-player.es.js.map

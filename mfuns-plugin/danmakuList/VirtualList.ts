@@ -170,7 +170,7 @@ export class VirtualList<T> {
   getViewEnd(scrollTop: number, clientH: number) {
     return Math.ceil((scrollTop + clientH) / this.itemHeight) - 1;
   }
-  // 清空列表
+  /** 清空列表 */
   clear() {
     this.data = [];
     this.$content.innerHTML = "";
@@ -178,14 +178,15 @@ export class VirtualList<T> {
     this.$content.style.paddingBottom = "0px";
     this.cleared = true;
   }
+  /** 开头定位到某项 */
   locateStart(n: number) {
-    // 定位到某项开头
     this.scrollTo(n * this.itemHeight);
   }
+  /** 末尾定位到某项 */
   locateEnd(n: number) {
-    // 定位到某项末尾
     this.scrollTo(n * this.itemHeight - this.$el.clientHeight);
   }
+  /** 滚动到高度 */
   scrollTo(top: number) {
     this.$el.scrollTo({
       top,

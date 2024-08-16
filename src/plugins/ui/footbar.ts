@@ -37,8 +37,8 @@ export default class Footbar extends UIPlugin {
 
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-footbar` }, templateHTML));
-    this.$left = this.$(`.${classPrefix}-footbar-left`)!;
-    this.$right = this.$(`.${classPrefix}-footbar-right`)!;
+    this.$left = this.$(`.${classPrefix}-footbar-left`);
+    this.$right = this.$(`.${classPrefix}-footbar-right`);
   }
   apply(player: Player, options: PlayerOptions) {
     this.controls = options.footbar?.controls || {};

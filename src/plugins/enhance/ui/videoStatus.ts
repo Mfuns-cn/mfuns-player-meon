@@ -30,9 +30,9 @@ export default class VideoStatus extends UIPlugin {
   $volume: HTMLElement;
   constructor(player: Player) {
     super(player, createElement("div", { class: `${classPrefix}-videostatus` }, templateHTML));
-    this.$paused = this.$(`.${classPrefix}-videostatus-paused`)!;
-    this.$loading = this.$(`.${classPrefix}-videostatus-loading`)!;
-    this.$volume = this.$(`.${classPrefix}-videostatus-volume`)!;
+    this.$paused = this.$(`.${classPrefix}-videostatus-paused`);
+    this.$loading = this.$(`.${classPrefix}-videostatus-loading`);
+    this.$volume = this.$(`.${classPrefix}-videostatus-volume`);
 
     this.player.$area.appendChild(this.$el);
   }

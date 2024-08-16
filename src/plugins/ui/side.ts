@@ -68,20 +68,20 @@ export default class Side extends BasePlugin {
   ready(): void {
     this.#initPanels.forEach((item) => {
       const panel = this.player.plugin.from(item);
-      panel && this.mount(panel);
+      panel && this.append(panel);
     });
     this.#initPanels = [];
   }
 
   hide() {
-    this.current?.toggle(false);
+    this.current?.toggle?.(false);
   }
 
-  mount(panel: PanelItem) {
+  append(panel: PanelItem) {
     panel.mount(this.$content, {
       onToggle: (flag) => {
         if (flag) {
-          this.current?.toggle(false);
+          this.current?.toggle?.(false);
           for (const a of this.$content.children) {
             a.classList.toggle("is-show", a == panel.$el);
           }

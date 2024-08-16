@@ -57,7 +57,7 @@ export interface ControlsItem extends UIItem {}
 
 /** 面板组件 */
 export interface PanelItem extends MountableItem {
-  toggle(flag?: boolean): void;
+  toggle?(flag?: boolean): void;
 }
 
 /** 菜单项组件 */
@@ -70,8 +70,8 @@ export interface MenuItem extends PluginItem {
 /** 界面插件 */
 export abstract class UIPlugin extends BasePlugin {
   $el: HTMLElement;
-  $<T extends Element>(selectors: string) {
-    return this.$el.querySelector<T>(selectors);
+  $<T extends HTMLElement>(selectors: string) {
+    return this.$el.querySelector<T>(selectors)!;
   }
   constructor(player: Player, el: HTMLElement) {
     super(player);
@@ -138,8 +138,8 @@ export abstract class MenuPlugin extends BasePlugin implements MenuItem {
   abstract content: string | HTMLElement | ((player: Player) => string | HTMLElement);
 }
 
-export interface PanelContainer {
-  mount: (panel: PanelPlugin) => void;
+export interface MountableContainer {
+  append(panel: MountablePlugin, position?: string): void;
 }
 
 export type PluginFrom<T = PluginItem> = (new (player: Player) => T) | T | string;

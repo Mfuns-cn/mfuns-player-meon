@@ -31,7 +31,7 @@
       const container = document.querySelector(".content");
       const playerExtra = document.querySelector(".extra");
       localStorage.mfunsPlayerSettings ??
-        localStorage.setItem("mfunsPlayerSettings", JSON.stringify(playerSettings));
+        localStorage.setItem("mfunsPlayerSettings", JSON.stringify({}));
       localStorage.mfuns_video_point ??
         localStorage.setItem("mfuns_video_point", JSON.stringify([]));
       const mfunsPlayerConfig = {

@@ -251,13 +251,13 @@
         danmaku: {
           type: "bilibili-xml",
         },
-        danmakuApi: {
-          get: async ({ danmakuId }) => {
-            return await fetch(`../static/danmaku/steingate/${danmakuId}.xml`).then((res) =>
-              res.text()
+        invokes: {
+          danmakuGet: async ({ danmakuId }) => {
+            return await fetch(`../static/danmaku/steingate/${danmakuId}.xml`).then(async (res) =>
+              new DOMParser().parseFromString(await res.text(), "text/xml")
             );
           },
-          send: async (danmaku, { danmakuId }) => {
+          danmakuSend: async (danmaku, { danmakuId }) => {
             console.log(
               `向 id:${danmakuId}@${danmaku.time}s 发送一条弹幕: \n${danmaku.content}\n模式${danmaku.mode} 颜色${danmaku.color} 字号${danmaku.size}`
             );
@@ -275,21 +275,21 @@
               message: "发送成功",
             };
           },
-          recall: async () => {
+          danmakuRecall: async () => {
             console.log("撤回成功");
             return {
               success: true,
               message: "撤回成功",
             };
           },
-          report: async () => {
+          danmakuReport: async () => {
             console.log("举报成功");
             return {
               success: true,
               message: "举报成功",
             };
           },
-          blockUser: async () => {
+          danmakuBlockUser: async () => {
             console.log("屏蔽成功");
             return {
               success: true,

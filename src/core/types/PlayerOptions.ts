@@ -23,5 +23,5 @@ export interface PlayerOptions {
   /** 外部扩展 */
   externals?: PlayerExternals;
   /** 调用外部函数 */
-  invoke?: PlayerInvokes;
+  invokes?: PlayerInvokes;
 }

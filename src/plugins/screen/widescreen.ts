@@ -33,7 +33,9 @@ declare module "@core" {
 
 export default class Widescreen extends BasePlugin {
   static readonly pluginName = "widescreen";
-  public invokeToggle?: (flag: boolean) => void;
+  get invokeToggle() {
+    return this.player.invokes.widescreen;
+  }
 
   init() {
     // --- 绑定属性 --- //
@@ -46,7 +48,6 @@ export default class Widescreen extends BasePlugin {
   }
 
   apply(player: Player, options: PlayerOptions): void {
-    this.invokeToggle = options.invoke?.widescreen;
     options.widescreen && this.enter();
   }
 

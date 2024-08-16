@@ -97,6 +97,9 @@ export class Player extends CorePlayer {
           right: ["danmakuBar"],
         },
       },
+      side: {
+        panels: ["partList"],
+      },
       ...options,
       plugins: [
         ...presetBasic,

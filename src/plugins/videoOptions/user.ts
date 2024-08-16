@@ -29,7 +29,9 @@ export default class User extends BasePlugin {
   #userId = 0;
   #authorId = 0;
 
-  public invokeLogin?: () => Promise<number>;
+  get invokeLogin() {
+    return this.player.invokes.login;
+  }
   init() {
     this.player.define("userId", { get: () => this.#userId });
     this.player.define("authorId", { get: () => this.#authorId });
@@ -44,7 +46,6 @@ export default class User extends BasePlugin {
   }
   apply(player: Player, options: PlayerOptions): void {
     this.#userId = options.userId || 0;
-    this.invokeLogin = options.invoke?.login;
   }
   /** 调用页面登录 */
   async login() {

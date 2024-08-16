@@ -1,20 +1,20 @@
 import { Player } from "@/player";
 import { classPrefix } from "@/config";
-import { html, render } from "lit-html";
 import { PanelPlugin } from "@/plugin";
+import { createElement } from "@/utils";
 
-const template = (list: HotkeyInfoListItem[]) => html`
-  <div class="${classPrefix}-hotkeys">
-    <div class="${classPrefix}-hotkeys-list">
-      ${list.map(
-        ({ key, description }) => html`
-          <div class="${classPrefix}-hotkeys-list-item">
-            <div class="${classPrefix}-hotkeys-list-key">${key}</div>
-            <div class="${classPrefix}-hotkeys-list-description">${description}</div>
-          </div>
-        `
-      )}
-    </div>
+const template = (list: HotkeyInfoListItem[]) => /*html*/ `
+  <div class="${classPrefix}-hotkeys-list">
+    ${list
+      .map(
+        ({ key, description }) => /*html*/ `
+        <div class="${classPrefix}-hotkeys-list-item">
+          <div class="${classPrefix}-hotkeys-list-key">${key}</div>
+          <div class="${classPrefix}-hotkeys-list-description">${description}</div>
+        </div>
+      `
+      )
+      .join("")}
   </div>
 `;
 
@@ -36,8 +36,9 @@ export default class HotkeyInfo extends PanelPlugin {
       { key: "↑", description: "音量增加10%" },
       { key: "↓", description: "音量降低10%" },
     ];
-    const fragment = new DocumentFragment();
-    render(template(hotkeyInfoList), fragment);
-    super(player, fragment.querySelector(`.${classPrefix}-hotkeys`)!);
+    super(
+      player,
+      createElement("div", { class: `${classPrefix}-hotkeys` }, template(hotkeyInfoList))
+    );
   }
 }
