@@ -1,6 +1,6 @@
 {
   "name": "mfuns-player-meon",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "基于typescript的PC端弹幕播放器",
   "type": "module",
   "main": "lib/core/index.js",
