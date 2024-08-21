@@ -67,8 +67,6 @@ declare module "@core" {
     danmaku?: {
       /** 弹幕格式类型 */
       type?: string;
-      /** 类型屏蔽 */
-      filter?: string[];
       /** 弹幕不透明度 */
       opacity?: number;
       /** 弹幕速度 */
@@ -81,10 +79,12 @@ declare module "@core" {
       font?: string;
       /** 字体加粗 */
       bold?: boolean;
+      /** 类型屏蔽 */
+      blockType?: string[];
       /** 用户屏蔽 */
-      blockUser: (string | number)[];
+      blockUser?: (string | number)[];
       /** 内容屏蔽 */
-      blockContent: (string | RegExp)[];
+      blockContent?: (string | RegExp)[];
     };
   }
   interface PlayerInvokes {
@@ -106,9 +106,7 @@ declare module "@core" {
   interface VideoInfo {
     danmaku?: DanmakuSource[];
   }
-}
 
-declare module "@core" {
   interface PlayerEventMap {
     // --- 弹幕事件 --- //
 
@@ -134,7 +132,7 @@ declare module "@core" {
     /** 弹幕池清空 */
     "danmaku:clear": () => void;
     /** 弹幕类型屏蔽 */
-    "danmaku:filter": (type: string, flag: boolean) => void;
+    "danmaku:blockType": (type: string, flag: boolean) => void;
 
     // --- 弹幕操作 --- //
     /** 发送弹幕 */
@@ -159,5 +157,22 @@ declare module "@core" {
     "danmaku:fontChange": (value: string) => void;
     /** 弹幕粗体更改 */
     "danmaku:boldChange": (value: boolean) => void;
+  }
+
+  interface PlayerSetValueMap {
+    /** 弹幕不透明度 */
+    "danmaku:opacity": number;
+    /** 弹幕移动速度 */
+    "danmaku:speed": number;
+    /** 弹幕显示区域 */
+    "danmaku:area": number;
+    /** 弹幕大小 */
+    "danmaku:scale": number;
+    /** 弹幕字体 */
+    "danmaku:font": string;
+    /** 弹幕加粗 */
+    "danmaku:bold": boolean;
+    /** 弹幕屏蔽类型 */
+    "danmaku:blockType": string[];
   }
 }

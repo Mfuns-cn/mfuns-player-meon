@@ -73,6 +73,24 @@
         text-shadow: 1px 1px #666;
       }
     }
+    &-volume {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      color: white;
+      background-color: $bg-black;
+      border-radius: $border-radius;
+      padding: 0 8px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-size: 16px;
+      &.is-show {
+        display: block;
+      }
+    }
   }
   &.is-paused & {
     &-videostatus-paused {

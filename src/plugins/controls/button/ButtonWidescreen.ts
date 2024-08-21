@@ -40,7 +40,7 @@ export default class ButtonWidescreen extends ControlsPlugin {
       this.$tooltip.innerText = "宽屏模式";
     });
     this.$icon.addEventListener("click", () => {
-      if (this.player.isWidescreen) {
+      if (!this.player.isWidescreen) {
         this.player.enterWidescreen?.();
       } else {
         this.player.exitWidescreen?.();

@@ -1,4 +1,4 @@
-import { LoadInfo, PlayerOptions, VideoInfo } from "../types";
+import { LoadInfo, PlayerOptions, PlayerSetValueMap, VideoInfo } from "../types";
 
 export interface PlayerEventMap {
   // --- 视频事件 --- //
@@ -57,10 +57,6 @@ export interface PlayerEventMap {
 
   // --- 播放器属性变化 --- //
 
-  /** 自动播放 */
-  autoPlayChange: (value: boolean) => void;
-  /** 自动切P */
-  autoPartChange: (value: boolean) => void;
   /** 循环播放 */
   loopChange: (value: boolean) => void;
 
@@ -94,4 +90,7 @@ export interface PlayerEventMap {
 
   /** 配置选项更改 */
   optionsUpdate: (options: Partial<PlayerOptions>) => void;
+
+  /** 设置值 */
+  setValue: <T extends keyof PlayerSetValueMap>(key: T, value: PlayerSetValueMap[T]) => void;
 }

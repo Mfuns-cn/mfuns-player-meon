@@ -7,10 +7,15 @@ import { Checkbox } from "@/components";
 
 declare module "@core" {
   interface PlayerOptions {
+    /** 小窗播放 */
     mini?: boolean;
   }
   interface PlayerEventMap {
     miniChange: (flag: boolean) => void;
+  }
+  interface PlayerSetValueMap {
+    /** 小窗播放 */
+    mini: boolean;
   }
 }
 
@@ -47,6 +52,7 @@ export default class Mini extends BasePlugin {
         value: this.enabled,
         onToggle: (val) => {
           this.toggle(val);
+          this.player.emit("setValue", "mini", val);
         },
         label: "小窗模式",
       });

@@ -86,6 +86,7 @@
     </div>
   </body>
   <script>
+    const cfg = JSON.parse(localStorage.getItem("MfunsPlayerConfig") || "{}") || {};
     function setStorage(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
     }
@@ -93,6 +94,14 @@
       const s = localStorage.getItem(key);
       return s && JSON.parse(s);
     }
+    function setConfig(key, value) {
+      cfg[key] = value;
+      localStorage.setItem("MfunsPlayerConfig", JSON.stringify(cfg));
+    }
+    function getConfig(key) {
+      return cfg[key];
+    }
+
     console.log(MfunsPlayer);
     let player;
     const testVersion = document.querySelector(".test-version");
@@ -250,6 +259,11 @@
         },
         danmaku: {
           type: "bilibili-xml",
+          opacity: getConfig("danmaku:opacity") ?? 1,
+          area: getConfig("danmaku:area") ?? 0.25,
+          speed: getConfig("danmaku:speed") ?? 1,
+          scale: getConfig("danmaku:scale") ?? 1,
+          blockType: getConfig("danmaku:blockType") || [],
         },
         invokes: {
           danmakuGet: async ({ danmakuId }) => {
@@ -319,13 +333,15 @@
           ],
           modeList: [1, 5, 4, 6],
         },
-        seekLast: getStorage("seekLast"),
-        lastPosition: getStorage("lastPosition"),
-        autoPlay: getStorage("autoPlay"),
-        mini: getStorage("mini"),
-        widescreenToggle: (flag) => {
-          console.log(flag);
-          playerExtra.style.display = flag ? "none" : "";
+        autoSeek: getConfig("autoSeek"),
+        lastPosition: getConfig("lastPosition"),
+        autoPlay: getConfig("autoPlay"),
+        mini: getConfig("mini"),
+        invokes: {
+          widescreenToggle: (flag) => {
+            console.log(flag);
+            playerExtra.style.display = flag ? "none" : "";
+          },
         },
 
         // advancedDanmaku:{
@@ -363,9 +379,6 @@
       player.on("timeupdate", (t) => {
         setStorage("lastPosition", t);
       });
-      player.on("change", (k, v) => {
-        setStorage(k, v);
-      });
       player.on("seeking", (t) => {
         setStorage("lastPosition", t);
       });
@@ -386,6 +399,9 @@
       });
       player.on("widescreen:enter", () => {
         player.plugins.side.mount(player.plugins.danmakuList);
+      });
+      player.on("setValue", (k, v) => {
+        setConfig(k, v);
       });
     };
   </script>

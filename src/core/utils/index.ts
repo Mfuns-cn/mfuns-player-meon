@@ -55,14 +55,14 @@ export function replaceChildren(element: HTMLElement, children: Node | string) {
  * @param delay 防抖延迟执行时间
  * @param immediate 是否立即执行一次
  */
-export const debounce = (
-  fn: (...args: unknown[]) => void,
+export const debounce = <T extends any[]>(
+  fn: (...args: T) => void,
   delay: number,
   immediate: boolean = false
 ) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
   let isInvoke = false;
-  const f = function (this: unknown, ...args: unknown[]) {
+  const f = function (this: unknown, ...args: T) {
     if (timer) clearTimeout(timer);
     if (immediate && !isInvoke) {
       fn.apply(this, args);
@@ -87,9 +87,9 @@ export const debounce = (
  * @param fn 需要节流处理的函数
  * @param wait 执行一次后需要等待的时间
  */
-export const throttle = (fn: (...args: unknown[]) => void, wait: number) => {
+export const throttle = <T extends any[]>(fn: (...args: T) => void, wait: number) => {
   let timer: ReturnType<typeof setTimeout> | null = null;
-  return function (this: unknown, ...args: unknown[]) {
+  return function (this: unknown, ...args: T) {
     if (!timer) {
       timer = setTimeout(() => {
         fn.apply(this, args);

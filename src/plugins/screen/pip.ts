@@ -28,11 +28,9 @@ export default class Pip extends BasePlugin {
     // --- 绑定事件 --- //
     this.player.on("enterpictureinpicture", () => {
       this.player.$el.classList.add("is-pip");
-      this.player.emit("enterpictureinpicture");
     });
     this.player.on("leavepictureinpicture", () => {
       this.player.$el.classList.remove("is-pip");
-      this.player.emit("leavepictureinpicture");
     });
     // 进入画中画时，退出全屏模式
     this.player.on("enterpictureinpicture", () => {

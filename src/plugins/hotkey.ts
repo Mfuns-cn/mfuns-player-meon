@@ -1,6 +1,7 @@
 import { PlayerOptions } from "@/types";
 import { Player } from "@/player";
 import { keyCode } from "@/utils/KeyCode.enum";
+import { throttle } from "@/utils";
 
 export default class Hotkey {
   static readonly pluginName = "hotkey";
@@ -17,6 +18,7 @@ export default class Hotkey {
     this.initMask();
   }
 
+  /** 初始化键盘事件 */
   initKey() {
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       const tag = document.activeElement?.tagName.toUpperCase();
@@ -39,19 +41,33 @@ export default class Hotkey {
           case keyCode.UpArrow:
             e.preventDefault();
             this.player.setVolume(this.player.volume + 0.1);
+            this.player.emit("hotkeyVolume");
             break;
           case keyCode.DownArrow:
             e.preventDefault();
             this.player.setVolume(this.player.volume - 0.1);
+            this.player.emit("hotkeyVolume");
             break;
         }
       }
     });
   }
 
+  /** 初始化遮罩事件 */
   initMask() {
+    const throttleWheelVolume = throttle((wheelY: number) => {
+      this.player.setVolume(this.player.volume + (wheelY > 0 ? -0.05 : 0.05));
+    }, 50);
     this.controlMask.addEventListener("click", () => {
       this.player.paused ? this.player.play() : this.player.pause();
+    });
+    this.controlMask.addEventListener("wheel", (e) => {
+      if (this.player.isWebscreen || this.player.isFullscreen) {
+        e.preventDefault();
+        if (this.player.muted) this.player.setMuted(false);
+        throttleWheelVolume(e.deltaY);
+        this.player.emit("hotkeyVolume");
+      }
     });
   }
 }

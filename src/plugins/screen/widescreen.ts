@@ -18,7 +18,7 @@ declare module "@core" {
     widescreen?: boolean;
   }
   interface PlayerInvokes {
-    widescreen?: (flag: boolean) => void;
+    widescreenToggle?: (flag: boolean) => void;
   }
   interface PlayerEventMap {
     widescreenEnter: () => void;
@@ -34,7 +34,7 @@ declare module "@core" {
 export default class Widescreen extends BasePlugin {
   static readonly pluginName = "widescreen";
   get invokeToggle() {
-    return this.player.invokes.widescreen;
+    return this.player.invokes.widescreenToggle;
   }
 
   init() {

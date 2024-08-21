@@ -1,5 +1,5 @@
 import { Player } from "@/player";
-import MeonDanmakuEngine from "./MeonDanmakuEngine";
+import MeonDanmakuEngine, { TrackType } from "./MeonDanmakuEngine";
 import { PlayerOptions } from "@/types";
 import { BasePlugin } from "@/plugin";
 import { classPrefix } from "@/config";
@@ -46,7 +46,7 @@ export default class DanmakuEngine extends BasePlugin {
     this.player.on("seeked", () => {
       !this.player.paused && this.core.play();
     });
-    this.player.on("danmaku:filter", (type, flag) => {
+    this.player.on("danmaku:blockType", (type, flag) => {
       switch (type) {
         case "top":
         case "bottom":
@@ -86,14 +86,51 @@ export default class DanmakuEngine extends BasePlugin {
 
   apply(player: Player, options: PlayerOptions): void {
     if (options.danmaku) {
-      const { scale, font, bold, speed, opacity } = options.danmaku;
+      const { scale, area, font, bold, speed, opacity, blockType } = options.danmaku;
       scale && this.setScale(scale);
       font && this.setFont(font);
       bold != null && this.setBold(bold);
+      area != null && this.setArea(area);
       speed && this.setSpeed(speed);
       opacity && this.setOpacity(opacity);
+      blockType?.forEach((type) => this.player.emit("danmaku:blockType", type, true));
     }
   }
+
+  // 弹幕播放属性
+  /** 弹幕不透明度 */
+  get opacity() {
+    return this.core.opacity;
+  }
+  /** 弹幕速度 */
+  get speed() {
+    return this.core.speed;
+  }
+  /** 弹幕区域 */
+  get area() {
+    return this.core.limitArea;
+  }
+  /** 设置弹幕大小 */
+  get scale() {
+    return this.core.fontScale;
+  }
+  /** 设置弹幕字体 */
+  get font() {
+    return this.core.fontFamily;
+  }
+  /** 弹幕加粗 */
+  get bold() {
+    return this.core.fontWeight == "bold";
+  }
+  /** 类型屏蔽列表 */
+  getTypeBlockList() {
+    const list: string[] = (["roll", "reverse", "top", "bottom"] as TrackType[]).filter(
+      (t) => this.core.trackFilter[t]
+    );
+    this.core.colorFilter && list.push("color");
+    return list;
+  }
+
   // 弹幕播放属性设置
 
   /** 设置弹幕不透明度 */

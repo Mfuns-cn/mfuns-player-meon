@@ -99,7 +99,7 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
     // 弹幕类型屏蔽
     this.pickerFilter = new MultiPicker({
       container: this.$filterPicker,
-      value: [],
+      value: this.danmakuEngine?.getTypeBlockList() || [],
       list: [
         { value: "roll", label: "滚动" },
         { value: "top", label: "顶部" },
@@ -108,7 +108,8 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
         { value: "special", label: "特殊" },
       ],
       onToggle: (value, flag) => {
-        this.danmaku.filterType(value, flag);
+        this.danmaku.blockType(value, flag);
+        this.player.emit("setValue", "danmaku:blockType", this.pickerFilter.value);
       },
     });
     // 不透明度
@@ -117,9 +118,10 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       min: 10,
       max: 100,
       step: 1,
-      value: 100,
+      value: this.danmakuEngine?.opacity * 100 || 100,
       onDrag: (value) => {
         this.danmakuEngine.setOpacity(value / 100);
+        this.player.emit("setValue", "danmaku:opacity", value / 100);
       },
       onChange: (value) => {
         this.$opacityValue.innerText = `${value}%`;
@@ -131,10 +133,16 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       min: 20,
       max: 105,
       step: 5,
-      value: 25,
+      value:
+        this.danmakuEngine?.area == null
+          ? this.danmakuEngine?.area == 0
+            ? 105
+            : this.danmakuEngine?.area * 100
+          : 25,
       onDrag: (value) => {
-        const area = value / 100;
-        this.danmakuEngine.setArea(area > 100 ? 0 : area);
+        const area = value > 100 ? 0 : value / 100;
+        this.danmakuEngine.setArea(area);
+        this.player.emit("setValue", "danmaku:area", area);
       },
       onChange: (value) => {
         this.$areaValue.innerText = value < 100 ? `${value}%` : value == 100 ? "不重叠" : "无限";
@@ -147,9 +155,10 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       min: 50,
       max: 200,
       step: 1,
-      value: 100,
+      value: this.danmakuEngine?.scale * 100 || 100,
       onDrag: (value) => {
         this.danmakuEngine.setScale(value / 100);
+        this.player.emit("setValue", "danmaku:scale", value / 100);
       },
       onChange: (value) => {
         this.$sizeValue.innerText = `${value}%`;
@@ -161,10 +170,11 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       min: 20,
       max: 180,
       step: 10,
-      value: 100,
+      value: this.danmakuEngine?.speed * 100 || 100,
       divider: 5,
       onDrag: (value) => {
         this.danmakuEngine.setSpeed(value / 100);
+        this.player.emit("setValue", "danmaku:speed", value / 100);
       },
       onChange: (value) => {
         this.$speedValue.innerText = `${value}%`;

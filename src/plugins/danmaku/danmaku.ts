@@ -12,20 +12,6 @@ declare module "@core" {
 }
 
 declare module "@core" {
-  interface PlayerValueMap {
-    /** 弹幕不透明度 */
-    "danmaku.opacity": number;
-    /** 弹幕移动速度 */
-    "danmaku.speed": number;
-    /** 弹幕显示区域 */
-    "danmaku.area": number;
-    /** 弹幕大小 */
-    "danmaku.scale": number;
-    /** 弹幕字体 */
-    "danmaku.font": string;
-    /** 弹幕加粗 */
-    "danmaku.bold": boolean;
-  }
   interface PlayerPlugins {
     danmaku?: Danmaku;
   }
@@ -109,7 +95,7 @@ export default class Danmaku extends BasePlugin {
    * @param type 类型
    * @param flag 设置是否屏蔽
    */
-  filterType(type: string, flag: boolean) {
-    this.player.emit("danmaku:filter", type, flag);
+  blockType(type: string, flag: boolean) {
+    this.player.emit("danmaku:blockType", type, flag);
   }
 }

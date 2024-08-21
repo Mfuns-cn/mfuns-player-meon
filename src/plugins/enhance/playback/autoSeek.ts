@@ -14,6 +14,10 @@ declare module "@core" {
     /** 上次播放的时间点(秒)，若存在time选项则此项失效 */
     lastPosition?: number;
   }
+  interface PlayerSetValueMap {
+    /** 跳转到上次播放位置 */
+    autoSeek: boolean;
+  }
 }
 
 /** 跳转到上次播放位置 */
@@ -42,6 +46,7 @@ export default class AutoSeek extends BasePlugin {
         value: this.status,
         onToggle: (val) => {
           this.toggle(val);
+          this.player.emit("setValue", "autoSeek", val);
         },
         label: "断点续播",
       });

@@ -52,6 +52,7 @@ export default class ButtonVolume extends ControlsPlugin {
       },
       onDrag: (value) => {
         this.player.setVolume(value / 100);
+        this.player.emit("setValue", "volume", value / 100);
       },
       onDragStart: (value) => {
         if (this.player.muted && value != 0) {
@@ -82,9 +83,11 @@ export default class ButtonVolume extends ControlsPlugin {
         if (this.player.volume == 0) {
           this.player.setVolume(0.1);
         }
-        this.player.setMuted(true);
-      } else {
         this.player.setMuted(false);
+        this.player.emit("setValue", "muted", false);
+      } else {
+        this.player.setMuted(true);
+        this.player.emit("setValue", "muted", true);
       }
     });
   }

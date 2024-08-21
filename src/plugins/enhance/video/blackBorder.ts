@@ -14,6 +14,10 @@ declare module "@core" {
     /** 视频黑边边距 */
     blackBorderPadding?: string;
   }
+  interface PlayerSetValueMap {
+    /** 视频黑边 */
+    blackBorder: boolean;
+  }
 }
 
 /** 视频黑边 */
@@ -31,6 +35,7 @@ export default class BlackBorder extends BasePlugin {
         value: !this.status,
         onToggle: (val) => {
           this.toggle(!val);
+          this.player.emit("setValue", "blackBorder", !val);
         },
         label: "隐藏黑边",
       });

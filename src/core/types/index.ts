@@ -122,3 +122,13 @@ export interface PlayerInvokes {}
 
 /** 播放器插件 */
 export interface PlayerPlugins {}
+
+/** 播放器设置值 */
+export interface PlayerSetValueMap {
+  /** 音量 */
+  volume: number;
+  /** 静音 */
+  muted: boolean;
+  /** 循环 */
+  loop: boolean;
+}

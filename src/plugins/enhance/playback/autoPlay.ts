@@ -8,6 +8,10 @@ declare module "@core" {
     /** 自动播放 */
     autoPlayChange: (flag: boolean) => void;
   }
+  interface PlayerSetValueMap {
+    /** 自动播放 */
+    autoPlay: boolean;
+  }
 }
 
 /** 启用自动播放设置 */
@@ -27,6 +31,7 @@ export default class AutoPlay extends BasePlugin {
         value: this.status,
         onToggle: (val) => {
           this.toggle(val);
+          this.player.emit("setValue", "autoPlay", val);
         },
         label: "自动播放",
       });

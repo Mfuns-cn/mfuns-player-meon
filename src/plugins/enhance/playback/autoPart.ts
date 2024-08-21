@@ -12,6 +12,10 @@ declare module "@core" {
     /** 分P连播 */
     autoPart?: boolean;
   }
+  interface PlayerSetValueMap {
+    /** 分P连播 */
+    autoPart: boolean;
+  }
 }
 
 /** 自动切换下一P */
@@ -42,6 +46,7 @@ export default class AutoPart extends BasePlugin {
         value: this.status,
         onToggle: (val) => {
           this.toggle(val);
+          this.player.emit("setValue", "autoPart", val);
         },
         label: "分P连播",
       });
