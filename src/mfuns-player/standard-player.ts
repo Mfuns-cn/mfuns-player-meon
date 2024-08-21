@@ -50,7 +50,7 @@ const allPlugins = [
   ...panels,
   ...controls,
   ...loaders,
-];
+] as const;
 
 /** MfunsPlayer 标准版播放器
  *

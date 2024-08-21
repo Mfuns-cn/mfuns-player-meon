@@ -8,6 +8,7 @@ import { VirtualList } from "./VirtualList";
 import "./style.scss";
 import Danmaku from "@plugins/danmaku/danmaku";
 import { PanelPlugin } from "@/plugin";
+import { PlayerOptions } from "@core";
 
 declare module "@core" {
   interface PlayerEventMap {
@@ -16,6 +17,17 @@ declare module "@core" {
   }
   interface PlayerPlugins {
     danmakuList?: DanmakuList;
+  }
+  interface PlayerOptions {
+    /** 弹幕列表设置 */
+    danmakuList?: {
+      /** 自动滚动 */
+      autoScroll: boolean;
+    };
+  }
+
+  interface PlayerSetValueMap {
+    "danmakuList:autoScroll": boolean;
   }
 }
 
@@ -182,6 +194,7 @@ export default class DanmakuList extends PanelPlugin {
     };
     this.$autoscroll.onclick = () => {
       this.setAutoScroll(!this.autoScroll);
+      this.player.emit("setValue", "danmakuList:autoScroll", !this.autoScroll);
     };
     this.player.on("danmakuList:autoScrollChange", (flag) => {
       if (flag) {
@@ -304,6 +317,9 @@ export default class DanmakuList extends PanelPlugin {
       this.locateByDanmaku(dan);
       this.select([dan]);
     });
+  }
+  apply(player: Player, options: PlayerOptions): void {
+    this.setAutoScroll(!!options.danmakuList?.autoScroll);
   }
   /** 弹幕列表排序 */
   sort(sortedBy: keyof DanmakuItem, sortOrder = 1) {

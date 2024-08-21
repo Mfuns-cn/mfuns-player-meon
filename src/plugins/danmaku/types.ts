@@ -85,6 +85,8 @@ declare module "@core" {
       blockUser?: (string | number)[];
       /** 内容屏蔽 */
       blockContent?: (string | RegExp)[];
+      /** 显示弹幕 */
+      hidden?: boolean;
     };
   }
   interface PlayerInvokes {
@@ -160,6 +162,8 @@ declare module "@core" {
   }
 
   interface PlayerSetValueMap {
+    /** 隐藏弹幕 */
+    "danmaku:hidden": boolean;
     /** 弹幕不透明度 */
     "danmaku:opacity": number;
     /** 弹幕移动速度 */

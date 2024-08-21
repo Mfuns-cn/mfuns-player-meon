@@ -44,6 +44,9 @@ export default class Danmaku extends BasePlugin {
   init() {
     this.player.define("danmaku", { value: this });
   }
+  apply(player: Player, options: PlayerOptions): void {
+    this._status = !options.danmaku?.hidden;
+  }
 
   /**
    * 添加弹幕到弹幕池
