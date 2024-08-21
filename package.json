@@ -14,7 +14,9 @@
     "./utils": "./lib/core/utils.js",
     "./plugins/*": "./lib/plugins/*",
     "./css/*": "./src/css/*",
-    "./icon/*": "./src/icon/*"
+    "./icon/*": "./src/icon/*",
+    "./mfuns-player": "./lib/mfuns-player.js",
+    "./mfuns-plugin": "./lib/mfuns-plugin.js"
   },
   "scripts": {
     "dev": "vite",

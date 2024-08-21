@@ -13,7 +13,7 @@ import path from "path";
 
 import fs from "fs";
 
-fs.readdir(path.resolve("./player"), (err, files) => {
+fs.readdir(path.resolve("./src/mfuns-player"), (err, files) => {
   if (err) {
     console.error(err, "无法正确读取文件夹");
   } else {
@@ -22,7 +22,7 @@ fs.readdir(path.resolve("./player"), (err, files) => {
       return {
         build: {
           lib: {
-            entry: path.resolve(__dirname, `./player/${fileName}`),
+            entry: path.resolve(__dirname, `./src/mfuns-player/${fileName}`),
             fileName: (format) => `${name}.${format}.js`,
             name: "MfunsPlayer",
           },
@@ -47,10 +47,10 @@ async function buildPlayers(configs) {
           plugins: [cssInjectedByJsPlugin({ topExecutionPriority: false })],
           resolve: {
             alias: {
-              "@": path.resolve(__dirname, "src/core"),
-              "@core": path.resolve(__dirname, "src/core"),
-              "@plugins": path.resolve(__dirname, "src/plugins"),
-              "@css": path.resolve(__dirname, "src/css"),
+              "@": path.resolve(__dirname, "./src/core"),
+              "@core": path.resolve(__dirname, "./src/core"),
+              "@plugins": path.resolve(__dirname, "./src/plugins"),
+              "@css": path.resolve(__dirname, "./src/css"),
               "@icon": path.resolve(__dirname, "./src/icon"),
             },
           },

@@ -4,6 +4,5 @@
   "eslint.enable": true,
   "files.eol": "\n",
   "lit-html.tags": ["html", "raw", "element", "fragment"],
-  "lit-plugin.htmlTemplateTags": ["html", "raw", "element", "fragment"],
-  "liveServer.settings.port": 5508
+  "lit-plugin.htmlTemplateTags": ["html", "raw", "element", "fragment"]
 }
