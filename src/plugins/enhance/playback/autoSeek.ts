@@ -30,9 +30,10 @@ export default class AutoSeek extends BasePlugin {
   apply(player: Player, options: PlayerOptions) {
     if (options.autoSeek) {
       this.toggle(true);
+      if (!options.lastPosition) return;
       this.player.once("loadedmetadata", () => {
         console.log(`ok: ${options.time} ${options.lastPosition}`);
-        !options.time && options.lastPosition && this.player.seek(Math.floor(options.lastPosition));
+        !options.time && this.player.seek(Math.floor(options.lastPosition!));
         options.autoPlay && this.player.play();
       });
     }

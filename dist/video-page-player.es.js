@@ -90,7 +90,7 @@ const qa = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: yt,
   throttle: Ai,
   timeToSecond: Ot
-}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Yi = "3.0.0-alpha.5", Ki = "3a7845b", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
+}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Yi = "3.0.0-alpha.7", Ki = "f5ff01d", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], li = {
@@ -1334,7 +1334,7 @@ const bn = (
     }, this.$colContent.onclick = () => {
       this.setAutoScroll(!1), this.sortedBy == "content" ? this.sort("content", -this.sortOrder) : this.sort("content", 1);
     }, this.$autoscroll.onclick = () => {
-      this.setAutoScroll(!this.autoScroll);
+      this.setAutoScroll(!this.autoScroll), this.player.emit("setValue", "danmakuList:autoScroll", !this.autoScroll);
     }, this.player.on("danmakuList:autoScrollChange", (e) => {
       e ? this.$autoscroll.innerText = "列表滚动[开]" : this.$autoscroll.innerText = "列表滚动[关]";
     }), this.autoScroll && this.player.emit("danmakuList:autoScrollChange", !0), this.player.on("danmakuList:select", (e) => {
@@ -1422,6 +1422,10 @@ ${n.date ? Ge(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${yt(n.tim
     }), this.player.on("danmaku:select", (n) => {
       this.locateByDanmaku(n), this.select([n]);
     });
+  }
+  apply(t, e) {
+    var s;
+    this.setAutoScroll(!!((s = e.danmakuList) != null && s.autoScroll));
   }
   /** 弹幕列表排序 */
   sort(t, e = 1) {
@@ -3187,9 +3191,13 @@ const Ms = class Ms extends f {
     super(...arguments), this._status = !1;
   }
   apply(t, e) {
-    e.autoSeek && (this.toggle(!0), this.player.once("loadedmetadata", () => {
-      console.log(`ok: ${e.time} ${e.lastPosition}`), !e.time && e.lastPosition && this.player.seek(Math.floor(e.lastPosition)), e.autoPlay && this.player.play();
-    }));
+    if (e.autoSeek) {
+      if (this.toggle(!0), !e.lastPosition)
+        return;
+      this.player.once("loadedmetadata", () => {
+        console.log(`ok: ${e.time} ${e.lastPosition}`), !e.time && this.player.seek(Math.floor(e.lastPosition)), e.autoPlay && this.player.play();
+      });
+    }
   }
   ready() {
     if (this.plugins.settings) {
@@ -3827,6 +3835,10 @@ const Us = class Us extends f {
   }
   init() {
     this.player.define("danmaku", { value: this });
+  }
+  apply(t, e) {
+    var s;
+    this._status = !((s = e.danmaku) != null && s.hidden);
   }
   /**
    * 添加弹幕到弹幕池
@@ -4591,8 +4603,7 @@ const ka = (
     }), this.player.on("danmaku:off", () => {
       this._change(!1);
     }), this.$icon.addEventListener("click", () => {
-      var t;
-      (t = this.plugins.danmaku) == null || t.toggle();
+      this.plugins.danmaku && (this.plugins.danmaku.toggle(), this.player.emit("setValue", "danmaku:hidden", !this.plugins.danmaku.status));
     });
   }
   /** 设置按钮状态 */

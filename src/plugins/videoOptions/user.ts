@@ -17,6 +17,9 @@ declare module "@core" {
   interface PlayerInvokes {
     login?: () => Promise<number>;
   }
+  interface PlayerPlugins {
+    user?: User;
+  }
   interface VideoInfo {
     author?: {
       id: number;
