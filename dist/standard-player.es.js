@@ -90,7 +90,7 @@ const Lr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: vt,
   throttle: Hi,
   timeToSecond: Rt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.3", Fi = "e10520a", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ri = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.4", Fi = "822f092", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ri = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], Vs = {

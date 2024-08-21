@@ -15,8 +15,8 @@
     "./plugins/*": "./lib/plugins/*",
     "./css/*": "./src/css/*",
     "./icon/*": "./src/icon/*",
-    "./mfuns-player": "./lib/mfuns-player.js",
-    "./mfuns-plugin": "./lib/mfuns-plugin.js"
+    "./mfuns-player/*": "./lib/mfuns-player/*",
+    "./mfuns-plugin/*": "./lib/mfuns-plugin/*"
   },
   "scripts": {
     "dev": "vite",

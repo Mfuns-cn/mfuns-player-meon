@@ -90,7 +90,7 @@ const Vr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: yt,
   throttle: Ui,
   timeToSecond: zt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Yi = "3.0.0-alpha.3", Ki = "e10520a", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Yi = "3.0.0-alpha.4", Ki = "822f092", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], li = {
