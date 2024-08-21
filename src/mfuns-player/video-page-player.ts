@@ -61,6 +61,15 @@ const controls = [ButtonWebscreen, ButtonWidescreen, ButtonDanmakulist, ButtonQu
 
 const loaders = [FlvLoader, HlsLoader, DashLoader];
 
+const allPlugins = [
+  ...presetDanmaku,
+  ...presetBasic,
+  ...plugins,
+  ...panels,
+  ...controls,
+  ...loaders,
+];
+
 /** MfunsPlayer 播放页版播放器
  *
  * 插件功能：快捷键、右键菜单、弹幕栏、弹幕列表、视频黑边、宽屏模式、关灯模式
@@ -101,15 +110,7 @@ export class Player extends CorePlayer {
         panels: ["partList"],
       },
       ...options,
-      plugins: [
-        ...presetBasic,
-        ...presetDanmaku,
-        ...plugins,
-        ...panels,
-        ...controls,
-        ...loaders,
-        ...(options.plugins || []),
-      ],
+      plugins: [...allPlugins, ...(options.plugins || [])],
     });
   }
 }
@@ -118,3 +119,4 @@ export * from "@/plugin";
 export * from "@/config";
 export * as Utils from "@/utils";
 export * as Components from "@/components";
+export type { allPlugins };

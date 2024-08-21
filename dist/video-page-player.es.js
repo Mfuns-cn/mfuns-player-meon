@@ -74,7 +74,7 @@ function Ge(i, t) {
     }
   );
 }
-const qr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Vr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   HexColorToNumber: Ai,
   clamp: It,
@@ -90,7 +90,7 @@ const qr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: yt,
   throttle: Ui,
   timeToSecond: zt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Yi = "3.0.0-alpha.2", Ki = "cb5c937", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Yi = "3.0.0-alpha.3", Ki = "e10520a", Gi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Zi = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], li = {
@@ -585,7 +585,7 @@ class wt extends _i {
   }
 }
 it = new WeakMap();
-class Vr extends f {
+class Cr extends f {
 }
 const nn = ({ divider: i }) => (
   /*html*/
@@ -1158,7 +1158,7 @@ class Q {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const Cr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const jr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   Checkbox: Q,
   MultiPicker: Di,
@@ -5271,8 +5271,15 @@ const Dr = [
   Fe,
   Pe,
   Ye
-], Ir = [ee, se, Le], zr = [Qt, Jt, Ee, Te, _e], Or = [Ue, je, We];
-class jr extends ut {
+], Ir = [ee, se, Le], zr = [Qt, Jt, Ee, Te, _e], Or = [Ue, je, We], Br = [
+  ...Pr,
+  ...dr,
+  ...Dr,
+  ...Ir,
+  ...zr,
+  ...Or
+];
+class Wr extends ut {
   constructor(t) {
     super({
       autoPart: !0,
@@ -5308,28 +5315,20 @@ class jr extends ut {
         panels: ["partList"]
       },
       ...t,
-      plugins: [
-        ...dr,
-        ...Pr,
-        ...Dr,
-        ...Ir,
-        ...zr,
-        ...Or,
-        ...t.plugins || []
-      ]
+      plugins: [...Br, ...t.plugins || []]
     });
   }
 }
 export {
   f as BasePlugin,
-  Cr as Components,
+  jr as Components,
   F as ControlsPlugin,
-  Vr as MenuPlugin,
+  Cr as MenuPlugin,
   _i as MountablePlugin,
   wt as PanelPlugin,
-  jr as Player,
+  Wr as Player,
   bt as UIPlugin,
-  qr as Utils,
+  Vr as Utils,
   r as classPrefix,
   Zi as developers,
   Ki as gitHash,

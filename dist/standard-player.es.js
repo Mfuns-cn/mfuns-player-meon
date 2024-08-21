@@ -74,7 +74,7 @@ function Ie(i, t) {
     }
   );
 }
-const xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Lr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   HexColorToNumber: di,
   clamp: Pt,
@@ -90,7 +90,7 @@ const xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: vt,
   throttle: Hi,
   timeToSecond: Rt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.2", Fi = "cb5c937", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ri = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Mi = "3.0.0-alpha.3", Fi = "e10520a", Pi = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ri = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], Vs = {
@@ -585,7 +585,7 @@ class $t extends pi {
   }
 }
 tt = new WeakMap();
-class Lr extends w {
+class Er extends w {
 }
 const Bi = ({ divider: i }) => (
   /*html*/
@@ -1158,7 +1158,7 @@ class ze {
     this.setValue(t), (e = this.onToggle) == null || e.call(this, t);
   }
 }
-const Er = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   Checkbox: ze,
   MultiPicker: yi,
@@ -5009,8 +5009,15 @@ const fr = [
   ue,
   ye,
   be
-], yr = [$e, ge, we], br = [zt, It, ve], wr = [Fe, Pe, Re];
-class Sr extends ot {
+], yr = [$e, ge, we], br = [zt, It, ve], wr = [Fe, Pe, Re], kr = [
+  ...Yn,
+  ...$r,
+  ...fr,
+  ...br,
+  ...yr,
+  ...wr
+];
+class Tr extends ot {
   constructor(t) {
     super({
       autoPart: !0,
@@ -5039,28 +5046,20 @@ class Sr extends ot {
         panels: ["partList"]
       },
       ...t,
-      plugins: [
-        ...$r,
-        ...Yn,
-        ...fr,
-        ...br,
-        ...yr,
-        ...wr,
-        ...t.plugins || []
-      ]
+      plugins: [...kr, ...t.plugins || []]
     });
   }
 }
 export {
   w as BasePlugin,
-  Er as Components,
+  Sr as Components,
   M as ControlsPlugin,
-  Lr as MenuPlugin,
+  Er as MenuPlugin,
   pi as MountablePlugin,
   $t as PanelPlugin,
-  Sr as Player,
+  Tr as Player,
   Lt as UIPlugin,
-  xr as Utils,
+  Lr as Utils,
   r as classPrefix,
   Ri as developers,
   Fi as gitHash,

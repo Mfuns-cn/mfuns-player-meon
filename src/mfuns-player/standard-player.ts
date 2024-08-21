@@ -43,6 +43,15 @@ const controls = [ButtonDanmakulist, ButtonQuality, VideoTitle];
 const panels = [About, Hotkeys, PartList];
 const loaders = [FlvLoader, HlsLoader, DashLoader];
 
+const allPlugins = [
+  ...presetBasic,
+  ...presetDanmaku,
+  ...plugins,
+  ...panels,
+  ...controls,
+  ...loaders,
+];
+
 /** MfunsPlayer 标准版播放器
  *
  * 插件功能：快捷键、右键菜单、弹幕栏、弹幕列表
@@ -76,15 +85,7 @@ export class Player extends CorePlayer {
         panels: ["partList"],
       },
       ...options,
-      plugins: [
-        ...presetDanmaku,
-        ...presetBasic,
-        ...plugins,
-        ...panels,
-        ...controls,
-        ...loaders,
-        ...(options.plugins || []),
-      ],
+      plugins: [...allPlugins, ...(options.plugins || [])],
     });
   }
 }
@@ -93,3 +94,4 @@ export * from "@/plugin";
 export * from "@/config";
 export * as Utils from "@/utils";
 export * as Components from "@/components";
+export type { allPlugins };
