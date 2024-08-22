@@ -23,6 +23,7 @@ import FlvLoader from "@plugins/videoLoader/flvLoader";
 import HlsLoader from "@plugins/videoLoader/hlsLoader";
 import DashLoader from "@plugins/videoLoader/dashLoader";
 import AspectRatio from "@plugins/enhance/video/aspectRatio";
+import { mergeOptions } from "@/utils";
 
 /** 预设插件 */
 const plugins = [
@@ -58,35 +59,39 @@ const allPlugins = [
  */
 export class Player extends CorePlayer {
   constructor(options: PlayerOptions) {
-    super({
-      autoPart: true,
-      controller: {
-        controls: {
-          top: ["progress"],
-          center: ["danmakuBar"],
-          left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
-          right: [
-            "buttonQuality",
-            "buttonPart",
-            "buttonVolume",
-            "buttonSettings",
-            "buttonPip",
-            "buttonFullscreen",
-          ],
+    super(
+      mergeOptions(
+        {
+          autoPart: true,
+          controller: {
+            controls: {
+              top: ["progress"],
+              center: ["danmakuBar"],
+              left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
+              right: [
+                "buttonQuality",
+                "buttonPart",
+                "buttonVolume",
+                "buttonSettings",
+                "buttonPip",
+                "buttonFullscreen",
+              ],
+            },
+          },
+          danmakuBar: {
+            controls: {
+              outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
+              left: ["buttonDanmakuStyle"],
+            },
+          },
+          side: {
+            panels: ["partList"],
+          },
+          plugins: [...allPlugins],
         },
-      },
-      danmakuBar: {
-        controls: {
-          outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
-          left: ["buttonDanmakuStyle"],
-        },
-      },
-      side: {
-        panels: ["partList"],
-      },
-      ...options,
-      plugins: [...allPlugins, ...(options.plugins || [])],
-    });
+        options
+      )
+    );
   }
 }
 

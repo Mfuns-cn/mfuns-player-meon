@@ -1,3 +1,5 @@
+import { PlayerOptions } from "@/types";
+
 export const isMobile = /mobile/i.test(window.navigator.userAgent);
 
 /** 是否支持全屏 */
@@ -208,4 +210,42 @@ export function dateFormat(date: Date, format: string): string {
   return format.replace(/yyyy|yy|MM|dd|HH|mm|ss/g, (match) =>
     dateFormatMap[match as keyof typeof dateFormatMap]?.(date)
   );
+}
+
+// 判断是否是纯粹对象
+export function isPlainObject(obj: object) {
+  return Object.getPrototypeOf(obj) === Object.prototype;
+}
+
+// 深合并(不包括数组)
+export function assignDeep(...args: Record<string, any>[]) {
+  if (args.length < 2) return args[0];
+  // 合并结果
+  let result = args[0];
+  args.shift();
+  args.forEach((item) => {
+    if (isPlainObject(item)) {
+      if (!isPlainObject(result)) result = {};
+      for (const key in item) {
+        if (result[key] && isPlainObject(item[key])) {
+          result[key] = assignDeep(result[key], item[key]);
+        } else {
+          result[key] = item[key];
+        }
+      }
+    }
+  });
+  return result;
+}
+
+export function mergeOptions(...opts: PlayerOptions[]) {
+  let result = { ...opts[0] };
+  let plugins = opts[0].plugins || [];
+  opts.shift();
+  opts.forEach((op) => {
+    if (op.plugins) plugins = plugins.concat(plugins, op.plugins);
+    assignDeep(result, op);
+  });
+  result.plugins = plugins;
+  return result;
 }

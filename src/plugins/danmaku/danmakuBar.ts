@@ -79,7 +79,12 @@ export default class DanmakuBar extends ControlsPlugin {
   danmakuSize = 25;
 
   /** 是否需要登录 */
+  #loginRequired = false;
+
   get loginRequired() {
+    return this.#loginRequired;
+  }
+  get loginStatus() {
     return this.$el.classList.contains("is-login");
   }
 
@@ -104,10 +109,13 @@ export default class DanmakuBar extends ControlsPlugin {
     this.$logina.onclick = () => this.player.login?.();
 
     this.player.on("videoChange", () => {
-      this.setLoading(true);
+      this.setLoadingStatus(true);
     });
     this.player.on("loadeddata", () => {
-      this.setLoading(false);
+      this.setLoadingStatus(false);
+    });
+    this.player.on("login", (id) => {
+      this.#loginRequired && this.setLoginStatus(!id);
     });
 
     this.$input.addEventListener("keydown", (e) => {
@@ -122,7 +130,8 @@ export default class DanmakuBar extends ControlsPlugin {
 
   apply(player: Player, options: PlayerOptions): void {
     if (options.danmakuBar?.loginRequired) {
-      this.setLoginRequired(true);
+      this.#loginRequired = true;
+      !player.userId && this.setLoginStatus(true);
     }
     this.setPlaceHolder(options.danmakuBar?.placeholder || defaultPlaceholder);
     this.controls = options.danmakuBar?.controls || {};
@@ -186,8 +195,8 @@ export default class DanmakuBar extends ControlsPlugin {
       size: this.danmakuSize,
     };
   }
-  /** 设置登录限制 */
-  private setLoginRequired(flag: boolean) {
+  /** 设置登录状态 */
+  private setLoginStatus(flag: boolean) {
     if (flag) {
       this.$el.classList.add("is-login");
     } else {
@@ -195,7 +204,7 @@ export default class DanmakuBar extends ControlsPlugin {
     }
   }
   /** 设置加载状态 */
-  private setLoading(flag: boolean) {
+  private setLoadingStatus(flag: boolean) {
     if (flag) {
       this.$el.classList.add("is-loading");
     } else {

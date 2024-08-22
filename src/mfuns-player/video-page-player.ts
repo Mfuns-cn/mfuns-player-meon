@@ -31,6 +31,7 @@ import DashLoader from "@plugins/videoLoader/dashLoader";
 import FlvLoader from "@plugins/videoLoader/flvLoader";
 import AspectRatio from "@plugins/enhance/video/aspectRatio";
 import Footbar from "@plugins/ui/footbar";
+import { mergeOptions } from "@/utils";
 
 /** 内置插件 */
 const plugins = [
@@ -76,42 +77,46 @@ const allPlugins = [
  */
 export class Player extends CorePlayer {
   constructor(options: PlayerOptions) {
-    super({
-      autoPart: true,
-      controller: {
-        controls: {
-          top: ["progress"],
-          center: [],
-          left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
-          right: [
-            "buttonQuality",
-            "buttonPart",
-            "buttonVolume",
-            "buttonSettings",
-            "buttonPip",
-            "buttonWidescreen",
-            "buttonWebscreen",
-            "buttonFullscreen",
-          ],
+    super(
+      mergeOptions(
+        {
+          autoPart: true,
+          controller: {
+            controls: {
+              top: ["progress"],
+              center: [],
+              left: ["buttonPrev", "buttonPlay", "buttonNext", "videoTime", "buttonLoop"],
+              right: [
+                "buttonQuality",
+                "buttonPart",
+                "buttonVolume",
+                "buttonSettings",
+                "buttonPip",
+                "buttonWidescreen",
+                "buttonWebscreen",
+                "buttonFullscreen",
+              ],
+            },
+          },
+          danmakuBar: {
+            controls: {
+              outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
+              left: ["buttonDanmakuStyle"],
+            },
+          },
+          footbar: {
+            controls: {
+              right: ["danmakuBar"],
+            },
+          },
+          side: {
+            panels: ["partList"],
+          },
+          plugins: [...allPlugins],
         },
-      },
-      danmakuBar: {
-        controls: {
-          outer: ["buttonDanmakuToggle", "buttonDanmakuSettings"],
-          left: ["buttonDanmakuStyle"],
-        },
-      },
-      footbar: {
-        controls: {
-          right: ["danmakuBar"],
-        },
-      },
-      side: {
-        panels: ["partList"],
-      },
-      ...options,
-      plugins: [...allPlugins, ...(options.plugins || [])],
-    });
+        options
+      )
+    );
   }
 }
 
