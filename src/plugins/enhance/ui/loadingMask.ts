@@ -50,13 +50,14 @@ export default class LoadingMask extends UIPlugin {
     this.player.on("danmaku:loading", () => {
       this._add("danmaku", "请求弹幕数据中…");
     });
-    this.player.on("danmaku:loaded", (dan, err) => {
+    this.player.on("danmaku:loaded", (dan) => {
       this._change("danmaku", (line) => {
-        if (!err) {
-          line.innerText = "请求弹幕数据中… [完成]";
-        } else {
-          line.innerText = `请求弹幕数据中… [失败] ${err}`;
-        }
+        line.innerText = "请求弹幕数据中… [完成]";
+      });
+    });
+    this.player.on("danmaku:loadFailed", (err) => {
+      this._change("danmaku", (line) => {
+        line.innerText = `请求弹幕数据中… [失败] ${err}`;
       });
     });
     this.player.on("videoChange", async () => {

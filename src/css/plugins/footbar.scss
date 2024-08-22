@@ -18,12 +18,22 @@
       display: flex;
       flex-shrink: 0;
       height: 100%;
+      align-items: center;
+      :first-child {
+        padding-left: 4px;
+      }
     }
     &-right {
       display: flex;
       flex-grow: 1;
       height: 100%;
       justify-content: flex-end;
+    }
+    @at-root .mpui-dark {
+      .#{$prefix}-footbar {
+        background-color: $bg-dark;
+        color: $fg-dark;
+      }
     }
   }
 }

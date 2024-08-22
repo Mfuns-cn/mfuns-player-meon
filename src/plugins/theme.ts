@@ -42,6 +42,9 @@ export default class Theme extends BasePlugin {
       this.player.$el.classList.toggle("mpui-dark", e.matches);
     };
   }
+  init() {
+    this.player.define("theme", { value: this });
+  }
   apply(player: Player, options: PlayerOptions) {
     this.setTheme(options.theme || {});
   }

@@ -104,6 +104,22 @@ export default class MeonDanmakuEngine {
     bottom: [],
   };
 
+  /** 弹幕池弹幕总数 */
+  get count() {
+    return this.list.length;
+  }
+
+  /** 屏幕弹幕总数 */
+  get screenCount() {
+    let count = 0;
+    for (const ty in this.danmakuTracks) {
+      this.danmakuTracks[ty as TrackType].forEach((t) => {
+        count += t.length;
+      });
+    }
+    return count;
+  }
+
   constructor(container: HTMLDivElement, options: DanmakuEngineOptions) {
     this.container = container;
     this.fontScale = options.fontScale ?? 1;

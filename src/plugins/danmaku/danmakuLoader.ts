@@ -91,6 +91,8 @@ export default class DanmakuLoader extends BasePlugin {
 
   /** 加载弹幕 */
   private load(info: VideoInfo) {
+    console.log("this.invokes");
+    console.log(this.invokes);
     this.invokes
       .danmakuGet?.(info)
       .then((data) => this.parse(data as any, this.type))

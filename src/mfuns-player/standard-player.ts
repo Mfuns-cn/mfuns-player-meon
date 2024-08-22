@@ -15,7 +15,7 @@ import ButtonQuality from "@plugins/controls/button/ButtonQuality";
 import Quality from "@plugins/quality";
 import VideoStatus from "@plugins/enhance/ui/videoStatus";
 import LoadingMask from "@plugins/enhance/ui/loadingMask";
-import VideoTitle from "@plugins/controls/videoTitle";
+import VideoTitle from "@plugins/danmaku/controls/danmakuCount";
 import Header from "@plugins/ui/header";
 import { presetDanmaku } from "@plugins/presets/danmaku";
 import VideoQuality from "@plugins/videoOptions/qualities";

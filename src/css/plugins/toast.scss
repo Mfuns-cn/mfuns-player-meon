@@ -13,10 +13,18 @@
       height: 30px;
       margin-bottom: 4px;
       width: fit-content;
+      display: flex;
+      align-items: center;
       &-content {
         line-height: 30px;
         padding: 0 8px;
       }
+      &-close {
+        padding: 0 8px;
+      }
+    }
+    a {
+      color: $primary-color;
     }
   }
 }

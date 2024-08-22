@@ -129,7 +129,7 @@ export default class DanmakuList extends PanelPlugin {
   selected: DanmakuItem[] = [];
   private focused: DanmakuItem | null = null;
   sortedBy: keyof DanmakuItem = "time";
-  sortOrder = 1 | -1;
+  sortOrder: number = 1;
 
   list!: VirtualList<DanmakuItem>;
   /** 是否随播放自动滚动 */

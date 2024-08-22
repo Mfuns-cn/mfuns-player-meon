@@ -8,6 +8,7 @@ import DanmakuBar from "../danmaku/danmakuBar";
 import ButtonDanmakuSettings from "../danmaku/controls/ButtonDanmakuSettings";
 import DanmakuMenu from "../danmaku/danmakuMenu";
 import ButtonDanmakuStyle from "../danmaku/controls/ButtonDanmakuStyle";
+import DanmakuCount from "@plugins/danmaku/controls/danmakuCount";
 
 const danmakuPlugins = [
   Danmaku,
@@ -17,6 +18,11 @@ const danmakuPlugins = [
   DanmakuBar,
   DanmakuMenu,
 ];
-const danmakuControls = [ButtonDanmakuToggle, ButtonDanmakuSettings, ButtonDanmakuStyle];
+const danmakuControls = [
+  ButtonDanmakuToggle,
+  ButtonDanmakuSettings,
+  ButtonDanmakuStyle,
+  DanmakuCount,
+];
 
 export const presetDanmaku = [...danmakuPlugins, ...danmakuControls];

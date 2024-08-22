@@ -22,10 +22,15 @@ export default class Qualities extends BasePlugin {
     this.player.hook.register("video.beforeLoad", (info) => {
       const list = this.player.getVideoInfo().qualities;
       let quality: QualityItem = {};
-      if (!info.url && list) {
-        quality = this.prior ? this.prior(list) : list[0];
-        info.url = quality.url;
-        info.type = quality.type;
+      if (list) {
+        if (info.url) {
+          quality = list.find((item) => item.url == info.url) || { url: info.url, type: info.type };
+        } else {
+          quality =
+            list.find((item) => item.isDefault) || (this.prior ? this.prior(list) : list[0]);
+          info.url = quality.url;
+          info.type = quality.type;
+        }
       }
       this.player.quality?.updateCurrent(quality);
     });

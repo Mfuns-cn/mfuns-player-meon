@@ -122,6 +122,15 @@ export default class DanmakuEngine extends BasePlugin {
   get bold() {
     return this.core.fontWeight == "bold";
   }
+
+  /** 弹幕数 */
+  get count() {
+    return this.core.count;
+  }
+  /** 屏幕弹幕数 */
+  get screenCount() {
+    return this.core.screenCount;
+  }
   /** 类型屏蔽列表 */
   getTypeBlockList() {
     const list: string[] = (["roll", "reverse", "top", "bottom"] as TrackType[]).filter(

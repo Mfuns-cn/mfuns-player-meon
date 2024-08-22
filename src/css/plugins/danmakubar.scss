@@ -68,7 +68,7 @@
         display: block;
       }
       .#{$prefix}-danmakubar-status-login {
-        display: none;
+        display: none !important;
       }
       .#{$prefix}-danmakubar-send {
         background-color: #aaa;
@@ -190,11 +190,14 @@
       .#{$prefix}-danmakubar-status-login {
         display: block;
       }
-      @at-root .mpui-dark {
-        .#{$prefix}-danmakubar.is-login {
-          .#{$prefix}-danmakubar-input-wrap {
-            background-color: $fg-dark-xs;
-          }
+    }
+    @at-root .mpui-dark {
+      .#{$prefix}-danmakubar-input-wrap {
+        border-left: 1px solid $fg-dark-xs;
+      }
+      .#{$prefix}-danmakubar.is-login {
+        .#{$prefix}-danmakubar-input-wrap {
+          background-color: $fg-dark-xs;
         }
       }
     }
@@ -232,6 +235,10 @@
         }
       }
     }
+  }
+  &-danmakucount {
+    margin: 4px;
+    min-width: 80px;
   }
 }
 

@@ -60,9 +60,13 @@ export default class Toast extends UIPlugin {
     };
     if (opt.close) {
       const button = el.appendChild(
-        createElement("div", {
-          class: `${classPrefix}-toast-item-close`,
-        })
+        createElement(
+          "div",
+          { class: `${classPrefix}-toast-item-close` },
+          /*html*/ `
+            <i class="mpicon-close"></i>
+          `
+        )
       );
       button.onclick = () => {
         item.close();

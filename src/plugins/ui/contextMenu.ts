@@ -50,10 +50,15 @@ export default class ContextMenu extends BasePlugin {
   apply(player: Player, options: PlayerOptions): void {
     this.list = options.contextMenu?.list || [];
   }
-  setMenu(list: MenuItem[]) {
+  ready(): void {
+    this.setMenu(this.list);
+  }
+  setMenu(list: PluginFrom<MenuItem>[]) {
     this.$list.innerHTML = "";
     const fragment = new DocumentFragment();
-    list.forEach((item) => {
+    list.forEach((pi) => {
+      const item = this.player.plugin.from<MenuItem>(pi);
+      if (!item) return;
       const el = createElement("li", { class: `${classPrefix}-contextmenu-item` });
       if (item.onClick)
         el.onclick = () => {

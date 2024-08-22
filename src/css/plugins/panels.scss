@@ -35,6 +35,11 @@
     a {
       color: $primary-color;
     }
+    &-developers {
+      li {
+        display: inline;
+      }
+    }
   }
 
   /** 分P列表 */

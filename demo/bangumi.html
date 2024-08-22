@@ -267,9 +267,11 @@
         },
         invokes: {
           danmakuGet: async ({ danmakuId }) => {
-            return await fetch(`../static/danmaku/steingate/${danmakuId}.xml`).then(async (res) =>
-              new DOMParser().parseFromString(await res.text(), "text/xml")
-            );
+            return await fetch(`../static/danmaku/steingate/${danmakuId}.xml`).then(async (res) => {
+              const a = new DOMParser().parseFromString(await res.text(), "text/xml");
+              console.log(a);
+              return a;
+            });
           },
           danmakuSend: async (danmaku, { danmakuId }) => {
             console.log(
@@ -310,6 +312,10 @@
               message: "屏蔽成功",
             };
           },
+          widescreenToggle: (flag) => {
+            console.log(flag);
+            playerExtra.style.display = flag ? "none" : "";
+          },
         },
         loadingMask: {
           getTips: async () => {
@@ -337,11 +343,24 @@
         lastPosition: getConfig("lastPosition"),
         autoPlay: getConfig("autoPlay"),
         mini: getConfig("mini"),
-        invokes: {
-          widescreenToggle: (flag) => {
-            console.log(flag);
-            playerExtra.style.display = flag ? "none" : "";
-          },
+        contextMenu: {
+          list: [
+            {
+              content: "快捷键说明",
+              onClick: (player) => {
+                player.plugins.hotkeyInfo?.toggle(true);
+              },
+            },
+            {
+              content: `Mfuns Player v${MfunsPlayer.version}`,
+              onClick: (player) => {
+                player.plugins.about?.toggle(true);
+              },
+            },
+          ],
+        },
+        modal: {
+          panels: ["about", "hotkeyInfo"],
         },
 
         // advancedDanmaku:{

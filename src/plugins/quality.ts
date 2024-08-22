@@ -40,6 +40,8 @@ export interface QualityItem {
   type?: string;
   /** 视频质量描述 */
   quality?: string;
+  /** 默认质量 */
+  isDefault?: boolean;
   /** 视频质量切换逻辑 */
   change?: (url?: string) => Promise<void>;
 }

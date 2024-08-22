@@ -131,12 +131,12 @@ export default class DanmakuBar extends ControlsPlugin {
   apply(player: Player, options: PlayerOptions): void {
     if (options.danmakuBar?.loginRequired) {
       this.#loginRequired = true;
-      !player.userId && this.setLoginStatus(true);
     }
     this.setPlaceHolder(options.danmakuBar?.placeholder || defaultPlaceholder);
     this.controls = options.danmakuBar?.controls || {};
   }
   ready() {
+    this.#loginRequired && !this.player.userId && this.setLoginStatus(true);
     this.setControls(this.controls);
   }
   /** 更新控制组件 */

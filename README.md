@@ -75,7 +75,7 @@ interface PlayerOptions {
   /** 外部扩展库(插件用) */
   externals?: PlayerExternals;
   /** 播放器调用的外部函数(插件用) */
-  invoke?: PlayerInvokes;
+  invokes?: PlayerInvokes;
 }
 ```
 

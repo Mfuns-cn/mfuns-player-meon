@@ -19,7 +19,7 @@ import Quality from "@plugins/quality";
 import ButtonQuality from "@plugins/controls/button/ButtonQuality";
 import VideoStatus from "@plugins/enhance/ui/videoStatus";
 import LoadingMask from "@plugins/enhance/ui/loadingMask";
-import VideoTitle from "@plugins/controls/videoTitle";
+import VideoTitle from "@plugins/danmaku/controls/danmakuCount";
 import Header from "@plugins/ui/header";
 import Mini from "@plugins/enhance/ui/mini";
 import LightOff from "@plugins/enhance/ui/lightOff";
@@ -81,6 +81,7 @@ export class Player extends CorePlayer {
       mergeOptions(
         {
           autoPart: true,
+          header: { controls: { left: ["videoTitle"] } },
           controller: {
             controls: {
               top: ["progress"],
@@ -106,6 +107,7 @@ export class Player extends CorePlayer {
           },
           footbar: {
             controls: {
+              left: ["danmakuCount"],
               right: ["danmakuBar"],
             },
           },

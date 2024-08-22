@@ -47,7 +47,6 @@ export default class AspectRatio extends BasePlugin {
     });
   }
   mounted(): void {
-    console.log("233333311111111");
     this.observer?.observe(this.player.$area);
     this._setRatio(this.#ratio);
   }
