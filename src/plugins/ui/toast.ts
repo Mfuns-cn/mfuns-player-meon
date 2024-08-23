@@ -85,4 +85,8 @@ export default class Toast extends UIPlugin {
   public remove(item: ToastItem) {
     item.close();
   }
+  /** 清除所有toast消息 */
+  public clear() {
+    this.$el.innerHTML = "";
+  }
 }

@@ -7,7 +7,7 @@ var M = (i, t, e) => (li(i, t, "read from private field"), e ? e.call(i) : t.get
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(i) : t.set(i, e);
 }, E = (i, t, e, s) => (li(i, t, "write to private field"), s ? s.call(i, e) : t.set(i, e), e);
-const Xi = /mobile/i.test(window.navigator.userAgent), Ti = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || !1, Ai = document.pictureInPictureEnabled || !1;
+const Xi = /mobile/i.test(window.navigator.userAgent), Si = document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || !1, Ai = document.pictureInPictureEnabled || !1;
 function u(i, t, e) {
   const s = document.createElement(i);
   if (t)
@@ -103,7 +103,7 @@ const ja = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   createElement: u,
   dateFormat: Ge,
   debounce: _t,
-  fullScreenEnabled: Ti,
+  fullScreenEnabled: Si,
   isMobile: Xi,
   isPlainObject: Et,
   mergeOptions: Fi,
@@ -114,7 +114,7 @@ const ja = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: ft,
   throttle: Hi,
   timeToSecond: Vt
-}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Gi = "3.0.0-alpha.10", Zi = "3e8086a", Ji = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Qi = [
+}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Gi = "3.0.0-alpha.11", Zi = "f453182", Ji = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Qi = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], oi = {
@@ -671,11 +671,11 @@ class ct {
       )
     ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.$el.addEventListener("mousedown", ($) => {
       var w;
-      const b = $, { clientX: S } = b, T = this.$track.offsetWidth;
+      const b = $, { clientX: T } = b, S = this.$track.offsetWidth;
       let m = this.$thumbTrack.offsetWidth;
-      m = m || T;
-      const v = (T - m) / 2, d = this.$el.getBoundingClientRect().left;
-      let g = S - d - v;
+      m = m || S;
+      const v = (S - m) / 2, d = this.$el.getBoundingClientRect().left;
+      let g = T - d - v;
       g = g >= m ? m : g <= 0 ? 0 : g;
       const L = this.step ? Math.round(g / m * (this.max - this.min) / this.step) * this.step + this.min : g / m * (this.max - this.min) + this.min;
       (w = this.onDragStart) == null || w.call(this, L), this.value != L && this.drag(L);
@@ -753,21 +753,21 @@ class Ri {
       ln
     ), this.$track = this.$el.querySelector(".mpui-slider-track"), this.$bar = this.$track.querySelector(".mpui-slider-bar"), this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track"), this.$thumb = this.$track.querySelector(".mpui-slider-thumb"), this.container.appendChild(this.$el), this.$el.addEventListener("mousedown", (p) => {
       var A;
-      const $ = p, { clientY: b } = $, S = this.$track.offsetHeight;
-      let T = this.$thumbTrack.offsetHeight;
-      T = T || S;
-      const m = (S - T) / 2, v = this.$el.getBoundingClientRect().top;
-      let d = T - (b - v - m);
-      d = d >= T ? T : d <= 0 ? 0 : d;
-      const g = this.step ? Math.round(d / T * (this.max - this.min) / this.step) * this.step + this.min : d / T * (this.max - this.min) + this.min;
+      const $ = p, { clientY: b } = $, T = this.$track.offsetHeight;
+      let S = this.$thumbTrack.offsetHeight;
+      S = S || T;
+      const m = (T - S) / 2, v = this.$el.getBoundingClientRect().top;
+      let d = S - (b - v - m);
+      d = d >= S ? S : d <= 0 ? 0 : d;
+      const g = this.step ? Math.round(d / S * (this.max - this.min) / this.step) * this.step + this.min : d / S * (this.max - this.min) + this.min;
       (A = this.onDragStart) == null || A.call(this, g), this.value != g && this.drag(g);
       const L = (w) => {
         var N;
         const x = w, { clientY: H } = x;
         x.preventDefault(), x.stopPropagation();
-        let y = T - (H - v - m);
-        y = y >= T ? T : y <= 0 ? 0 : y;
-        const _ = this.step ? Math.round(y / T * (this.max - this.min) / this.step) * this.step + this.min : y / T * (this.max - this.min) + this.min;
+        let y = S - (H - v - m);
+        y = y >= S ? S : y <= 0 ? 0 : y;
+        const _ = this.step ? Math.round(y / S * (this.max - this.min) / this.step) * this.step + this.min : y / S * (this.max - this.min) + this.min;
         this.value != _ && this.drag(_), (N = window.getSelection()) == null || N.removeAllRanges();
       }, k = (w) => {
         var H, y;
@@ -811,8 +811,8 @@ const dn = (i, t) => {
     let c, p, $ = -1, b = 0;
     for (; b < o.length && (l.lastIndex = b, p = l.exec(o), p !== null); )
       b = l.lastIndex, l === ht ? p[1] === "!--" ? l = ci : p[1] !== void 0 ? l = di : p[2] !== void 0 ? (Ii.test(p[2]) && (n = RegExp("</" + p[2], "g")), l = j) : p[3] !== void 0 && (l = j) : l === j ? p[0] === ">" ? (l = n ?? ht, $ = -1) : p[1] === void 0 ? $ = -2 : ($ = l.lastIndex - p[2].length, c = p[1], l = p[3] === void 0 ? j : p[3] === '"' ? pi : ui) : l === pi || l === ui ? l = j : l === ci || l === di ? l = ht : (l = j, n = void 0);
-    const S = l === j && i[h + 1].startsWith("/>") ? " " : "";
-    r += l === ht ? o + on : $ >= 0 ? (s.push(c), o.slice(0, $) + Bt + o.slice($) + V + S) : o + V + ($ === -2 ? (s.push(void 0), h) : S);
+    const T = l === j && i[h + 1].startsWith("/>") ? " " : "";
+    r += l === ht ? o + on : $ >= 0 ? (s.push(c), o.slice(0, $) + Bt + o.slice($) + V + T) : o + V + ($ === -2 ? (s.push(void 0), h) : T);
   }
   return [zi(i, r + (i[e] || "<?>") + (t === 2 ? "</svg>" : "")), s];
 };
@@ -832,10 +832,10 @@ class gt {
           const $ = [];
           for (const b of n.getAttributeNames())
             if (b.endsWith(Bt) || b.startsWith(V)) {
-              const S = p[l++];
-              if ($.push(b), S !== void 0) {
-                const T = n.getAttribute(S.toLowerCase() + Bt).split(V), m = /([.?@])?(.*)/.exec(S);
-                o.push({ type: 1, index: r, name: m[2], strings: T, ctor: m[1] === "." ? pn : m[1] === "?" ? vn : m[1] === "@" ? gn : Mt });
+              const T = p[l++];
+              if ($.push(b), T !== void 0) {
+                const S = n.getAttribute(T.toLowerCase() + Bt).split(V), m = /([.?@])?(.*)/.exec(T);
+                o.push({ type: 1, index: r, name: m[2], strings: S, ctor: m[1] === "." ? pn : m[1] === "?" ? vn : m[1] === "@" ? gn : Mt });
               } else
                 o.push({ type: 6, index: r });
             }
@@ -846,8 +846,8 @@ class gt {
           const $ = n.textContent.split(V), b = $.length - 1;
           if (b > 0) {
             n.textContent = rt ? rt.emptyScript : "";
-            for (let S = 0; S < b; S++)
-              n.append($[S], pt()), U.nextNode(), o.push({ type: 2, index: ++r });
+            for (let T = 0; T < b; T++)
+              n.append($[T], pt()), U.nextNode(), o.push({ type: 2, index: ++r });
             n.append($[b], pt());
           }
         }
@@ -1337,13 +1337,13 @@ const wn = (
   const c = e;
   if (c.length) {
     const p = u("div", { class: "list-operate" });
-    c.forEach(([$, b, S]) => {
-      if (!S)
+    c.forEach(([$, b, T]) => {
+      if (!T)
         return;
-      const T = u("div", { class: "list-operate-btn" }, $);
-      T.onclick = (m) => {
+      const S = u("div", { class: "list-operate-btn" }, $);
+      S.onclick = (m) => {
         m.stopPropagation(), b(i);
-      }, p.appendChild(T);
+      }, p.appendChild(S);
     }), o.appendChild(p);
   }
   return o;
@@ -1424,7 +1424,7 @@ const wn = (
         selected: this.selected.includes(n),
         focused: this.focused == n,
         title: `${n.content}
-${n.date ? Ge(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${ft(n.time, 16)}`
+${n.date ? Ge(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "--"} @ ${ft(n.time, 2)}`
       }),
       overflow: 5
     });
@@ -1681,7 +1681,7 @@ const En = (
 };
 is.pluginName = "buttonPrev";
 let Ut = is;
-const Sn = (
+const Tn = (
   /*html*/
   `
   <div class="${a}-controls-button-icon">
@@ -1696,7 +1696,7 @@ const Sn = (
       u(
         "div",
         { class: `${a}-controls-button ${a}-button-next` },
-        Sn
+        Tn
       )
     ), this.singleHide = !0, this.$icon = this.$(`.${a}-controls-button-icon`), this.$tooltip = this.$(".mpui-tooltip");
   }
@@ -1725,7 +1725,7 @@ const Sn = (
 };
 ns.pluginName = "buttonNext";
 let Xt = ns;
-const Tn = (
+const Sn = (
   /*html*/
   `
   <div class="${a}-videotime-label">
@@ -1737,7 +1737,7 @@ const Tn = (
 `
 ), as = class as extends F {
   constructor(t) {
-    super(t, u("div", { class: `${a}-videotime` }, Tn)), this.valueBeforeEdited = "", this.timeFormat = 2, this.$label = this.$(`.${a}-videotime-label`), this.$current = this.$(`.${a}-videotime-current`), this.$total = this.$(`.${a}-videotime-total`), this.$input = this.$(`.${a}-videotime-input`);
+    super(t, u("div", { class: `${a}-videotime` }, Sn)), this.valueBeforeEdited = "", this.timeFormat = 2, this.$label = this.$(`.${a}-videotime-label`), this.$current = this.$(`.${a}-videotime-current`), this.$total = this.$(`.${a}-videotime-total`), this.$input = this.$(`.${a}-videotime-input`);
   }
   init() {
     this.player.on("timeupdate", (t) => {
@@ -2065,7 +2065,7 @@ const Nn = (
     });
   }
   get ignored() {
-    return !this.player.enterFullscreen || !Ti;
+    return !this.player.enterFullscreen || !Si;
   }
 };
 ps.pluginName = "buttonFullscreen";
@@ -2700,7 +2700,7 @@ const Es = class Es extends f {
 Es.pluginName = "user";
 let me = Es;
 var I, B;
-const Ss = class Ss extends f {
+const Ts = class Ts extends f {
   constructor(e) {
     super(e);
     R(this, I, void 0);
@@ -2731,9 +2731,9 @@ const Ss = class Ss extends f {
     });
   }
 };
-I = new WeakMap(), B = new WeakMap(), Ss.pluginName = "stateActive";
-let ve = Ss;
-const Ts = class Ts extends f {
+I = new WeakMap(), B = new WeakMap(), Ts.pluginName = "stateActive";
+let ve = Ts;
+const Ss = class Ss extends f {
   constructor(t) {
     super(t), this.player.define("isFocused", {
       get: () => this.status
@@ -2759,8 +2759,8 @@ const Ts = class Ts extends f {
     return this.player.$el.classList.contains("is-focus");
   }
 };
-Ts.pluginName = "stateFocus";
-let ge = Ts;
+Ss.pluginName = "stateFocus";
+let ge = Ss;
 var G = [], Cn = function() {
   return G.some(function(i) {
     return i.activeTargets.length > 0;
@@ -2839,7 +2839,7 @@ var Z = function(i) {
     return wt.get(i);
   if (Bi(i))
     return wt.set(i, yi), yi;
-  var e = getComputedStyle(i), s = Je(i) && i.ownerSVGElement && i.getBBox(), n = !Kn && e.boxSizing === "border-box", r = Yn.test(e.writingMode || ""), l = !s && fi.test(e.overflowY || ""), h = !s && fi.test(e.overflowX || ""), o = s ? 0 : D(e.paddingTop), c = s ? 0 : D(e.paddingRight), p = s ? 0 : D(e.paddingBottom), $ = s ? 0 : D(e.paddingLeft), b = s ? 0 : D(e.borderTopWidth), S = s ? 0 : D(e.borderRightWidth), T = s ? 0 : D(e.borderBottomWidth), m = s ? 0 : D(e.borderLeftWidth), v = $ + c, d = o + p, g = m + S, L = b + T, k = h ? i.offsetHeight - L - i.clientHeight : 0, A = l ? i.offsetWidth - g - i.clientWidth : 0, w = n ? v + g : 0, x = n ? d + L : 0, H = s ? s.width : D(e.width) - w - A, y = s ? s.height : D(e.height) - x - k, _ = H + v + A + g, N = y + d + k + L, ot = Z({
+  var e = getComputedStyle(i), s = Je(i) && i.ownerSVGElement && i.getBBox(), n = !Kn && e.boxSizing === "border-box", r = Yn.test(e.writingMode || ""), l = !s && fi.test(e.overflowY || ""), h = !s && fi.test(e.overflowX || ""), o = s ? 0 : D(e.paddingTop), c = s ? 0 : D(e.paddingRight), p = s ? 0 : D(e.paddingBottom), $ = s ? 0 : D(e.paddingLeft), b = s ? 0 : D(e.borderTopWidth), T = s ? 0 : D(e.borderRightWidth), S = s ? 0 : D(e.borderBottomWidth), m = s ? 0 : D(e.borderLeftWidth), v = $ + c, d = o + p, g = m + T, L = b + S, k = h ? i.offsetHeight - L - i.clientHeight : 0, A = l ? i.offsetWidth - g - i.clientWidth : 0, w = n ? v + g : 0, x = n ? d + L : 0, H = s ? s.width : D(e.width) - w - A, y = s ? s.height : D(e.height) - x - k, _ = H + v + A + g, N = y + d + k + L, ot = Z({
     devicePixelContentBoxSize: st(Math.round(H * devicePixelRatio), Math.round(y * devicePixelRatio), r),
     borderBoxSize: st(_, N, r),
     contentBoxSize: st(H, y, r),
@@ -2915,8 +2915,8 @@ var Z = function(i) {
   ta(function() {
     requestAnimationFrame(i);
   });
-}, St = 0, sa = function() {
-  return !!St;
+}, Tt = 0, sa = function() {
+  return !!Tt;
 }, ia = 250, na = { attributes: !0, characterData: !0, childList: !0, subtree: !0 }, ki = [
   "resize",
   "load",
@@ -2976,7 +2976,7 @@ var Z = function(i) {
     }), this.stopped = !0);
   }, i;
 }(), $e = new aa(), xi = function(i) {
-  !St && i > 0 && $e.start(), St += i, !St && $e.stop();
+  !Tt && i > 0 && $e.start(), Tt += i, !Tt && $e.stop();
 }, ra = function(i) {
   return !Je(i) && !Xn(i) && getComputedStyle(i).display === "inline";
 }, la = function() {
@@ -3130,6 +3130,10 @@ class ha extends yt {
   /** 移除toast消息 */
   remove(t) {
     t.close();
+  }
+  /** 清除所有toast消息 */
+  clear() {
+    this.$el.innerHTML = "";
   }
 }
 const ca = [
@@ -3421,7 +3425,7 @@ const ma = (i, t) => i.map(
   }
 };
 Ds.pluginName = "partList";
-let Se = Ds;
+let Te = Ds;
 const va = (
   /*html*/
   `
@@ -3451,7 +3455,7 @@ const va = (
   }
 };
 Is.pluginName = "buttonDanmakuList";
-let Te = Is;
+let Se = Is;
 const zs = class zs extends f {
   constructor() {
     super(...arguments), this.current = null, this.target = null, this.list = [];
@@ -3810,8 +3814,8 @@ const js = class js extends f {
       console.log([r, l]);
       const h = s - r, o = n - l, c = ($) => {
         E(this, at, !0);
-        const { clientX: b, clientY: S } = $;
-        this.$el.style.left = `${b - h}px`, this.$el.style.top = `${S - o}px`;
+        const { clientX: b, clientY: T } = $;
+        this.$el.style.left = `${b - h}px`, this.$el.style.top = `${T - o}px`;
       }, p = () => {
         this.$el.removeEventListener("mousemove", c), document.removeEventListener("mouseup", p), requestAnimationFrame(() => {
           E(this, at, !1);
@@ -3962,7 +3966,7 @@ const Xs = class Xs extends f {
 };
 Xs.pluginName = "danmaku";
 let De = Xs;
-var Tt = /* @__PURE__ */ ((i) => (i[i.roll = 1] = "roll", i[i.bottom = 4] = "bottom", i[i.top = 5] = "top", i[i.reverse = 6] = "reverse", i[i.special = 7] = "special", i[i.advanced = 9] = "advanced", i))(Tt || {});
+var St = /* @__PURE__ */ ((i) => (i[i.roll = 1] = "roll", i[i.bottom = 4] = "bottom", i[i.top = 5] = "top", i[i.reverse = 6] = "reverse", i[i.special = 7] = "special", i[i.advanced = 9] = "advanced", i))(St || {});
 class ba {
   constructor(t, e) {
     this.paused = !1, this.hidden = !1, this.time = 0, this.list = [], this.currentIndex = 0, this.measureContext = null, this.startDistance = 2, this.timeOffset = 0, this.baseSpeed = 100, this.baseDuration = 5, this.deltaSpeed = 2e-3, this.trackHeights = {
@@ -4080,7 +4084,7 @@ class ba {
   }
   /** 检查弹幕类型过滤 */
   checkTrackFilter(t) {
-    return !this.trackFilter[Tt[t.mode]];
+    return !this.trackFilter[St[t.mode]];
   }
   /** 设置弹幕颜色过滤 */
   setColorFilter(t) {
@@ -4142,7 +4146,7 @@ class ba {
   }
   /** 绘制弹幕 */
   draw(t) {
-    var b, S, T;
+    var b, T, S;
     const e = this.baseTrackHeight * this.fontScale, s = this.container.offsetWidth, n = this.container.offsetHeight * this.limitArea, r = Math.floor(n / e);
     this.trackHeights.roll.length !== r && (this.trackHeights.roll = new Array(r).fill(e)), this.trackHeights.reverse.length !== r && (this.trackHeights.reverse = new Array(r).fill(e)), this.trackHeights.top.length !== r && (this.trackHeights.top = new Array(r).fill(e)), this.trackHeights.bottom.length !== r && (this.trackHeights.bottom = new Array(r).fill(e));
     const l = (m) => {
@@ -4196,7 +4200,7 @@ class ba {
       if (v.mode >= 7)
         continue;
       const d = document.createElement("div");
-      d.classList.add(`${this.classPrefix}-danmaku-item`), d.classList.add(`${this.classPrefix}-danmaku-${Tt[v.mode]}`), d.innerHTML = `${v.content.replace(/(\\n)/g, `
+      d.classList.add(`${this.classPrefix}-danmaku-item`), d.classList.add(`${this.classPrefix}-danmaku-${St[v.mode]}`), d.innerHTML = `${v.content.replace(/(\\n)/g, `
 `)}`, typeof v.color == "number" ? d.style.color = Mi(v.color) : d.style.color = v.color, d.style.opacity = this.opacity.toString(), d.style.fontSize = +v.size * this.fontScale + "px", v.fromHere && (d.style.border = "2px solid white"), d.addEventListener("animationend", () => {
         [...this.container.children].indexOf(d) > -1 && this.container.removeChild(d);
       });
@@ -4204,7 +4208,7 @@ class ba {
         v.content,
         `${this.fontWeight} ${+v.size * this.fontScale}px ${this.fontFamily}`
       );
-      let L = Tt[v.mode], k, A;
+      let L = St[v.mode], k, A;
       switch (L) {
         case "roll":
         case "reverse":
@@ -4225,7 +4229,7 @@ class ba {
               w.push(...y);
             const H = w.map((y) => parseInt(y.style.fontSize) + this.trackPadding).slice(0, k).reduce((y, _) => y + _, 0);
             if (H + parseInt(d.style.fontSize) + this.trackPadding > n) {
-              (S = this.danmakuTracks[L][m]) == null || S.pop();
+              (T = this.danmakuTracks[L][m]) == null || T.pop();
               return;
             }
             d.dataset.track = k.toString(), d.style.width = g + 1 + "px", d.style.marginLeft = `-${(g + 1) * 0.5}px`, d.style.top = H + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
@@ -4238,7 +4242,7 @@ class ba {
               w.push(...y);
             const H = w.map((y) => parseInt(y.style.fontSize) + this.trackPadding).slice(0, k).reduce((y, _) => y + _, 0);
             if (H + parseInt(d.style.fontSize) + this.trackPadding > n) {
-              (T = this.danmakuTracks[L][m]) == null || T.pop();
+              (S = this.danmakuTracks[L][m]) == null || S.pop();
               return;
             }
             d.dataset.track = k.toString(), d.style.width = g + 1 + "px", d.style.marginLeft = `-${(g + 1) * 0.5}px`, d.style.bottom = H + "px", d.style.fontFamily = this.fontFamily, d.style.fontWeight = this.fontWeight, d.style.setProperty("--duration", `${this.baseDuration / this.speed}s`);
@@ -4260,8 +4264,8 @@ class ba {
     const r = [], l = this.container.querySelectorAll(`.${this.classPrefix}-danmaku-item`);
     for (const h of l)
       if (h.innerHTML) {
-        const o = h.getBoundingClientRect(), c = this.container.getBoundingClientRect(), p = o.left - c.left, $ = o.right - c.left, b = o.top - c.top, S = o.bottom - c.top;
-        if (t >= p - s && t <= $ + s && e >= b - s && e <= S + s && (r.push(h), n))
+        const o = h.getBoundingClientRect(), c = this.container.getBoundingClientRect(), p = o.left - c.left, $ = o.right - c.left, b = o.top - c.top, T = o.bottom - c.top;
+        if (t >= p - s && t <= $ + s && e >= b - s && e <= T + s && (r.push(h), n))
           return r;
       }
     return r;
@@ -4413,7 +4417,7 @@ const Ys = class Ys extends f {
 };
 Ys.pluginName = "danmakuEngine";
 let Ie = Ys, Ei = 1e3;
-const Si = [
+const Ti = [
   "1",
   "2",
   "3",
@@ -4452,9 +4456,9 @@ const Si = [
   "z"
 ];
 function ka() {
-  const i = [], t = Si.length;
+  const i = [], t = Ti.length;
   for (let e = 0; e < 8; e++)
-    i.push(Si[Math.floor(Math.random() * t)]);
+    i.push(Ti[Math.floor(Math.random() * t)]);
   return Ei++, i.join("") + `${Ei}`;
 }
 const Ks = class Ks extends f {
@@ -4810,7 +4814,7 @@ const Js = class Js extends F {
 };
 C = new WeakMap(), Js.pluginName = "danmakuBar";
 let Be = Js;
-const Ea = "发条弹幕吧~", Sa = (
+const Ea = "发条弹幕吧~", Ta = (
   /*html*/
   `
   <div class="${a}-controls-button-icon">
@@ -4862,7 +4866,7 @@ const Ea = "发条弹幕吧~", Sa = (
       u(
         "div",
         { class: `${a}-controls-button ${a}-button-danmakusettings` },
-        Sa
+        Ta
       )
     ), this.$icon = this.$(`.${a}-controls-button-icon`), this.$filterPicker = this.$(`.${a}-danmaku-settings-filter-picker`), this.$opacitySlider = this.$(`.${a}-danmaku-settings-opacity-slider`), this.$areaSlider = this.$(`.${a}-danmaku-settings-area-slider`), this.$sizeSlider = this.$(`.${a}-danmaku-settings-size-slider`), this.$speedSlider = this.$(`.${a}-danmaku-settings-speed-slider`), this.$opacityValue = this.$(`.${a}-danmaku-settings-opacity-value`), this.$areaValue = this.$(`.${a}-danmaku-settings-area-value`), this.$sizeValue = this.$(`.${a}-danmaku-settings-size-value`), this.$speedValue = this.$(`.${a}-danmaku-settings-speed-value`);
   }
@@ -4936,7 +4940,7 @@ const Ea = "发条弹幕吧~", Sa = (
 };
 Qs.pluginName = "buttonDanmakuSettings";
 let qe = Qs;
-const Ta = (i, t, e, s) => O`
+const Sa = (i, t, e, s) => O`
   ${i.map(
   (n) => O`
       <li
@@ -4979,7 +4983,7 @@ const Ta = (i, t, e, s) => O`
   update(t) {
     const e = this.player.invokes, s = this.plugins.danmakuOperate;
     t != null && t.length ? this.$el.style.display = "" : this.$el.style.display = "none", Ft(
-      Ta(
+      Sa(
         t,
         (n) => {
           const r = this.player.userId && n.user == this.player.userId;
@@ -5449,7 +5453,7 @@ const za = [
   Pe,
   Re,
   Ke
-], Oa = [ie, ne, Se], Va = [ee, te, Te, He, Ht], Ba = [Xe, We, Ue], qa = [
+], Oa = [ie, ne, Te], Va = [ee, te, Se, He, Ht], Ba = [Xe, We, Ue], qa = [
   ...Na,
   ...pa,
   ...za,

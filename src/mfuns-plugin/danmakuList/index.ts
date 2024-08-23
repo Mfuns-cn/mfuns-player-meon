@@ -278,8 +278,8 @@ export default class DanmakuList extends PanelPlugin {
           selected: this.selected.includes(danmaku),
           focused: this.focused == danmaku,
           title: `${danmaku.content}\n${
-            danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yyyy-MM-dd HH:mm:ss") : "-"
-          } @ ${secondToTime(danmaku.time, 0x0010)}`,
+            danmaku.date ? dateFormat(new Date(danmaku.date * 1000), "yyyy-MM-dd HH:mm:ss") : "--"
+          } @ ${secondToTime(danmaku.time, 0b0010)}`,
         }),
       overflow: 5,
     });

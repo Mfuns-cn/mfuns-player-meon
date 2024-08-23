@@ -114,7 +114,7 @@ const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: mt,
   throttle: ui,
   timeToSecond: Nt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Pi = "3.0.0-alpha.10", Ri = "3e8086a", Di = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ni = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Pi = "3.0.0-alpha.11", Ri = "f453182", Di = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ni = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], js = {
@@ -1424,7 +1424,7 @@ const rn = (
         selected: this.selected.includes(n),
         focused: this.focused == n,
         title: `${n.content}
-${n.date ? Ie(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "-"} @ ${mt(n.time, 16)}`
+${n.date ? Ie(new Date(n.date * 1e3), "yyyy-MM-dd HH:mm:ss") : "--"} @ ${mt(n.time, 2)}`
       }),
       overflow: 5
     });
@@ -3077,6 +3077,10 @@ class Un extends St {
   /** 移除toast消息 */
   remove(t) {
     t.close();
+  }
+  /** 清除所有toast消息 */
+  clear() {
+    this.$el.innerHTML = "";
   }
 }
 const Xn = [
