@@ -114,7 +114,7 @@ const Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: mt,
   throttle: ui,
   timeToSecond: Nt
-}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Pi = "3.0.0-alpha.9", Ri = "3770208", Di = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ni = [
+}, Symbol.toStringTag, { value: "Module" })), r = "mfuns-player", Pi = "3.0.0-alpha.10", Ri = "3e8086a", Di = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Ni = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], js = {
@@ -4368,20 +4368,18 @@ const rr = {
   async send(t) {
     if (!this.invokes.danmakuSend)
       throw "发送失败";
-    return await this.invokes.danmakuSend(t, this.player.getVideoInfo()).then((e) => (this.danmaku.add(
-      [
-        Object.assign(
-          {
-            id: `send:${Date.now()}`,
-            date: Math.floor(Date.now() / 1e3),
-            user: this.player.userId || 0,
-            fromHere: !0
-          },
-          e || t
-        )
-      ],
-      !0
-    ), e)).catch((e) => {
+    return await this.invokes.danmakuSend(t, this.player.getVideoInfo()).then((e) => {
+      const s = Object.assign(
+        {
+          id: `send:${Date.now()}`,
+          date: Math.floor(Date.now() / 1e3),
+          user: this.player.userId || 0,
+          fromHere: !0
+        },
+        e || t
+      );
+      return this.danmaku.add([s], !0), s;
+    }).catch((e) => {
       throw e;
     });
   }

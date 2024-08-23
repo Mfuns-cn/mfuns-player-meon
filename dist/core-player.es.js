@@ -114,7 +114,7 @@ const ue = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: Tt,
   throttle: Mt,
   timeToSecond: Lt
-}, Symbol.toStringTag, { value: "Module" })), O = "mfuns-player", Rt = "3.0.0-alpha.9", It = "3770208", de = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", pe = [
+}, Symbol.toStringTag, { value: "Module" })), O = "mfuns-player", Rt = "3.0.0-alpha.10", It = "3e8086a", de = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", pe = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], ht = {

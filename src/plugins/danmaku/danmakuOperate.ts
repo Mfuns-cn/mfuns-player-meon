@@ -34,22 +34,18 @@ export default class DanmakuOperate extends BasePlugin {
     if (!this.invokes.danmakuSend) throw "发送失败";
     return await this.invokes
       .danmakuSend(danmaku, this.player.getVideoInfo())
-      .then((dm) => {
-        // 操作成功后添加弹幕到弹幕池
-        this.danmaku!.add(
-          [
-            Object.assign(
-              {
-                id: `send:${Date.now()}`,
-                date: Math.floor(Date.now() / 1000),
-                user: this.player.userId || 0,
-                fromHere: true,
-              },
-              dm || danmaku
-            ),
-          ],
-          true
+      .then((resDm) => {
+        const dm = Object.assign(
+          {
+            id: `send:${Date.now()}`,
+            date: Math.floor(Date.now() / 1000),
+            user: this.player.userId || 0,
+            fromHere: true,
+          },
+          resDm || danmaku
         );
+        // 操作成功后添加弹幕到弹幕池
+        this.danmaku!.add([dm], true);
         return dm;
       })
       .catch((e) => {
