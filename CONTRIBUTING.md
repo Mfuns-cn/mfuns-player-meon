@@ -9,7 +9,7 @@
 ### 添加项目
 
 - `git clone url` 到本地添加项目文件
-- v3 版本处于开发阶段，故暂无主分支，公共开发分支为 `develop`，个人开发分支命名为 `dev-xxx`，特性分支命名为`feat-xxx`
+- 项目主分支为 `main`，公共开发分支为 `develop`，个人开发分支命名为 `dev-xxx`，特性分支命名为`feat-xxx`
 - 进入本地 git pull -p 将所有远程分支拉取到本地
 
 ### 开发分支创建
@@ -100,29 +100,34 @@
 ```
 mfuns-player
 ├─.vscode       // vscode编辑器配置
-├─demo/         // 展示用文件
-├─dist/         // 编译文件
+├─demo/         // 演示网页
+├─dist/         // 编译打包文件
+├─lib/          // 库文件
 ├─src/          // 源代码
-| ├─css/          // 样式文件
-| | ├─plugins/        // 插件ui样式
-| | ├─font-icon.scss  // 字体图标文件
-| | ├─player.scss     // 播放器主体样式
-| | ├─theme.scss      // 样式变量
-| | └─index.scss      // 主体css文件
-| └─core/           // 播放器核心文件
-|   ├─components/   // 组件
-|   ├─module/       // 核心模块
-|   ├─types/        // 类型
-|   ├─utils/        // 工具函数
-|   ├─config.ts     // 播放器开发配置
-|   ├─player.ts     // 播放器主体
-|   ├─plugin.ts     // 插件类
-|   └─index.ts      // 索引文件
-├─globals.d.ts        // 全局类型声明文件
-├─package.json        // 包配置文件
-├─tsconfig.json       // Typescript配置文件
-├─.eslintrc.js        // ESLint配置文件
-├─.prettierrc.js      // Prettier配置文件
-└─vite.config.js      // vite配置文件
+| ├─css/            // 样式文件
+| | ├─plugins/          // 插件ui样式
+| | ├─font-icon.scss    // 字体图标文件
+| | ├─player.scss       // 播放器主体样式
+| | ├─theme.scss        // 样式变量
+| | └─index.scss        // 主体css文件
+| ├─icon/           // 图标
+| ├─core/           // 播放器核心库
+| | ├─components/     // 组件
+| | ├─module/         // 核心模块
+| | ├─types/          // 类型
+| | ├─utils/          // 工具函数
+| | ├─config.ts       // 播放器开发配置
+| | ├─player.ts       // 播放器主体
+| | ├─plugin.ts       // 插件类
+| | └─index.ts        // 入口文件
+| ├─plugins/        // 播放器插件库
+| ├─mfuns-plugins/  // mfuns插件
+| └─mfuns-player/   // mfuns播放器预设
+├─globals.d.ts    // 全局类型声明文件
+├─package.json    // 包配置文件
+├─tsconfig.json   // Typescript配置文件
+├─.eslintrc.js    // ESLint配置文件
+├─.prettierrc.js  // Prettier配置文件
+└─vite.config.js  // vite配置文件
 
 ```

@@ -5,8 +5,8 @@ import { createElement } from "@/utils";
 
 const templateHTML = /*html*/ `
   <div class="${classPrefix}-about-logo"></div>
-  <div class="${classPrefix}-about-version">version ${Player.version}-${Player.gitHash}</div>
-  <div>github：<a href="${repositoryLink}" target="_blank">mfuns-cn/mfunsPlayer</a></div>
+  <div class="${classPrefix}-about-version">Mfuns Player (Meon) | version ${Player.version}-${Player.gitHash}</div>
+  <div>github：<a href="${repositoryLink}" target="_blank">mfuns-cn/mfuns-player-meon</a></div>
   <div>开发者：</div>
   <ul class="${classPrefix}-about-developers">
     ${developers
