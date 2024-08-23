@@ -131,4 +131,6 @@ export interface PlayerSetValueMap {
   muted: boolean;
   /** 循环 */
   loop: boolean;
+  /** 自动播放 */
+  autoplay: boolean;
 }

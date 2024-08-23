@@ -97,7 +97,7 @@ export class Player {
     this.emit("mounted");
 
     // 装载视频
-    this._videoController.set(options.video || {}, options.autoPlay, options.time);
+    this._videoController.set(options.video || {}, options.autoplay, options.time);
   }
 
   /** 播放器视频元素 */
@@ -195,6 +195,11 @@ export class Player {
     return this.$video.loop;
   }
 
+  /** 当前自动播放 */
+  public get autoplay() {
+    return this.$video.autoplay;
+  }
+
   /** 开始播放 */
   public play() {
     this.hook.call("play").then((res) => {
@@ -241,6 +246,12 @@ export class Player {
   public setLoop(flag: boolean) {
     this.$video.loop = flag;
     this.emit("loopChange", flag);
+  }
+
+  /** 设置自动播放 */
+  public setAutoplay(flag: boolean) {
+    this.$video.autoplay = flag;
+    this.emit("autoplayChange", flag);
   }
 
   // --- 事件 --- //

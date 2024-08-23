@@ -54,6 +54,11 @@ export default class VideoController {
       createElement("video", { class: `${classPrefix}-video` })
     );
 
+    this.$el.volume = options.volume ?? 1;
+    this.$el.loop = options.loop ?? false;
+    this.$el.playbackRate = options.playbackRate ?? 1;
+    this.$el.autoplay = options.autoplay ?? false;
+
     this._attachEvent(this.$el);
 
     this.player.on("ended", () => {

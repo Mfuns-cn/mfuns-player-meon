@@ -13,7 +13,7 @@ export interface PlayerOptions {
   /** 播放速率 */
   playbackRate?: number;
   /** 自动播放 */
-  autoPlay?: boolean;
+  autoplay?: boolean;
   /** 播放时间 */
   time?: number;
   /** 循环播放 */

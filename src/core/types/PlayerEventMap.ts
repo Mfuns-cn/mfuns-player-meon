@@ -60,6 +60,9 @@ export interface PlayerEventMap {
   /** 循环播放 */
   loopChange: (value: boolean) => void;
 
+  /** 自动播放 */
+  autoplayChange: (value: boolean) => void;
+
   // --- 状态事件 --- //
 
   /** 播放器聚焦 */

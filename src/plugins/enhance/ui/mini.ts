@@ -62,7 +62,7 @@ export default class Mini extends BasePlugin {
   }
 
   apply(player: Player, options: PlayerOptions): void {
-    if (options.mini) this.#enabled = true;
+    if (options.mini) this.toggle(true);
   }
 
   init() {

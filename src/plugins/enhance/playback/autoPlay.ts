@@ -3,50 +3,39 @@ import { BasePlugin } from "@/plugin";
 import { PlayerOptions } from "@/types";
 import { Checkbox } from "@/components";
 
-declare module "@core" {
-  interface PlayerEventMap {
-    /** 自动播放 */
-    autoPlayChange: (flag: boolean) => void;
-  }
-  interface PlayerSetValueMap {
-    /** 自动播放 */
-    autoPlay: boolean;
-  }
-}
+declare module "@core" {}
 
 /** 启用自动播放设置 */
 
 export default class AutoPlay extends BasePlugin {
   static pluginName = "autoPlay";
-  private _status = false;
   protected checkbox?: Checkbox;
   apply(player: Player, options: PlayerOptions) {
-    if (options.autoPlay) this.toggle(true);
+    if (options.autoplay) this.toggle(true);
   }
   ready() {
     if (this.plugins.settings) {
       const container = document.createElement("div");
       this.checkbox = new Checkbox({
         container,
-        value: this.status,
+        value: this.player.autoplay,
         onToggle: (val) => {
           this.toggle(val);
-          this.player.emit("setValue", "autoPlay", val);
+          this.player.emit("setValue", "autoplay", val);
         },
         label: "自动播放",
       });
       this.plugins.settings.$play.appendChild(container);
+      this.player.on("autoplayChange", (flag) => {
+        this.checkbox?.setValue(flag);
+      });
     }
   }
   toggle(v: boolean) {
     if (v) {
-      this._status = true;
+      this.player.setAutoplay(true);
     } else {
-      this._status = false;
+      this.player.setAutoplay(false);
     }
-    this.player.emit("autoPlayChange", v);
-  }
-  get status() {
-    return this._status;
   }
 }
