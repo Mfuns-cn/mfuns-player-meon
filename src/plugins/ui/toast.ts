@@ -7,6 +7,10 @@ declare module "@core" {
     /** 添加一条toast消息 */
     toast?: (content: string | HTMLElement, duration?: number, close?: boolean) => ToastItem;
   }
+
+  interface PlayerPlugins {
+    toast?: Toast;
+  }
 }
 
 export interface ToastItem {
@@ -15,6 +19,7 @@ export interface ToastItem {
 }
 
 export default class Toast extends UIPlugin {
+  static pluginName = "toast";
   /** 默认toast持续时间 */
   public defaultDuration = 5000;
   constructor(player: Player) {
