@@ -108,7 +108,7 @@ export default class DanmakuEngine extends BasePlugin {
   }
   /** 弹幕区域 */
   get area() {
-    return this.core.limitArea;
+    return this.core.limitArea == 1 && this.core.overlap ? Infinity : this.core.limitArea;
   }
   /** 设置弹幕大小 */
   get scale() {
@@ -154,7 +154,13 @@ export default class DanmakuEngine extends BasePlugin {
   }
   /** 设置弹幕区域 */
   setArea(value: number) {
-    this.core.limitArea = value;
+    if (value > 1) {
+      this.core.limitArea = 1;
+      this.core.overlap = true;
+    } else {
+      this.core.limitArea = value;
+      this.core.overlap = false;
+    }
     this.player.emit("danmaku:areaChange", value);
   }
   /** 设置弹幕大小 */

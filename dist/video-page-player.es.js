@@ -114,7 +114,7 @@ const ja = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   secondToTime: ft,
   throttle: Hi,
   timeToSecond: Vt
-}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Gi = "3.0.0-alpha.9", Zi = "e0dabea", Ji = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Qi = [
+}, Symbol.toStringTag, { value: "Module" })), a = "mfuns-player", Gi = "3.0.0-alpha.9", Zi = "3770208", Ji = "https://github.com/Mfuns-cn/mfunsPlayer/tree/v3-beta", Qi = [
   { name: "Minteea", id: "Minteea", link: "https://github.com/Minteea" },
   { name: "鲁迪钨丝", id: "Rudiusu", link: "https://github.com/Rudiusu" }
 ], oi = {
@@ -4352,7 +4352,7 @@ const Ys = class Ys extends f {
   }
   /** 弹幕区域 */
   get area() {
-    return this.core.limitArea;
+    return this.core.limitArea == 1 && this.core.overlap ? 1 / 0 : this.core.limitArea;
   }
   /** 设置弹幕大小 */
   get scale() {
@@ -4392,7 +4392,7 @@ const Ys = class Ys extends f {
   }
   /** 设置弹幕区域 */
   setArea(t) {
-    this.core.limitArea = t, this.player.emit("danmaku:areaChange", t);
+    t > 1 ? (this.core.limitArea = 1, this.core.overlap = !0) : (this.core.limitArea = t, this.core.overlap = !1), this.player.emit("danmaku:areaChange", t);
   }
   /** 设置弹幕大小 */
   setScale(t) {
@@ -4601,7 +4601,7 @@ const wa = {
             user: this.player.userId || 0,
             fromHere: !0
           },
-          t
+          e || t
         )
       ],
       !0
@@ -4900,9 +4900,9 @@ const Ea = "发条弹幕吧~", Sa = (
       min: 20,
       max: 105,
       step: 5,
-      value: ((s = this.danmakuEngine) == null ? void 0 : s.area) == null ? ((n = this.danmakuEngine) == null ? void 0 : n.area) == 0 ? 105 : ((r = this.danmakuEngine) == null ? void 0 : r.area) * 100 : 25,
+      value: ((s = this.danmakuEngine) == null ? void 0 : s.area) == null ? ((n = this.danmakuEngine) == null ? void 0 : n.area) > 1 ? 105 : ((r = this.danmakuEngine) == null ? void 0 : r.area) * 100 : 25,
       onDrag: (o) => {
-        const c = o > 100 ? 0 : o / 100;
+        const c = o > 100 ? 20 : o / 100;
         this.danmakuEngine.setArea(c), this.player.emit("setValue", "danmaku:area", c);
       },
       onChange: (o) => {

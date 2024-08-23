@@ -135,12 +135,12 @@ export default class ButtonDanmakuSettings extends ControlsPlugin {
       step: 5,
       value:
         this.danmakuEngine?.area == null
-          ? this.danmakuEngine?.area == 0
+          ? this.danmakuEngine?.area > 1
             ? 105
             : this.danmakuEngine?.area * 100
           : 25,
       onDrag: (value) => {
-        const area = value > 100 ? 0 : value / 100;
+        const area = value > 100 ? 20 : value / 100;
         this.danmakuEngine.setArea(area);
         this.player.emit("setValue", "danmaku:area", area);
       },

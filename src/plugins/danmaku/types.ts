@@ -93,7 +93,7 @@ declare module "@core" {
     /** 获取弹幕 */
     danmakuGet?: (info: VideoInfo) => Promise<unknown>;
     /** 发送弹幕 */
-    danmakuSend?: (danmaku: DanmakuSendItem, info: VideoInfo) => Promise<void>;
+    danmakuSend?: (danmaku: DanmakuSendItem, info: VideoInfo) => Promise<DanmakuItem>;
     /** 举报弹幕 */
     danmakuReport?: (danmaku: DanmakuItem, info: VideoInfo) => Promise<void>;
     /** 视频作者删除弹幕 */

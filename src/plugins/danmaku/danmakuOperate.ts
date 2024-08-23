@@ -30,11 +30,12 @@ export default class DanmakuOperate extends BasePlugin {
    * @param danmaku 要发送的弹幕
    * @return 操作结果
    * */
-  async send(danmaku: DanmakuSendItem): Promise<void> {
+  async send(danmaku: DanmakuSendItem): Promise<DanmakuItem> {
     if (!this.invokes.danmakuSend) throw "发送失败";
     return await this.invokes
       .danmakuSend(danmaku, this.player.getVideoInfo())
-      .then((res) => {
+      .then((dm) => {
+        // 操作成功后添加弹幕到弹幕池
         this.danmaku!.add(
           [
             Object.assign(
@@ -44,12 +45,12 @@ export default class DanmakuOperate extends BasePlugin {
                 user: this.player.userId || 0,
                 fromHere: true,
               },
-              danmaku
+              dm || danmaku
             ),
           ],
           true
         );
-        return res;
+        return dm;
       })
       .catch((e) => {
         throw e;
