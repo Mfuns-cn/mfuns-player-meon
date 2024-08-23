@@ -32,7 +32,7 @@
       background-image: url("@icon/logo.svg");
       background-size: cover;
     }
-    a {
+    a[href] {
       color: $primary-color;
     }
     &-developers {

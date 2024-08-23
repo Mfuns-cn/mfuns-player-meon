@@ -22,8 +22,14 @@ const templateHTML = /*html*/ `
   </ul>
 `;
 
+declare module "@core" {
+  interface PlayerPlugins {
+    about?: About;
+  }
+}
+
 /** 播放器面板 */
-export default class about extends PanelPlugin {
+export default class About extends PanelPlugin {
   static pluginName = "about";
 
   title = "关于";

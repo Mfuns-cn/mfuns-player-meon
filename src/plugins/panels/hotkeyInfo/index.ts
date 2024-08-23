@@ -18,6 +18,12 @@ const template = (list: HotkeyInfoListItem[]) => /*html*/ `
   </div>
 `;
 
+declare module "@core" {
+  interface PlayerPlugins {
+    hotkeyInfo?: HotkeyInfo;
+  }
+}
+
 interface HotkeyInfoListItem {
   key: string;
   description: string;

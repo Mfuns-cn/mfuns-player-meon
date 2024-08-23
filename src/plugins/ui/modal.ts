@@ -30,7 +30,7 @@ declare module "@core" {
   }
   interface PlayerOptions {
     modal?: {
-      panels?: PanelPlugin[];
+      panels?: PluginFrom<PanelItem>[];
     };
   }
 }
