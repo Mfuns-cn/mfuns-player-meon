@@ -11,6 +11,9 @@ playground/
 
 lib/
 dist/
+css/
+scss/
+icon/
 
 # Dependency directories
 node_modules/

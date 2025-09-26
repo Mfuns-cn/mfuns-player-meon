@@ -1,8 +1,7 @@
 import { PlayerOptions } from "@/types";
-import { html, render } from "lit-html";
 import { classPrefix } from "@/config";
-import { Picker } from "@/components";
-import { HexColorToNumber, createElement } from "@/utils";
+import { NumberPicker, Picker } from "@/components";
+import { HexColorToNumber, createElement, numberToHexColor } from "@/utils";
 import { ControlsPlugin } from "@/plugin";
 import { Player } from "@core";
 
@@ -64,8 +63,8 @@ export default class ButtonDanmakuStyle extends ControlsPlugin {
   $colorPreview: HTMLElement;
   $colorDropper: HTMLElement | null;
 
-  pickerSize!: Picker;
-  pickerMode!: Picker;
+  pickerSize!: NumberPicker;
+  pickerMode!: NumberPicker;
   pickerColor!: Picker;
 
   colorList: number[] = [];
@@ -100,27 +99,33 @@ export default class ButtonDanmakuStyle extends ControlsPlugin {
       const { sizeList, colorList, modeList, defaultSize, defaultColor, defaultMode } =
         options.danmakuStyle;
       if (sizeList) {
-        this.pickerSize.list = sizeList.map(([value, label]) => ({ value, label }));
-        this.pickerSize.reload(defaultSize);
+        this.pickerSize.setList(
+          sizeList.map(([value, label]) => ({ value, label })),
+          defaultSize
+        );
       }
       if (colorList) {
-        this.pickerSize.list = colorList.map((value) => ({ value }));
-        this.pickerSize.reload(defaultColor);
+        this.pickerColor.setList(
+          colorList.map((value) => ({ value })),
+          defaultColor ? numberToHexColor(defaultColor || 0xffffff) : undefined
+        );
       }
       if (modeList) {
-        this.pickerMode.list = [
-          { value: 1, label: "滚动" },
-          { value: 5, label: "顶部" },
-          { value: 4, label: "底部" },
-          { value: 6, label: "逆向" },
-        ].filter((item) => modeList.indexOf(item.value) > -1);
-        this.pickerMode.reload(defaultMode);
+        this.pickerMode.setList(
+          [
+            { value: 1, label: "滚动" },
+            { value: 5, label: "顶部" },
+            { value: 4, label: "底部" },
+            { value: 6, label: "逆向" },
+          ].filter((item) => modeList.indexOf(item.value) > -1),
+          defaultMode
+        );
       }
     }
   }
 
   init(player: Player) {
-    this.pickerSize = new Picker({
+    this.pickerSize = new NumberPicker({
       container: this.$sizePicker,
       value: 25,
       list: defaultSizeList.map(([value, label]) => ({
@@ -131,7 +136,7 @@ export default class ButtonDanmakuStyle extends ControlsPlugin {
         this.danmakuBar!.danmakuSize = Number(value);
       },
     });
-    this.pickerMode = new Picker({
+    this.pickerMode = new NumberPicker({
       container: this.$modePicker,
       value: 1,
       list: [
@@ -155,9 +160,9 @@ export default class ButtonDanmakuStyle extends ControlsPlugin {
         this.$colorInput.value = value as string;
         this.$colorPreview.style.backgroundColor = value as string;
       },
-      template: (item) => html` <div style="background-color: ${item.value}"></div> `,
-      condition: (item, value) => {
-        return item.toLowerCase() == (value as string).toLowerCase();
+      itemLabel: (item) => createElement("div", { style: `background-color: ${item.value}` }),
+      equal: (itemVal, value) => {
+        return itemVal.toLowerCase() == value!.toLowerCase();
       },
     });
     this.$colorInput.addEventListener("input", () => {

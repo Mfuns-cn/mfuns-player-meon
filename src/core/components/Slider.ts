@@ -1,24 +1,10 @@
 import { createElement } from "@/utils";
 
 const template = ({ divider }: { divider: number }) => /*html*/ `
-  <div
-    class="mpui-slider-track"
-    style="
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  "
-  >
-    <div class="mpui-slider-bar" style="position: absolute; left: 0; height: 100%"></div>
-    <div class="mpui-slider-thumb-track" style="height: 0px">
-      <div
-        class="mpui-slider-thumb"
-        style="position: absolute; transform: translate(-50%, -50%)"
-      ></div>
+  <div class="mpui-slider-track">
+    <div class="mpui-slider-bar" style="left: 0"></div>
+    <div class="mpui-slider-thumbtrack">
+      <div class="mpui-slider-thumb"></div>
       ${
         divider
           ? /*html*/ `
@@ -78,7 +64,7 @@ export class Slider implements SliderOptions {
 
   $bar: HTMLElement;
 
-  $thumbTrack: HTMLElement;
+  $thumbtrack: HTMLElement;
 
   $thumb: HTMLElement;
 
@@ -110,14 +96,13 @@ export class Slider implements SliderOptions {
         "div",
         {
           class: `mpui-slider mpui-slider-horizontal`,
-          style: "position: relative; width: 100%; height: 100%",
         },
         template({ divider: this.divider })
       )
     );
     this.$track = this.$el.querySelector(".mpui-slider-track")!; // 滑动条轨道
     this.$bar = this.$track.querySelector(".mpui-slider-bar")!; // 滑动条痕迹
-    this.$thumbTrack = this.$track.querySelector(".mpui-slider-thumb-track")!; // 滑块轨道
+    this.$thumbtrack = this.$track.querySelector(".mpui-slider-thumbtrack")!; // 滑块轨道
     this.$thumb = this.$track.querySelector(".mpui-slider-thumb")!; // 滑块
 
     // 滑动条事件
@@ -128,7 +113,7 @@ export class Slider implements SliderOptions {
       // 滑块长度
       const trackLength = this.$track.offsetWidth;
       // 滑块可滑动距离
-      let nMax = this.$thumbTrack.offsetWidth;
+      let nMax = this.$thumbtrack.offsetWidth;
       nMax = nMax || trackLength;
       // 滑块轨道与总轨道距离差
       const thumbTrackX = (trackLength - nMax) / 2;

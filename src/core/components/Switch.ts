@@ -2,7 +2,7 @@ import { createElement } from "@/utils";
 
 interface SwitchOptions {
   /** 挂载容器 */
-  container: HTMLElement;
+  container?: HTMLElement;
   /** 标签 */
   label?: string;
   /** 不可点选 */
@@ -17,45 +17,61 @@ interface SwitchOptions {
 
 /** 开关 */
 export class Switch implements SwitchOptions {
-  readonly container: HTMLElement;
+  get container() {
+    return (this.$el.parentNode as HTMLElement) || undefined;
+  }
 
   onChange?: (value: boolean) => void;
 
   onToggle?: (value: boolean) => void;
 
-  label?: string;
+  readonly label?: string;
 
   /** 当前值 */
-  value: boolean;
+  get value() {
+    return this.$el.checked;
+  }
+  /** 不可用 */
+  get disabled() {
+    return this.$el.disabled;
+  }
 
-  $el: HTMLElement;
+  $el: HTMLInputElement;
 
-  constructor({ container, value = false, onChange, onToggle }: SwitchOptions) {
-    this.container = container;
-    this.value = value;
+  constructor({ container, value = false, disabled = false, onChange, onToggle }: SwitchOptions) {
     this.onChange = onChange; // 更新数据时需要执行的函数
     this.onToggle = onToggle;
 
-    this.$el = createElement("div", { class: `mpui-switch` }, this.label);
+    this.$el = createElement("input", { class: `mpui-switch`, type: "checkbox" });
+    this.$el.disabled = disabled;
+    container?.appendChild(this.$el);
 
-    this.$el = this.container.querySelector(".mpui-switch")!;
-    this.$el.addEventListener("click", () => {
-      this.toggle(!this.value);
-    });
+    // 用户点按开关事件
+    this.$el.onchange = (e) => {
+      const checked = (e.target as HTMLInputElement).checked;
+      this.onToggle?.(checked);
+    };
 
-    this.setValue(this.value);
+    // 初始化
+    this.setValue(value);
+    this.setDisabled(disabled);
   }
 
   /** 设置开关状态 */
   public setValue(value: boolean) {
-    this.value = value;
-    this.$el.classList.toggle("is-checked", value);
+    this.$el.checked = value;
     this.onChange?.(value);
+  }
+
+  /** 设置开关失效状态 */
+  public setDisabled(value: boolean) {
+    this.$el.disabled = value;
   }
 
   /** 点按开关 */
   public toggle(value = !this.value) {
-    this.setValue(value);
+    this.$el.checked = value;
     this.onToggle?.(value);
+    this.onChange?.(value);
   }
 }

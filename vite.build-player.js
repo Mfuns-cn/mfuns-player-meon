@@ -4,7 +4,7 @@ import { build, mergeConfig } from "vite";
 import { execSync } from "child_process";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-import info from "./package.json" assert { type: "json" };
+import info from "./package.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

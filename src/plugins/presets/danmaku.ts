@@ -17,12 +17,12 @@ const danmakuPlugins = [
   DanmakuOperate,
   DanmakuBar,
   DanmakuMenu,
-];
+] as const;
 const danmakuControls = [
   ButtonDanmakuToggle,
   ButtonDanmakuSettings,
   ButtonDanmakuStyle,
   DanmakuCount,
-];
+] as const;
 
-export const presetDanmaku = [...danmakuPlugins, ...danmakuControls];
+export const presetDanmaku = [...danmakuPlugins, ...danmakuControls] as const;

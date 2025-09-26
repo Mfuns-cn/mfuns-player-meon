@@ -1,25 +1,4 @@
-import { html, render, TemplateResult } from "lit-html";
-
-const templateWrap = ({
-  list,
-  template,
-}: {
-  list: PickerOptionsItem[];
-  template?: PickerItemTemplate;
-}) => html`
-  <ul class="mpui-picker">
-    ${list.map(
-      (item, index) => html`
-        <li class="mpui-picker-item" data-value="${item.value}">
-          ${template?.(item, index) || item.label || item.value}
-        </li>
-      `
-    )}
-  </ul>
-`;
-
-/** 选择器函数 */
-type PickerItemTemplate = (item: PickerOptionsItem, index?: number) => string | TemplateResult;
+import { createElement } from "@/utils";
 
 interface PickerOptionsItem {
   value: string;
@@ -30,92 +9,114 @@ interface PickerOptionsItem {
 
 interface MultiPickerOptions {
   /** 绑定的dom对象 */
-  container: HTMLElement;
+  container?: HTMLElement;
   /** 选择列表 */
   list: PickerOptionsItem[];
   /** 选择项标签模板 */
-  template?: PickerItemTemplate;
+  itemLabel?: (item: PickerOptionsItem, index: number) => string | HTMLElement;
   /** 默认值(不填的情况下默认值为[]) */
   value?: string[];
   /** 值更改时触发 */
   onChange?: (value: string[]) => void;
   /** 选择/取消选择某一项时触发 */
-  onToggle?: (value: string, flag: boolean) => void;
+  onToggle?: (value: string, flag: boolean, list: string[]) => void;
 }
 
 /** 多项选择器 */
 export class MultiPicker implements MultiPickerOptions {
-  readonly container: HTMLElement;
-
-  readonly template?: PickerItemTemplate;
+  get container() {
+    return (this.$el.parentNode as HTMLElement) || undefined;
+  }
 
   list: PickerOptionsItem[];
 
-  valueSet: Set<string>;
+  readonly itemLabel?: (item: PickerOptionsItem, index: number) => string | HTMLElement;
 
   /** 已选值 */
   get value() {
-    return [...this.valueSet];
+    return [...this.$inputs].filter((n) => n.checked).map((n) => n.value);
   }
 
   onChange?: (value: string[]) => void;
 
-  onToggle?: (value: string, flag: boolean) => void;
+  onToggle?: (value: string, flag: boolean, list: string[]) => void;
 
   $el!: HTMLElement;
 
-  /** 选择项标签集合 */
-  private $items!: NodeListOf<HTMLElement>;
+  $inputs: HTMLCollectionOf<HTMLInputElement>;
 
-  constructor({ container, value = [], list, onChange, onToggle }: MultiPickerOptions) {
-    this.container = container;
+  constructor({ container, value = [], list, onChange, onToggle, itemLabel }: MultiPickerOptions) {
+    this.$el = createElement("div", { class: "mpui-picker mpui-multipicker" });
+    this.$inputs = this.$el.getElementsByTagName("input");
+    container?.appendChild(this.$el);
     this.list = list;
-    this.valueSet = new Set(value);
-    this.onChange = onChange; // 更新数据时需要执行的函数
-    this.onToggle = onToggle; // 更新数据时需要执行的函数
-    this.reload();
+    this.onChange = onChange;
+    this.onToggle = onToggle;
+    this.itemLabel = itemLabel;
+    this.setList(list, value);
   }
 
-  /** 重载，一般用于列表项更改 */
-  public reload(value?: string[]) {
-    render(templateWrap({ list: this.list, template: this.template }), this.container);
-    this.$el = this.container.querySelector(".mpui-picker")!;
-    this.$items = this.$el.querySelectorAll(".mpui-picker-item"); // 标签集合
-    this.$items.forEach((item) => {
-      item.addEventListener("click", () => {
-        this.toggle(item.getAttribute("data-value")!);
+  /** 设置列表项 */
+  public setList(list: PickerOptionsItem[], value?: string[]) {
+    const currentValue = value ?? this.value;
+    this.$el.innerHTML = "";
+    const fragment = new DocumentFragment();
+    list.forEach((item, index) => {
+      const $item = createElement("label", {
+        class: "mpui-picker-item",
       });
+      const $input = $item.appendChild(
+        createElement("input", {
+          type: "checkbox",
+          class: "mpui-picker-item-input",
+          value: item.value,
+        })
+      );
+      $input.disabled = !!item.disabled;
+      const $label = $item.appendChild(
+        createElement(
+          "span",
+          { class: "mpui-picker-item-label" },
+          this.itemLabel?.(item, index) || item.label || item.value.toString()
+        )
+      );
+
+      $input.checked = currentValue?.includes($input.value) || false;
+      $input.onchange = (e) => {
+        const $target = e.target as HTMLInputElement;
+        this.toggle($target.value, $target.checked);
+      };
+
+      fragment.appendChild($item);
     });
-    this.setValue(value ?? this.value);
+    this.$el.appendChild(fragment);
+
+    if (value) this.onChange?.(this.value);
   }
 
   /** 设置值 */
   public setValue(value: string[]) {
-    this.valueSet = new Set(value);
-    this.$items.forEach((n, i) => {
-      if (this.valueSet.has(n.getAttribute("data-value")!)) {
-        n.classList.add("is-checked");
-      } else {
-        n.classList.remove("is-checked");
-      }
+    [...this.$inputs].forEach((n, i) => {
+      n.checked = value.includes(n.value);
     });
-    this.onChange?.(value);
+    this.onChange?.(this.value);
   }
 
   /** 切换一个选项的选择状态 */
   public toggle(value: string, flag?: boolean) {
-    const b = flag == null ? !this.valueSet.has(value) : flag;
-    if (b) {
-      this.valueSet.add(value);
-    } else {
-      this.valueSet.delete(value);
-    }
-    this.$items.forEach((n, i) => {
-      if (n.getAttribute("data-value") == value) {
-        n.classList.toggle("is-checked", b);
+    let f = flag;
+    let valid = false;
+    [...this.$inputs].forEach((n, i) => {
+      if (n.value == value) {
+        valid = true;
+        if (f == undefined) f = !n.value;
+        n.checked = f;
       }
     });
-    this.onChange?.(this.value);
-    this.onToggle?.(value, b);
+    if (valid) {
+      const list = this.value;
+      this.onToggle?.(value, f!, [...list]);
+      this.onChange?.(list);
+    }
   }
 }

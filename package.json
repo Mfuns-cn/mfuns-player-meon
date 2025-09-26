@@ -3,7 +3,7 @@
   "version": "3.0.0-alpha.15",
   "description": "基于typescript的PC端弹幕播放器",
   "type": "module",
-  "main": "lib/core/index.js",
+  "main": "./lib/core/index.js",
   "exports": {
     ".": "./lib/core/index.js",
     "./player": "./lib/core/player.js",
@@ -13,20 +13,23 @@
     "./components": "./lib/core/components.js",
     "./utils": "./lib/core/utils.js",
     "./plugins/*": "./lib/plugins/*",
-    "./css/*": "./src/css/*",
-    "./icon/*": "./src/icon/*",
+    "./css/*": "./css/*",
+    "./scss/*": "./scss/*",
+    "./icon/*": "./icon/*",
     "./mfuns-player/*": "./lib/mfuns-player/*",
     "./mfuns-plugin/*": "./lib/mfuns-plugin/*"
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:lib && npm run build:player",
-    "build:lib": "npm run clear:lib && tsc --project tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && babel lib -d lib",
+    "build": "npm run build:lib && npm run build:player && npm run build:scss",
+    "build:lib": "npm run clear:lib && tsc && tsc-alias && babel lib -d lib",
     "build:player": "npm run clear:player && node ./vite.build-player.js",
+    "build:scss": "npm run clear:scss && npx cpy ./**/* ../../css/ --cwd=./src/css && npx cpy ./**/* ../../icon/ --cwd=./src/icon && sass ./css/index.scss:./css/index.css",
     "preview": "vite preview",
     "lint": "",
     "clear:lib": "rimraf ./lib/",
     "clear:player": "rimraf ./dist/",
+    "clear:scss": "rimraf ./css/ ./icon/",
     "prepack": "npm run build:lib"
   },
   "files": [
@@ -59,6 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "babel-plugin-transform-define": "^2.1.4",
+    "cpy-cli": "^6.0.0",
     "cross-env": "^7.0.3",
     "dashjs": "^4.7.3",
     "eslint": "^8.57.0",
@@ -75,7 +79,7 @@
     "rimraf": "^5.0.5",
     "sass": "^1.58.3",
     "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.8",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.3.3",
     "vite": "^5.1.5",
     "vite-plugin-css-injected-by-js": "^3.3.0"

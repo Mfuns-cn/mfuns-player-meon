@@ -1,6 +1,7 @@
 @import "./theme.scss";
 @import "./player.scss";
 @import "./ui.scss";
+@import "./components.scss";
 @import "./font-icon.css";
 @import "./plugins/danmaku.scss";
 @import "./plugins/controller.scss";
@@ -20,3 +21,5 @@
 @import "./plugins/mini.scss";
 @import "./plugins/enhance-plugins.scss";
 @import "./plugins/toast.scss";
+
+@import "./mfuns-plugin/danmaku-list.scss";

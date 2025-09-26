@@ -123,6 +123,7 @@
     }
     .#{$prefix}-slider-wrap {
       width: 160px;
+      flex-shrink: 0;
     }
   }
   &-button-danmakustyle {
@@ -151,13 +152,13 @@
       .mpui-picker-item {
         border: none;
         padding: 0;
-        & > div {
+        &-label > div {
           width: 12px;
           height: 12px;
           border: 2px solid #00000040;
           border-radius: $border-radius;
         }
-        &.is-checked {
+        input:checked &-label {
           border: none;
           & > div {
             border-color: #ffffff;
@@ -171,11 +172,11 @@
       }
       &-picker {
         .#{$prefix}-picker-item {
-          & > div {
+          &-label > div {
             border-color: #00000020;
             border-radius: $border-radius;
           }
-          &.is-checked > div {
+          input:checked &-label > div {
             border-color: #00000080;
           }
         }

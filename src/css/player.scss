@@ -8,6 +8,9 @@
   font-size: 12px;
   display: flex;
   flex-direction: column;
+  * {
+    box-sizing: border-box;
+  }
   &-main {
     position: relative;
     width: 100%;

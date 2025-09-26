@@ -4,7 +4,6 @@ export * from "@/config";
 export * as Utils from "@/utils";
 export * as Components from "@/components";
 import { Player } from "@core";
-import "@css/index.scss";
 
 console.log(
   `${"\n"} %c mfunsPlayer v${Player.version} ${Player.gitHash} %c https://github.com/Mfuns-cn ${"\n"}${"\n"}`,

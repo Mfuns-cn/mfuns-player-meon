@@ -17,54 +17,81 @@ interface CheckboxOptions {
 
 /** 开关 */
 export class Checkbox implements CheckboxOptions {
-  readonly container: HTMLElement;
+  get container() {
+    return (this.$el.parentNode as HTMLElement) || undefined;
+  }
 
   onChange?: (value: boolean) => void;
 
   onToggle?: (value: boolean) => void;
 
-  label?: string;
+  readonly label?: string;
 
   /** 当前值 */
-  value: boolean;
+  get value() {
+    return this.$input.checked;
+  }
+  /** 不可用 */
+  get disabled() {
+    return this.$input.disabled;
+  }
 
   $el: HTMLElement;
+  $input: HTMLInputElement;
+  $label: HTMLElement;
 
-  constructor({ container, value = false, onChange, onToggle, label }: CheckboxOptions) {
-    this.container = container;
-    this.value = value;
+  constructor({
+    container,
+    value = false,
+    disabled = false,
+    onChange,
+    onToggle,
+    label,
+  }: CheckboxOptions) {
     this.onChange = onChange; // 更新数据时需要执行的函数
     this.onToggle = onToggle;
     this.label = label;
 
-    this.$el = this.container.appendChild(
-      createElement(
-        "div",
-        { class: "mpui-checkbox" },
-        /*html*/ `
-          <div class="mpui-checkbox-icon"></div>
-          <div class="mpui-checkbox-label">${label}</div>
+    this.$el = createElement(
+      "label",
+      { class: "mpui-checkbox" },
+      /*html*/ `
+          <input type="checkbox" class="mpui-checkbox-input" />
+          <span class="mpui-checkbox-label">${label}</span>
         `
-      )
     );
+    this.$input = this.$el.querySelector("input")!;
+    this.$input.disabled = disabled;
+    this.$label = this.$el.querySelector(".mpui-checkbox-label")!;
+    container?.appendChild(this.$el);
 
-    this.$el.addEventListener("click", () => {
-      this.toggle();
-    });
+    // 用户点按复选框事件
+    this.$input.onchange = (e) => {
+      const checked = (e.target as HTMLInputElement).checked;
+      this.onToggle?.(checked);
+      this.onChange?.(value);
+    };
 
-    this.setValue(this.value);
+    // 初始化
+    this.setValue(value);
+    this.setDisabled(disabled);
   }
 
-  /** 设置开关状态 */
+  /** 设置复选框状态 */
   public setValue(value: boolean) {
-    this.value = value;
-    this.$el.classList.toggle("is-checked", value);
+    this.$input.checked = value;
     this.onChange?.(value);
   }
 
-  /** 点按开关 */
+  /** 设置复选框失效状态 */
+  public setDisabled(value: boolean) {
+    this.$input.disabled = value;
+  }
+
+  /** 选中复选框 */
   public toggle(value = !this.value) {
-    this.setValue(value);
+    this.$input.checked = value;
     this.onToggle?.(value);
+    this.onChange?.(value);
   }
 }

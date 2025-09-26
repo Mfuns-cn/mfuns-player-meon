@@ -105,23 +105,28 @@
   }
   &-picker {
     &-item {
-      display: inline-block;
-      padding: 0 5px;
-      height: 20px;
-      line-height: 20px;
-      border-radius: $border-radius;
-      border: transparent solid 1px;
-      transition: color 0.2s;
-      cursor: pointer;
-      &.is-checked {
+      &-label {
+        display: inline-block;
+        padding: 0 5px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: $border-radius;
+        border: transparent solid 1px;
+        transition: color 0.2s;
+        cursor: pointer;
+        &:hover {
+          color: $primary-color;
+        }
+        &:active {
+          color: $primary-color;
+        }
+      }
+      input {
+        display: none !important;
+      }
+      input:checked + &-label {
         border: transparent solid 1px;
         border-color: $primary-color;
-        color: $primary-color;
-      }
-      &:hover {
-        color: $primary-color;
-      }
-      &:active {
         color: $primary-color;
       }
     }
@@ -130,7 +135,7 @@
   &-checkbox {
     height: 22px;
     cursor: pointer;
-    &-icon {
+    input {
       position: relative;
       display: inline-block;
       vertical-align: middle;
@@ -143,6 +148,9 @@
       border-color: $fg-light-s;
       box-sizing: border-box;
       transition: all 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
     &-label {
       position: relative;
@@ -153,7 +161,7 @@
       transition: all 0.2s;
     }
     &:hover & {
-      &-icon {
+      input {
         border-color: $primary-color;
       }
       &-label {
@@ -161,21 +169,19 @@
       }
     }
     &:active & {
-      &-icon {
+      input {
         border-color: $primary-color;
       }
       &-label {
         color: $primary-color;
       }
     }
-    &.is-checked & {
-      &-icon {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSI0MCA3LjkyOSAyMCAyNy45MjkgMTAgMTcuOTI5IDIuOTI5IDI1IDIwIDQyLjA3MSA0Ny4wNzEgMTUgNDAgNy45MjkiIGZpbGw9IiNGRkYiLz4NCjwvc3ZnPg==");
-        background-repeat: no-repeat;
-        background-size: contain;
-      }
+    input:checked {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+DQogICAgPHBvbHlnb24gcG9pbnRzPSI0MCA3LjkyOSAyMCAyNy45MjkgMTAgMTcuOTI5IDIuOTI5IDI1IDIwIDQyLjA3MSA0Ny4wNzEgMTUgNDAgNy45MjkiIGZpbGw9IiNGRkYiLz4NCjwvc3ZnPg==");
+      background-repeat: no-repeat;
+      background-size: contain;
     }
   }
   &-background {

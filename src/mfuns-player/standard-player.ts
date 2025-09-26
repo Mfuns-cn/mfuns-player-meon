@@ -39,10 +39,10 @@ const plugins = [
   Theme,
   VideoStatus,
   LoadingMask,
-];
-const controls = [ButtonDanmakulist, ButtonQuality, VideoTitle];
-const panels = [About, Hotkeys, PartList];
-const loaders = [FlvLoader, HlsLoader, DashLoader];
+] as const;
+const controls = [ButtonDanmakulist, ButtonQuality, VideoTitle] as const;
+const panels = [About, Hotkeys, PartList] as const;
+const loaders = [FlvLoader, HlsLoader, DashLoader] as const;
 
 const allPlugins = [
   ...presetBasic,

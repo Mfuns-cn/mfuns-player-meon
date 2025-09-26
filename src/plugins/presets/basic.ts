@@ -35,10 +35,19 @@ export const corePlugins = [
   StateIntersecting,
   Pip,
   Fullscreen,
-];
+] as const;
 
 /** 基础插件 */
-export const basicPlugins = [Modal, Side, Controller, Toast, Settings, Hotkey, ContextMenu, User];
+export const basicPlugins = [
+  Modal,
+  Side,
+  Controller,
+  Toast,
+  Settings,
+  Hotkey,
+  ContextMenu,
+  User,
+] as const;
 
 /** 基础控件 */
 export const basicControls = [
@@ -53,6 +62,6 @@ export const basicControls = [
   ButtonSettings,
   ButtonPip,
   ButtonFullscreen,
-];
+] as const;
 
-export const presetBasic = [...corePlugins, ...basicPlugins, ...basicControls];
+export const presetBasic = [...corePlugins, ...basicPlugins, ...basicControls] as const;

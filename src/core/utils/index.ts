@@ -1,4 +1,5 @@
 import { PlayerOptions } from "@/types";
+export { html, render } from "./template";
 
 export const isMobile = /mobile/i.test(window.navigator.userAgent);
 

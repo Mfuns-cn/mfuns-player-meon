@@ -1,7 +1,7 @@
 import { classPrefix } from "@/config";
 import { Player } from "@/player";
 import { PanelPlugin } from "@/plugin";
-import { Checkbox, Picker } from "@/components";
+import { Checkbox, NumberPicker, Picker } from "@/components";
 import { createElement } from "@/utils";
 
 declare module "@core" {
@@ -43,7 +43,7 @@ export default class Settings extends PanelPlugin {
   $ratePicker: HTMLElement;
   $ratioPicker: HTMLElement;
 
-  pickerRate!: Picker;
+  pickerRate!: NumberPicker;
   pickerRatio!: Picker;
   toggleAutoplay!: Checkbox;
   toggleAutopart!: Checkbox;
@@ -58,7 +58,7 @@ export default class Settings extends PanelPlugin {
     this.$ratioPicker = this.$(`.${classPrefix}-settings-ratio-picker`);
   }
   init() {
-    this.pickerRate = new Picker({
+    this.pickerRate = new NumberPicker({
       container: this.$ratePicker,
       list: [
         { value: 0.5, label: "0.5" },
